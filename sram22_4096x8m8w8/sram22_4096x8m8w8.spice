@@ -4851,7 +4851,7 @@ Xdecoder_replica
 + wl_en_set
 + vdd
 + vss
-+ inv_chain_4
++ inv_chain_8
 Xinv_we
 + we
 + vss
@@ -4873,7 +4873,7 @@ Xpc_read_set_buf
 + pc_read_set
 + vdd
 + vss
-+ inv_chain_48
++ inv_chain_8
 Xand_sense_en
 + we_b
 + rbl_b
@@ -4888,7 +4888,7 @@ Xsense_en_delay
 + sense_en_set
 + vdd
 + vss
-+ inv_chain_48
++ inv_chain_2
 Xwl_ctl
 + wl_en_set
 + wl_en_rst
@@ -4964,7 +4964,7 @@ Xwr_drv_set_decoder_delay_replica
 + wr_drv_set
 + vdd
 + vss
-+ inv_chain_8
++ inv_chain_24
 Xinv_dummy_bl
 + dummy_bl
 + vss
@@ -4984,7 +4984,7 @@ Xpc_write_set_buf
 + pc_write_set
 + vdd
 + vss
-+ inv_chain_16
++ inv_chain_4
 Xwl_en_buf
 + wl_en0
 + vss
@@ -354709,7 +354709,7 @@ Xdelay_chain
 + delayed
 + vdd
 + vss
-+ inv_chain_9
++ inv_chain_17
 Xand
 + din
 + delayed
@@ -354722,7 +354722,7 @@ Xand
 .ends edge_detector
 
 
-.subckt inv_chain_4
+.subckt inv_chain_8
 + din
 + dout
 + vdd
@@ -354758,12 +354758,142 @@ Xinv3
 + vss
 + vdd
 + vdd
++ x[3]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv4
++ x[3]
++ vss
++ vss
++ vdd
++ vdd
++ x[4]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv5
++ x[4]
++ vss
++ vss
++ vdd
++ vdd
++ x[5]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv6
++ x[5]
++ vss
++ vss
++ vdd
++ vdd
++ x[6]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv7
++ x[6]
++ vss
++ vss
++ vdd
++ vdd
 + dout
 + sky130_fd_sc_hd__inv_2_wrapper
-.ends inv_chain_4
+.ends inv_chain_8
 
 
-.subckt inv_chain_48
+.subckt sky130_fd_sc_hd__and2_2_wrapper
++ A
++ B
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
+
+X0
++ A
++ B
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
++ sky130_fd_sc_hd__and2_2
+.ends sky130_fd_sc_hd__and2_2_wrapper
+
+
+.subckt inv_chain_2
++ din
++ dout
++ vdd
++ vss
+
+Xinv0
++ din
++ vss
++ vss
++ vdd
++ vdd
++ x
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv1
++ x
++ vss
++ vss
++ vdd
++ vdd
++ dout
++ sky130_fd_sc_hd__inv_2_wrapper
+.ends inv_chain_2
+
+
+.subckt sr_latch
++ s
++ r
++ q
++ qb
++ vdd
++ vss
+
+Xnor_set
++ s
++ q
++ vss
++ vss
++ vdd
++ vdd
++ qb
++ sky130_fd_sc_hd__nor2_2_wrapper
+Xnor_reset
++ r
++ qb
++ vss
++ vss
++ vdd
++ vdd
++ q
++ sky130_fd_sc_hd__nor2_2_wrapper
+.ends sr_latch
+
+
+.subckt sky130_fd_sc_hd__mux2_2_wrapper
++ A0
++ A1
++ S
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
+
+X0
++ A0
++ A1
++ S
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
++ sky130_fd_sc_hd__mux2_2
+.ends sky130_fd_sc_hd__mux2_2_wrapper
+
+
+.subckt inv_chain_24
 + din
 + dout
 + vdd
@@ -354959,277 +355089,12 @@ Xinv23
 + vss
 + vdd
 + vdd
-+ x[23]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv24
-+ x[23]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[24]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv25
-+ x[24]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[25]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv26
-+ x[25]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[26]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv27
-+ x[26]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[27]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv28
-+ x[27]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[28]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv29
-+ x[28]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[29]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv30
-+ x[29]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[30]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv31
-+ x[30]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[31]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv32
-+ x[31]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[32]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv33
-+ x[32]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[33]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv34
-+ x[33]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[34]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv35
-+ x[34]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[35]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv36
-+ x[35]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[36]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv37
-+ x[36]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[37]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv38
-+ x[37]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[38]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv39
-+ x[38]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[39]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv40
-+ x[39]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[40]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv41
-+ x[40]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[41]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv42
-+ x[41]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[42]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv43
-+ x[42]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[43]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv44
-+ x[43]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[44]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv45
-+ x[44]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[45]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv46
-+ x[45]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[46]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv47
-+ x[46]
-+ vss
-+ vss
-+ vdd
-+ vdd
 + dout
 + sky130_fd_sc_hd__inv_2_wrapper
-.ends inv_chain_48
+.ends inv_chain_24
 
 
-.subckt sky130_fd_sc_hd__and2_2_wrapper
-+ A
-+ B
-+ VGND
-+ VNB
-+ VPB
-+ VPWR
-+ X
-
-X0
-+ A
-+ B
-+ VGND
-+ VNB
-+ VPB
-+ VPWR
-+ X
-+ sky130_fd_sc_hd__and2_2
-.ends sky130_fd_sc_hd__and2_2_wrapper
-
-
-.subckt sr_latch
-+ s
-+ r
-+ q
-+ qb
-+ vdd
-+ vss
-
-Xnor_set
-+ s
-+ q
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ qb
-+ sky130_fd_sc_hd__nor2_2_wrapper
-Xnor_reset
-+ r
-+ qb
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ q
-+ sky130_fd_sc_hd__nor2_2_wrapper
-.ends sr_latch
-
-
-.subckt sky130_fd_sc_hd__mux2_2_wrapper
-+ A0
-+ A1
-+ S
-+ VGND
-+ VNB
-+ VPB
-+ VPWR
-+ X
-
-X0
-+ A0
-+ A1
-+ S
-+ VGND
-+ VNB
-+ VPB
-+ VPWR
-+ X
-+ sky130_fd_sc_hd__mux2_2
-.ends sky130_fd_sc_hd__mux2_2_wrapper
-
-
-.subckt inv_chain_8
+.subckt inv_chain_4
 + din
 + dout
 + vdd
@@ -355265,178 +355130,9 @@ Xinv3
 + vss
 + vdd
 + vdd
-+ x[3]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv4
-+ x[3]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[4]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv5
-+ x[4]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[5]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv6
-+ x[5]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[6]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv7
-+ x[6]
-+ vss
-+ vss
-+ vdd
-+ vdd
 + dout
 + sky130_fd_sc_hd__inv_2_wrapper
-.ends inv_chain_8
-
-
-.subckt inv_chain_16
-+ din
-+ dout
-+ vdd
-+ vss
-
-Xinv0
-+ din
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[0]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv1
-+ x[0]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[1]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv2
-+ x[1]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[2]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv3
-+ x[2]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[3]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv4
-+ x[3]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[4]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv5
-+ x[4]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[5]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv6
-+ x[5]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[6]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv7
-+ x[6]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[7]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv8
-+ x[7]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[8]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv9
-+ x[8]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[9]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv10
-+ x[9]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[10]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv11
-+ x[10]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[11]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv12
-+ x[11]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[12]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv13
-+ x[12]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[13]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv14
-+ x[13]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[14]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv15
-+ x[14]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ dout
-+ sky130_fd_sc_hd__inv_2_wrapper
-.ends inv_chain_16
+.ends inv_chain_4
 
 
 .subckt sky130_fd_sc_hd__bufbuf_16_wrapper
@@ -355872,25 +355568,25 @@ Xn1
 + a
 + vss
 + vss
-+ mos_w8000_l150_m1_nf1_id0
++ mos_w4800_l150_m1_nf1_id0
 Xn2
 + y
 + b
 + x
 + vss
-+ mos_w8000_l150_m1_nf1_id0
++ mos_w4800_l150_m1_nf1_id0
 Xp1
 + y
 + a
 + vdd
 + vdd
-+ mos_w2000_l150_m1_nf1_id1
++ mos_w1600_l150_m1_nf1_id1
 Xp2
 + y
 + b
 + vdd
 + vdd
-+ mos_w2000_l150_m1_nf1_id1
++ mos_w1600_l150_m1_nf1_id1
 .ends nand2
 
 
@@ -355905,13 +355601,13 @@ XMP0
 + din
 + vdd
 + vdd
-+ mos_w13600_l150_m1_nf1_id1
++ mos_w8600_l150_m1_nf1_id1
 XMN0
 + din_b
 + din
 + vss
 + vss
-+ mos_w1200_l150_m1_nf1_id0
++ mos_w6200_l150_m1_nf1_id0
 .ends inv
 
 
@@ -356027,25 +355723,25 @@ Xn1
 + a
 + vss
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w10000_l150_m1_nf1_id0
 Xn2
 + y
 + b
 + x
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w10000_l150_m1_nf1_id0
 Xp1
 + y
 + a
 + vdd
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
++ mos_w8000_l150_m1_nf1_id1
 Xp2
 + y
 + b
 + vdd
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
++ mos_w8000_l150_m1_nf1_id1
 .ends nand2_1
 
 
@@ -356060,17 +355756,17 @@ XMP0
 + din
 + vdd
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
++ mos_w10000_l150_m1_nf1_id1
 XMN0
 + din_b
 + din
 + vss
 + vss
-+ mos_w2000_l150_m1_nf1_id0
++ mos_w8000_l150_m1_nf1_id0
 .ends inv_1
 
 
-.subckt inv_chain_9
+.subckt inv_chain_17
 + din
 + dout
 + vdd
@@ -356146,9 +355842,73 @@ Xinv8
 + vss
 + vdd
 + vdd
++ x[8]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv9
++ x[8]
++ vss
++ vss
++ vdd
++ vdd
++ x[9]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv10
++ x[9]
++ vss
++ vss
++ vdd
++ vdd
++ x[10]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv11
++ x[10]
++ vss
++ vss
++ vdd
++ vdd
++ x[11]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv12
++ x[11]
++ vss
++ vss
++ vdd
++ vdd
++ x[12]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv13
++ x[12]
++ vss
++ vss
++ vdd
++ vdd
++ x[13]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv14
++ x[13]
++ vss
++ vss
++ vdd
++ vdd
++ x[14]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv15
++ x[14]
++ vss
++ vss
++ vdd
++ vdd
++ x[15]
++ sky130_fd_sc_hd__inv_2_wrapper
+Xinv16
++ x[15]
++ vss
++ vss
++ vdd
++ vdd
 + dout
 + sky130_fd_sc_hd__inv_2_wrapper
-.ends inv_chain_9
+.ends inv_chain_17
 
 
 .subckt sky130_fd_sc_hd__and2_4_wrapper
@@ -356206,13 +355966,13 @@ XMBL
 + sel_b
 + bl
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 XMBR
 + br_out
 + sel_b
 + br
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 .ends read_mux
 
 
@@ -356230,25 +355990,25 @@ XMMUXBR
 + data
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMMUXBL
 + bl
 + data_b
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMWMASK
 + x
 + wmask
 + y
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMPD
 + y
 + we
 + vss
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 .ends write_mux
 
 
@@ -356265,13 +356025,13 @@ XMBL
 + sel_b
 + bl
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 XMBR
 + br_out
 + sel_b
 + br
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 .ends read_mux_1
 
 
@@ -356289,25 +356049,25 @@ XMMUXBR
 + data
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMMUXBL
 + bl
 + data_b
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMWMASK
 + x
 + wmask
 + y
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMPD
 + y
 + we
 + vss
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 .ends write_mux_1
 
 
@@ -356324,13 +356084,13 @@ XMBL
 + sel_b
 + bl
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 XMBR
 + br_out
 + sel_b
 + br
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 .ends read_mux_2
 
 
@@ -356348,25 +356108,25 @@ XMMUXBR
 + data
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMMUXBL
 + bl
 + data_b
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMWMASK
 + x
 + wmask
 + y
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMPD
 + y
 + we
 + vss
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 .ends write_mux_2
 
 
@@ -356383,13 +356143,13 @@ XMBL
 + sel_b
 + bl
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 XMBR
 + br_out
 + sel_b
 + br
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 .ends read_mux_3
 
 
@@ -356407,25 +356167,25 @@ XMMUXBR
 + data
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMMUXBL
 + bl
 + data_b
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMWMASK
 + x
 + wmask
 + y
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMPD
 + y
 + we
 + vss
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 .ends write_mux_3
 
 
@@ -356442,13 +356202,13 @@ XMBL
 + sel_b
 + bl
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 XMBR
 + br_out
 + sel_b
 + br
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 .ends read_mux_4
 
 
@@ -356466,25 +356226,25 @@ XMMUXBR
 + data
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMMUXBL
 + bl
 + data_b
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMWMASK
 + x
 + wmask
 + y
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMPD
 + y
 + we
 + vss
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 .ends write_mux_4
 
 
@@ -356501,13 +356261,13 @@ XMBL
 + sel_b
 + bl
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 XMBR
 + br_out
 + sel_b
 + br
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 .ends read_mux_5
 
 
@@ -356525,25 +356285,25 @@ XMMUXBR
 + data
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMMUXBL
 + bl
 + data_b
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMWMASK
 + x
 + wmask
 + y
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMPD
 + y
 + we
 + vss
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 .ends write_mux_5
 
 
@@ -356560,13 +356320,13 @@ XMBL
 + sel_b
 + bl
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 XMBR
 + br_out
 + sel_b
 + br
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 .ends read_mux_6
 
 
@@ -356584,25 +356344,25 @@ XMMUXBR
 + data
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMMUXBL
 + bl
 + data_b
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMWMASK
 + x
 + wmask
 + y
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMPD
 + y
 + we
 + vss
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 .ends write_mux_6
 
 
@@ -356619,13 +356379,13 @@ XMBL
 + sel_b
 + bl
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 XMBR
 + br_out
 + sel_b
 + br
 + vdd
-+ mos_w3000_l150_m1_nf1_id1
++ mos_w4000_l150_m1_nf1_id1
 .ends read_mux_7
 
 
@@ -356643,25 +356403,25 @@ XMMUXBR
 + data
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMMUXBL
 + bl
 + data_b
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMWMASK
 + x
 + wmask
 + y
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 XMPD
 + y
 + we
 + vss
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w8800_l150_m1_nf1_id0
 .ends write_mux_7
 
 
@@ -356709,34 +356469,44 @@ Xbuf_2
 .ends diff_buf
 
 
-.subckt mos_w8000_l150_m1_nf1_id0
+.subckt mos_w4800_l150_m1_nf1_id0
 + d
 + g
 + s
 + b
 
-M0 d g s b nshort w=8.000 l=0.150 nf=1 mult=1
-.ends mos_w8000_l150_m1_nf1_id0
+M0 d g s b nshort w=4.800 l=0.150 nf=1 mult=1
+.ends mos_w4800_l150_m1_nf1_id0
 
 
-.subckt mos_w13600_l150_m1_nf1_id1
+.subckt mos_w1600_l150_m1_nf1_id1
 + d
 + g
 + s
 + b
 
-M0 d g s b pshort w=13.600 l=0.150 nf=1 mult=1
-.ends mos_w13600_l150_m1_nf1_id1
+M0 d g s b pshort w=1.600 l=0.150 nf=1 mult=1
+.ends mos_w1600_l150_m1_nf1_id1
 
 
-.subckt mos_w1200_l150_m1_nf1_id0
+.subckt mos_w8600_l150_m1_nf1_id1
 + d
 + g
 + s
 + b
 
-M0 d g s b nshort w=1.200 l=0.150 nf=1 mult=1
-.ends mos_w1200_l150_m1_nf1_id0
+M0 d g s b pshort w=8.600 l=0.150 nf=1 mult=1
+.ends mos_w8600_l150_m1_nf1_id1
+
+
+.subckt mos_w6200_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=6.200 l=0.150 nf=1 mult=1
+.ends mos_w6200_l150_m1_nf1_id0
 
 
 .subckt nand2_2
@@ -356751,25 +356521,25 @@ Xn1
 + a
 + vss
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w2400_l150_m1_nf1_id0
 Xn2
 + y
 + b
 + x
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w2400_l150_m1_nf1_id0
 Xp1
 + y
 + a
 + vdd
 + vdd
-+ mos_w1000_l150_m1_nf1_id1
++ mos_w800_l150_m1_nf1_id1
 Xp2
 + y
 + b
 + vdd
 + vdd
-+ mos_w1000_l150_m1_nf1_id1
++ mos_w800_l150_m1_nf1_id1
 .ends nand2_2
 
 
@@ -356784,13 +356554,13 @@ XMP0
 + din
 + vdd
 + vdd
-+ mos_w6800_l150_m1_nf1_id1
++ mos_w4300_l150_m1_nf1_id1
 XMN0
 + din_b
 + din
 + vss
 + vss
-+ mos_w600_l150_m1_nf1_id0
++ mos_w3100_l150_m1_nf1_id0
 .ends inv_2
 
 
@@ -356807,37 +356577,37 @@ Xn1
 + a
 + vss
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w2400_l150_m1_nf1_id0
 Xn2
 + x2
 + b
 + x1
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w2400_l150_m1_nf1_id0
 Xn3
 + y
 + c
 + x2
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w2400_l150_m1_nf1_id0
 Xp1
 + y
 + a
 + vdd
 + vdd
-+ mos_w1000_l150_m1_nf1_id1
++ mos_w800_l150_m1_nf1_id1
 Xp2
 + y
 + b
 + vdd
 + vdd
-+ mos_w1000_l150_m1_nf1_id1
++ mos_w800_l150_m1_nf1_id1
 Xp3
 + y
 + c
 + vdd
 + vdd
-+ mos_w1000_l150_m1_nf1_id1
++ mos_w800_l150_m1_nf1_id1
 .ends nand3
 
 
@@ -356854,48 +356624,78 @@ Xn1
 + a
 + vss
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w10000_l150_m1_nf1_id0
 Xn2
 + x2
 + b
 + x1
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w10000_l150_m1_nf1_id0
 Xn3
 + y
 + c
 + x2
 + vss
-+ mos_w4000_l150_m1_nf1_id0
++ mos_w10000_l150_m1_nf1_id0
 Xp1
 + y
 + a
 + vdd
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
++ mos_w8000_l150_m1_nf1_id1
 Xp2
 + y
 + b
 + vdd
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
++ mos_w8000_l150_m1_nf1_id1
 Xp3
 + y
 + c
 + vdd
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
++ mos_w8000_l150_m1_nf1_id1
 .ends nand3_1
 
 
-.subckt mos_w4000_l150_m1_nf1_id0
+.subckt mos_w10000_l150_m1_nf1_id0
 + d
 + g
 + s
 + b
 
-M0 d g s b nshort w=4.000 l=0.150 nf=1 mult=1
-.ends mos_w4000_l150_m1_nf1_id0
+M0 d g s b nshort w=10.000 l=0.150 nf=1 mult=1
+.ends mos_w10000_l150_m1_nf1_id0
+
+
+.subckt mos_w8000_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=8.000 l=0.150 nf=1 mult=1
+.ends mos_w8000_l150_m1_nf1_id1
+
+
+.subckt mos_w10000_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=10.000 l=0.150 nf=1 mult=1
+.ends mos_w10000_l150_m1_nf1_id1
+
+
+.subckt mos_w8000_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=8.000 l=0.150 nf=1 mult=1
+.ends mos_w8000_l150_m1_nf1_id0
 
 
 .subckt mos_w4000_l150_m1_nf1_id1
@@ -356908,34 +356708,14 @@ M0 d g s b pshort w=4.000 l=0.150 nf=1 mult=1
 .ends mos_w4000_l150_m1_nf1_id1
 
 
-.subckt mos_w2000_l150_m1_nf1_id0
+.subckt mos_w8800_l150_m1_nf1_id0
 + d
 + g
 + s
 + b
 
-M0 d g s b nshort w=2.000 l=0.150 nf=1 mult=1
-.ends mos_w2000_l150_m1_nf1_id0
-
-
-.subckt mos_w3000_l150_m1_nf1_id1
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b pshort w=3.000 l=0.150 nf=1 mult=1
-.ends mos_w3000_l150_m1_nf1_id1
-
-
-.subckt mos_w2400_l150_m1_nf1_id0
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b nshort w=2.400 l=0.150 nf=1 mult=1
-.ends mos_w2400_l150_m1_nf1_id0
+M0 d g s b nshort w=8.800 l=0.150 nf=1 mult=1
+.ends mos_w8800_l150_m1_nf1_id0
 
 
 .subckt buf
@@ -356959,34 +356739,44 @@ Xinv_2
 .ends buf
 
 
-.subckt mos_w1000_l150_m1_nf1_id1
+.subckt mos_w2400_l150_m1_nf1_id0
 + d
 + g
 + s
 + b
 
-M0 d g s b pshort w=1.000 l=0.150 nf=1 mult=1
-.ends mos_w1000_l150_m1_nf1_id1
+M0 d g s b nshort w=2.400 l=0.150 nf=1 mult=1
+.ends mos_w2400_l150_m1_nf1_id0
 
 
-.subckt mos_w6800_l150_m1_nf1_id1
+.subckt mos_w800_l150_m1_nf1_id1
 + d
 + g
 + s
 + b
 
-M0 d g s b pshort w=6.800 l=0.150 nf=1 mult=1
-.ends mos_w6800_l150_m1_nf1_id1
+M0 d g s b pshort w=0.800 l=0.150 nf=1 mult=1
+.ends mos_w800_l150_m1_nf1_id1
 
 
-.subckt mos_w600_l150_m1_nf1_id0
+.subckt mos_w4300_l150_m1_nf1_id1
 + d
 + g
 + s
 + b
 
-M0 d g s b nshort w=0.600 l=0.150 nf=1 mult=1
-.ends mos_w600_l150_m1_nf1_id0
+M0 d g s b pshort w=4.300 l=0.150 nf=1 mult=1
+.ends mos_w4300_l150_m1_nf1_id1
+
+
+.subckt mos_w3100_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=3.100 l=0.150 nf=1 mult=1
+.ends mos_w3100_l150_m1_nf1_id0
 
 
 .subckt inv_3
@@ -357009,15 +356799,25 @@ XMN0
 + mos_w1200_l150_m1_nf1_id0
 .ends inv_3
 
+
+.subckt mos_w1200_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=1.200 l=0.150 nf=1 mult=1
+.ends mos_w1200_l150_m1_nf1_id0
+
+.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sram_sp_colend.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/inv/sky130_fd_sc_hd__inv_2.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/bufbuf/sky130_fd_sc_hd__bufbuf_16.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/and2/sky130_fd_sc_hd__and2_4.spice"
+.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/openram_dff.spice"
+.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sram_sp_cell.spice"
+.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sram_sp_cell_replica.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/nor2/sky130_fd_sc_hd__nor2_2.spice"
 .include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/and2/sky130_fd_sc_hd__and2_2.spice"
 .include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/mux2/sky130_fd_sc_hd__mux2_2.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/nor2/sky130_fd_sc_hd__nor2_2.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/inv/sky130_fd_sc_hd__inv_2.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram223/tech/sky130/spice/openram_dff.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram223/tech/sky130/spice/sram_sp_cell.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram223/tech/sky130/spice/sram_sp_colend.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram223/tech/sky130/spice/sram_sp_hstrap.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/and2/sky130_fd_sc_hd__and2_4.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/bufbuf/sky130_fd_sc_hd__bufbuf_16.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram223/tech/sky130/spice/sram_sp_cell_replica.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram223/tech/sky130/spice/sramgen_sp_sense_amp.spice"
+.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sram_sp_hstrap.spice"
+.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sramgen_sp_sense_amp.spice"

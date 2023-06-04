@@ -8,7 +8,7 @@ module sram22_1024x32m8w32(
     vdd,
     vss,
 `endif
-    clk,we,wmask,addr,din,dout
+  clk,we,wmask,addr,din,dout
   );
 
   // These parameters should NOT be set to
@@ -28,6 +28,7 @@ module sram22_1024x32m8w32(
   input [ADDR_WIDTH-1:0]  addr; // address
   input [DATA_WIDTH-1:0]  din; // data in
   output reg [DATA_WIDTH-1:0] dout; // data out
+  
 
   reg [DATA_WIDTH-1:0] mem [0:RAM_DEPTH-1];
 

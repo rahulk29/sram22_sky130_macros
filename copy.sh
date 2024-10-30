@@ -3,6 +3,9 @@
 set -eu -o pipefail
 
 SRAM22=../sram22
+SRAM22BUILD=$SRAM22/build
+
+echo "copy source: $SRAM22BUILD"
 
 for cell in \
     sram22_64x24m4w24 \
@@ -30,8 +33,9 @@ for cell in \
 do
     echo "copying collateral for $cell"
     mkdir -p $cell
-    CELLDIR=$SRAM22/build/test_$cell
+    CELLDIR=$SRAM22BUILD/test_$cell
     cp $CELLDIR/$cell.spice $cell/
+    cp $CELLDIR/$cell.v $cell/
     cp $CELLDIR/$cell.gds $cell/
     cp $CELLDIR/$cell.lef $cell/
     cp $CELLDIR/$cell_tt_025C_1v80.lib $cell/

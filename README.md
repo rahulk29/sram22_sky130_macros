@@ -8,12 +8,9 @@ These configurations were generated for use in [Chipyard](https://github.com/ucb
 in their VLSI tutorial with Sky130 and [commercial tools](https://chipyard.readthedocs.io/en/stable/VLSI/Sky130-Commercial-Tutorial.html) and [OpenROAD tools](https://chipyard.readthedocs.io/en/stable/VLSI/Sky130-OpenROAD-Tutorial.html).
 These tutorials are in progress, and should be released in the beginning of March 2023.
 
+## Verification
 
-## Configurations
-Sram22 is still a work in progress. At the moment, we only support the SKY130 process.
+The macros provided here have not been verified in silicon; use them at your own risk.
 
-The supported configurations are:
-* depth/width: must be divisible by 8
-* mux ratio: only {4,8}
+We are working to tape out and characterize these macros, and will announce when we believe they are ready for general use.
 
-We recommend you use Sram22 to generate your own configuratons, rather than requesting them here. But we may choose to generate some of the requested ones.

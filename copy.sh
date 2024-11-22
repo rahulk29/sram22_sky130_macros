@@ -2,13 +2,13 @@
 
 set -eu -o pipefail
 
-SRAM22=/tools/C/rohankumar/sram22
+SRAM22=/tools/scratch/rahulkumar/sram22
 SRAM22BUILD=$SRAM22/build
 
 echo "copy source: $SRAM22BUILD"
 
 echo "copying aggregated netlist"
-# cp $SRAM22BUILD/test_sram_aggregator/sram22_sram_aggregator.spice ./sram22.spice
+cp $SRAM22BUILD/test_sram_aggregator/sram22_sram_aggregator.spice ./sram22.spice
 
 for cell in \
     sram22_64x24m4w8 \
@@ -39,13 +39,13 @@ do
     cp $CELLDIR/$cell.gds $cell/
     cd $cell/ && tar -czf $cell.gds.gz $cell.gds && rm -f $cell.gds && cd -
     cp $CELLDIR/$cell.lef $cell/
-    # cp $CELLDIR/$cell\_tt_025C_1v80.lib $cell/
-    # cp $CELLDIR/$cell\_ss_100C_1v60.lib $cell/
-    # cp $CELLDIR/$cell\_ff_n40C_1v95.lib $cell/
+    cp $CELLDIR/$cell\_tt_025C_1v80.lib $cell/
+    cp $CELLDIR/$cell\_ss_100C_1v60.lib $cell/
+    cp $CELLDIR/$cell\_ff_n40C_1v95.lib $cell/
 done
 
-echo "changing temperature=40 to temperature=-40"
-sed -i "s/PVT_1P95V_40C/PVT_1P95V_-40C/g" */*.lib
-sed -i "s/temperature : 40/temperature : -40/g" */*.lib
-
+# echo "changing temperature=40 to temperature=-40"
+# sed -i "s/PVT_1P95V_40C/PVT_1P95V_-40C/g" */*.lib
+# sed -i "s/temperature : 40/temperature : -40/g" */*.lib
+# 
 echo "done"

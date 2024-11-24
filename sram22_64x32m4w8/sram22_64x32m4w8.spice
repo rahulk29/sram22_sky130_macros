@@ -9,6 +9,8 @@
 + vss
 + clk
 + we
++ ce
++ rstb
 + addr[0]
 + addr[1]
 + addr[2]
@@ -89,6 +91,8 @@ X0
 + vss
 + clk
 + we
++ ce
++ rstb
 + addr[0]
 + addr[1]
 + addr[2]
@@ -172,6 +176,8 @@ X0
 + vss
 + clk
 + we
++ ce
++ rstb
 + addr[0]
 + addr[1]
 + addr[2]
@@ -249,6 +255,24 @@ X0
 
 Xaddr_gate
 + vdd
++ vss
++ addr_gated[0]
++ addr_gated[1]
++ addr_gated[2]
++ addr_gated[3]
++ addr_b_gated[0]
++ addr_b_gated[1]
++ addr_b_gated[2]
++ addr_b_gated[3]
++ addr_gate_y_b_noconn[0]
++ addr_gate_y_b_noconn[1]
++ addr_gate_y_b_noconn[2]
++ addr_gate_y_b_noconn[3]
++ addr_gate_y_b_noconn[4]
++ addr_gate_y_b_noconn[5]
++ addr_gate_y_b_noconn[6]
++ addr_gate_y_b_noconn[7]
++ wl_en
 + addr_in[2]
 + addr_in[3]
 + addr_in[4]
@@ -257,28 +281,10 @@ Xaddr_gate
 + addr_in_b[3]
 + addr_in_b[4]
 + addr_in_b[5]
-+ wl_en
-+ addr_gated[0]
-+ addr_gated[1]
-+ addr_gated[2]
-+ addr_gated[3]
-+ addr_b_gated[0]
-+ addr_b_gated[1]
-+ addr_b_gated[2]
-+ addr_b_gated[3]
-+ vss
-+ addr_gate
++ decoder_stage
 Xdecoder
 + vdd
 + vss
-+ addr_gated[0]
-+ addr_gated[1]
-+ addr_gated[2]
-+ addr_gated[3]
-+ addr_b_gated[0]
-+ addr_b_gated[1]
-+ addr_b_gated[2]
-+ addr_b_gated[3]
 + wl[0]
 + wl[1]
 + wl[2]
@@ -311,14 +317,18 @@ Xdecoder
 + wl_b[13]
 + wl_b[14]
 + wl_b[15]
++ addr_b_gated[0]
++ addr_gated[0]
++ addr_b_gated[1]
++ addr_gated[1]
++ addr_b_gated[2]
++ addr_gated[2]
++ addr_b_gated[3]
++ addr_gated[3]
 + decoder
 Xcolumn_decoder
 + vdd
 + vss
-+ addr_in[0]
-+ addr_in[1]
-+ addr_in_b[0]
-+ addr_in_b[1]
 + col_sel[0]
 + col_sel[1]
 + col_sel[2]
@@ -327,41 +337,58 @@ Xcolumn_decoder
 + col_sel_b[1]
 + col_sel_b[2]
 + col_sel_b[3]
++ addr_in_b[0]
++ addr_in[0]
++ addr_in_b[1]
++ addr_in[1]
 + decoder_1
-Xwmux_driver
-+ vdd
-+ col_sel[0]
-+ col_sel[1]
-+ col_sel[2]
-+ col_sel[3]
-+ write_driver_en
-+ wmux_sel[0]
-+ wmux_sel[1]
-+ wmux_sel[2]
-+ wmux_sel[3]
-+ wmux_sel_b[0]
-+ wmux_sel_b[1]
-+ wmux_sel_b[2]
-+ wmux_sel_b[3]
-+ vss
-+ wmux_driver
 Xcontrol_logic
 + clk
++ ce_in
 + we_in
-+ pc_b
-+ wl_en0
-+ wl_en
-+ write_driver_en
-+ sense_en
++ rstb
 + rbl
-+ dummy_bl
++ sense_en0
++ pc_b0
++ rwl
++ wl_en0
++ write_driver_en0
 + vdd
 + vss
 + control_logic_replica_v2
-Xaddr_we_dffs
+Xpc_b_buffer
++ vdd
++ vss
++ pc_b
++ pc
++ pc_b0
++ decoder_stage_1
+Xwlen_buffer
++ vdd
++ vss
++ wl_en
++ wl_en_b
++ wl_en0
++ decoder_stage_2
+Xwrite_driver_en_buffer
++ vdd
++ vss
++ write_driver_en
++ write_driver_en_b
++ write_driver_en0
++ decoder_stage_3
+Xsense_en_buffer
++ vdd
++ vss
++ sense_en
++ sense_en_b
++ sense_en0
++ decoder_stage_4
+Xaddr_we_ce_dffs
 + vdd
 + vss
 + clk
++ rstb
 + addr[0]
 + addr[1]
 + addr[2]
@@ -369,6 +396,7 @@ Xaddr_we_dffs
 + addr[4]
 + addr[5]
 + we
++ ce
 + addr_in[0]
 + addr_in[1]
 + addr_in[2]
@@ -376,6 +404,7 @@ Xaddr_we_dffs
 + addr_in[4]
 + addr_in[5]
 + we_in
++ ce_in
 + addr_in_b[0]
 + addr_in_b[1]
 + addr_in_b[2]
@@ -383,12 +412,13 @@ Xaddr_we_dffs
 + addr_in_b[4]
 + addr_in_b[5]
 + we_in_b
-+ dff_array_7
++ ce_in_b
++ dff_array_8
 Xbitcell_array
 + vdd
 + vss
-+ dummy_bl
-+ dummy_br
++ vdd
++ vdd
 + bl[0]
 + bl[1]
 + bl[2]
@@ -667,15 +697,14 @@ Xreplica_bitcell_array
 + vss
 + rbl
 + rbr
-+ wl_en0
++ rwl
 + replica_cell_array
 Xcol_circuitry
 + clk
++ rstb
 + vdd
 + vss
 + sense_en
-+ dummy_bl
-+ dummy_br
 + bl[0]
 + bl[1]
 + bl[2]
@@ -933,14 +962,15 @@ Xcol_circuitry
 + br[126]
 + br[127]
 + pc_b
++ col_sel[0]
++ col_sel[1]
++ col_sel[2]
++ col_sel[3]
 + col_sel_b[0]
 + col_sel_b[1]
 + col_sel_b[2]
 + col_sel_b[3]
-+ wmux_sel[0]
-+ wmux_sel[1]
-+ wmux_sel[2]
-+ wmux_sel[3]
++ write_driver_en
 + wmask[0]
 + wmask[1]
 + wmask[2]
@@ -1014,356 +1044,377 @@ Xreplica_precharge_0
 + vdd
 + rbl
 + rbr
-+ pc_b
++ pc_b0
 + precharge
 Xreplica_precharge_1
 + vdd
 + rbl
 + rbr
-+ pc_b
++ pc_b0
 + precharge
+Xreplica_mos
++ vdd
++ vss
++ rbl
++ replica_column_mos
 .ends sram22_inner
 
 
-.subckt addr_gate
+.subckt decoder_stage
 + vdd
-+ addr[0]
-+ addr[1]
-+ addr[2]
-+ addr[3]
-+ addr_b[0]
-+ addr_b[1]
-+ addr_b[2]
-+ addr_b[3]
-+ en
-+ addr_gated[0]
-+ addr_gated[1]
-+ addr_gated[2]
-+ addr_gated[3]
-+ addr_b_gated[0]
-+ addr_b_gated[1]
-+ addr_b_gated[2]
-+ addr_b_gated[3]
 + vss
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y[4]
++ y[5]
++ y[6]
++ y[7]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ y_b[4]
++ y_b[5]
++ y_b[6]
++ y_b[7]
++ wl_en
++ in[0]
++ in[1]
++ in[2]
++ in[3]
++ in[4]
++ in[5]
++ in[6]
++ in[7]
 
-Xaddr_gate_0
+Xgate_0_0_0
 + vdd
-+ addr[0]
-+ en
-+ addr_gated[0]
-+ int1[0]
++ wl_en
++ in[0]
++ y[0]
++ y_b[0]
 + vss
 + and2
-Xaddr_b_gate_0
+Xgate_0_1_0
 + vdd
-+ addr_b[0]
-+ en
-+ addr_b_gated[0]
-+ int2[0]
++ wl_en
++ in[1]
++ y[1]
++ y_b[1]
 + vss
 + and2
-Xaddr_gate_1
+Xgate_0_2_0
 + vdd
-+ addr[1]
-+ en
-+ addr_gated[1]
-+ int1[1]
++ wl_en
++ in[2]
++ y[2]
++ y_b[2]
 + vss
 + and2
-Xaddr_b_gate_1
+Xgate_0_3_0
 + vdd
-+ addr_b[1]
-+ en
-+ addr_b_gated[1]
-+ int2[1]
++ wl_en
++ in[3]
++ y[3]
++ y_b[3]
 + vss
 + and2
-Xaddr_gate_2
+Xgate_0_4_0
 + vdd
-+ addr[2]
-+ en
-+ addr_gated[2]
-+ int1[2]
++ wl_en
++ in[4]
++ y[4]
++ y_b[4]
 + vss
 + and2
-Xaddr_b_gate_2
+Xgate_0_5_0
 + vdd
-+ addr_b[2]
-+ en
-+ addr_b_gated[2]
-+ int2[2]
++ wl_en
++ in[5]
++ y[5]
++ y_b[5]
 + vss
 + and2
-Xaddr_gate_3
+Xgate_0_6_0
 + vdd
-+ addr[3]
-+ en
-+ addr_gated[3]
-+ int1[3]
++ wl_en
++ in[6]
++ y[6]
++ y_b[6]
 + vss
 + and2
-Xaddr_b_gate_3
+Xgate_0_7_0
 + vdd
-+ addr_b[3]
-+ en
-+ addr_b_gated[3]
-+ int2[3]
++ wl_en
++ in[7]
++ y[7]
++ y_b[7]
 + vss
 + and2
-.ends addr_gate
+.ends decoder_stage
 
 
 .subckt decoder
 + vdd
 + vss
-+ addr[0]
-+ addr[1]
-+ addr[2]
-+ addr[3]
-+ addr_b[0]
-+ addr_b[1]
-+ addr_b[2]
-+ addr_b[3]
-+ decode[0]
-+ decode[1]
-+ decode[2]
-+ decode[3]
-+ decode[4]
-+ decode[5]
-+ decode[6]
-+ decode[7]
-+ decode[8]
-+ decode[9]
-+ decode[10]
-+ decode[11]
-+ decode[12]
-+ decode[13]
-+ decode[14]
-+ decode[15]
-+ decode_b[0]
-+ decode_b[1]
-+ decode_b[2]
-+ decode_b[3]
-+ decode_b[4]
-+ decode_b[5]
-+ decode_b[6]
-+ decode_b[7]
-+ decode_b[8]
-+ decode_b[9]
-+ decode_b[10]
-+ decode_b[11]
-+ decode_b[12]
-+ decode_b[13]
-+ decode_b[14]
-+ decode_b[15]
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y[4]
++ y[5]
++ y[6]
++ y[7]
++ y[8]
++ y[9]
++ y[10]
++ y[11]
++ y[12]
++ y[13]
++ y[14]
++ y[15]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ y_b[4]
++ y_b[5]
++ y_b[6]
++ y_b[7]
++ y_b[8]
++ y_b[9]
++ y_b[10]
++ y_b[11]
++ y_b[12]
++ y_b[13]
++ y_b[14]
++ y_b[15]
++ predecode_0_0
++ predecode_0_1
++ predecode_1_0
++ predecode_1_1
++ predecode_2_0
++ predecode_2_1
++ predecode_3_0
++ predecode_3_1
 
 X0
 + vdd
 + vss
-+ decode[0]
-+ decode[1]
-+ decode[2]
-+ decode[3]
-+ decode[4]
-+ decode[5]
-+ decode[6]
-+ decode[7]
-+ decode[8]
-+ decode[9]
-+ decode[10]
-+ decode[11]
-+ decode[12]
-+ decode[13]
-+ decode[14]
-+ decode[15]
-+ decode_b[0]
-+ decode_b[1]
-+ decode_b[2]
-+ decode_b[3]
-+ decode_b[4]
-+ decode_b[5]
-+ decode_b[6]
-+ decode_b[7]
-+ decode_b[8]
-+ decode_b[9]
-+ decode_b[10]
-+ decode_b[11]
-+ decode_b[12]
-+ decode_b[13]
-+ decode_b[14]
-+ decode_b[15]
-+ a_1[0]
-+ a_1[1]
-+ a_1[2]
-+ a_1[3]
-+ b_1[0]
-+ b_1[1]
-+ b_1[2]
-+ b_1[3]
-+ decoder_stage
++ child_conn_0[0]
++ child_conn_0[1]
++ child_conn_0[2]
++ child_conn_0[3]
++ child_noconn_0[0]
++ child_noconn_0[1]
++ child_noconn_0[2]
++ child_noconn_0[3]
++ predecode_0_0
++ predecode_0_1
++ predecode_1_0
++ predecode_1_1
++ decoder_2
 X0_1
 + vdd
 + vss
-+ a_1[0]
-+ a_1[1]
-+ a_1[2]
-+ a_1[3]
-+ unused_2[0]
-+ unused_2[1]
-+ unused_2[2]
-+ unused_2[3]
-+ addr_b[3]
-+ addr[3]
-+ addr_b[2]
-+ addr[2]
-+ decoder_stage_1
++ child_conn_1[0]
++ child_conn_1[1]
++ child_conn_1[2]
++ child_conn_1[3]
++ child_noconn_1[0]
++ child_noconn_1[1]
++ child_noconn_1[2]
++ child_noconn_1[3]
++ predecode_2_0
++ predecode_2_1
++ predecode_3_0
++ predecode_3_1
++ decoder_2
 X0_2
 + vdd
 + vss
-+ b_1[0]
-+ b_1[1]
-+ b_1[2]
-+ b_1[3]
-+ unused_3[0]
-+ unused_3[1]
-+ unused_3[2]
-+ unused_3[3]
-+ addr_b[1]
-+ addr[1]
-+ addr_b[0]
-+ addr[0]
-+ decoder_stage_1
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y[4]
++ y[5]
++ y[6]
++ y[7]
++ y[8]
++ y[9]
++ y[10]
++ y[11]
++ y[12]
++ y[13]
++ y[14]
++ y[15]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ y_b[4]
++ y_b[5]
++ y_b[6]
++ y_b[7]
++ y_b[8]
++ y_b[9]
++ y_b[10]
++ y_b[11]
++ y_b[12]
++ y_b[13]
++ y_b[14]
++ y_b[15]
++ child_conn_0[0]
++ child_conn_0[1]
++ child_conn_0[2]
++ child_conn_0[3]
++ child_conn_1[0]
++ child_conn_1[1]
++ child_conn_1[2]
++ child_conn_1[3]
++ decoder_stage_5
 .ends decoder
 
 
 .subckt decoder_1
 + vdd
 + vss
-+ addr[0]
-+ addr[1]
-+ addr_b[0]
-+ addr_b[1]
-+ decode[0]
-+ decode[1]
-+ decode[2]
-+ decode[3]
-+ decode_b[0]
-+ decode_b[1]
-+ decode_b[2]
-+ decode_b[3]
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ predecode_0_0
++ predecode_0_1
++ predecode_1_0
++ predecode_1_1
 
 X0
 + vdd
 + vss
-+ decode[0]
-+ decode[1]
-+ decode[2]
-+ decode[3]
-+ decode_b[0]
-+ decode_b[1]
-+ decode_b[2]
-+ decode_b[3]
-+ addr_b[1]
-+ addr[1]
-+ addr_b[0]
-+ addr[0]
-+ decoder_stage_2
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ predecode_0_0
++ predecode_0_1
++ predecode_1_0
++ predecode_1_1
++ decoder_stage_6
 .ends decoder_1
-
-
-.subckt wmux_driver
-+ vdd
-+ in[0]
-+ in[1]
-+ in[2]
-+ in[3]
-+ en
-+ decode[0]
-+ decode[1]
-+ decode[2]
-+ decode[3]
-+ decode_b[0]
-+ decode_b[1]
-+ decode_b[2]
-+ decode_b[3]
-+ vss
-
-Xgate_0
-+ vdd
-+ in[0]
-+ en
-+ decode[0]
-+ decode_b[0]
-+ vss
-+ and2_1
-Xgate_1
-+ vdd
-+ in[1]
-+ en
-+ decode[1]
-+ decode_b[1]
-+ vss
-+ and2_1
-Xgate_2
-+ vdd
-+ in[2]
-+ en
-+ decode[2]
-+ decode_b[2]
-+ vss
-+ and2_1
-Xgate_3
-+ vdd
-+ in[3]
-+ en
-+ decode[3]
-+ decode_b[3]
-+ vss
-+ and2_1
-.ends wmux_driver
 
 
 .subckt control_logic_replica_v2
 + clk
++ ce
 + we
-+ pc_b
-+ wl_en0
-+ wl_en
-+ write_driver_en
-+ sense_en
++ rstb
 + rbl
-+ dummy_bl
++ saen
++ pc_b
++ rwl
++ wlen
++ wrdrven
 + vdd
 + vss
 
-Xinv_clk
+Xreset_inv
++ rstb
++ vss
++ vss
++ vdd
++ vdd
++ reset
++ sky130_fd_sc_hs__inv_16_wrapper
+Xclk_delay
 + clk
-+ vss
-+ vss
++ clkd
 + vdd
-+ vdd
-+ clk_b
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv_clk_b
-+ clk_b
++ vss
++ inv_chain_12
+Xclk_gate
++ clkd
++ ce
 + vss
 + vss
 + vdd
 + vdd
 + clk_buf
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__and2_2_wrapper
 Xclk_pulse
 + clk_buf
-+ clkp
++ clkp0
 + vdd
 + vss
 + edge_detector
-Xdecoder_replica
+Xclk_pulse_buf
++ clkp0
++ vss
++ vss
++ vdd
++ vdd
 + clkp
-+ wl_en_set
++ sky130_fd_sc_hs__buf_16_wrapper
+Xclk_pulse_inv
++ clkp
++ vss
++ vss
++ vdd
++ vdd
++ clkp_b
++ sky130_fd_sc_hs__inv_16_wrapper
+Xclkp_delay
++ clkp_b
++ clkpd
 + vdd
 + vss
-+ inv_chain_8
++ inv_chain_3
+Xclkpd_inv
++ clkpd
++ vss
++ vss
++ vdd
++ vdd
++ clkpd_b
++ sky130_fd_sc_hs__inv_2_wrapper
+Xclkpd_delay
++ clkpd_b
++ clkpdd
++ vdd
++ vss
++ inv_chain_13
+Xmux_wlen_rst
++ rbl_b
++ clkpdd
++ we
++ vss
++ vss
++ vdd
++ vdd
++ decrepstart
++ sky130_fd_sc_hs__mux2_4_wrapper
+Xdecoder_replica
++ decrepstart
++ decrepend
++ vdd
++ vss
++ svt_inv_chain_18
+Xdecoder_replica_delay
++ decrepend
++ wlen_rst_decoderd
++ vdd
++ vss
++ inv_chain_16
 Xinv_we
 + we
 + vss
@@ -1371,7 +1422,7 @@ Xinv_we
 + vdd
 + vdd
 + we_b
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv_rbl
 + rbl
 + vss
@@ -1379,148 +1430,102 @@ Xinv_rbl
 + vdd
 + vdd
 + rbl_b
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xpc_read_set_buf
-+ rbl_b
-+ pc_read_set
-+ vdd
++ sky130_fd_sc_hs__inv_2_wrapper
+Xwlen_grst
++ decrepstart
++ reset
 + vss
-+ inv_chain_8
-Xand_sense_en
++ vss
++ vdd
++ vdd
++ wlen_grst_b
++ sky130_fd_sc_hs__nor2_4_wrapper
+Xpc_set
++ wlen_rst_decoderd
++ reset
++ vss
++ vss
++ vdd
++ vdd
++ pc_set_b
++ sky130_fd_sc_hs__nor2_4_wrapper
+Xwrdrven_grst
++ decrepend
++ reset
++ vss
++ vss
++ vdd
++ vdd
++ wrdrven_grst_b
++ sky130_fd_sc_hs__nor2_4_wrapper
+Xclkp_grst
++ clkp
++ reset
++ vss
++ vss
++ vdd
++ vdd
++ clkp_grst_b
++ sky130_fd_sc_hs__nor2_4_wrapper
+Xnand_sense_en
 + we_b
++ decrepend
++ vss
++ vss
++ vdd
++ vdd
++ saen_set_b
++ sky130_fd_sc_hs__nand2_4_wrapper
+Xnand_wlendb_web
 + rbl_b
++ we_b
 + vss
 + vss
 + vdd
 + vdd
-+ sense_en_set0
-+ sky130_fd_sc_hd__and2_2_wrapper
-Xsense_en_delay
-+ sense_en_set0
-+ sense_en_set
-+ vdd
++ wlend
++ sky130_fd_sc_hs__nand2_4_wrapper
+Xand_wlen
++ wlen_q
++ wlend
 + vss
-+ inv_chain_2
++ vss
++ vdd
++ vdd
++ wlen
++ sky130_fd_sc_hs__and2_4_wrapper
+Xrwl_buf
++ wlen_q
++ vss
++ vss
++ vdd
++ vdd
++ rwl
++ sky130_fd_sc_hs__buf_16_wrapper
 Xwl_ctl
-+ wl_en_set
-+ wl_en_rst
-+ wl_en0
-+ wl_en0_b
++ clkpd_b
++ wlen_grst_b
++ wlen_q
++ wlen_b
 + vdd
 + vss
 + sr_latch
-Xsae_ctl
-+ sense_en_set
-+ clkp
-+ sae_int
-+ sense_en_b
+Xsaen_ctl
++ saen_set_b
++ clkp_grst_b
++ saen
++ saen_b
 + vdd
 + vss
 + sr_latch
 Xpc_ctl
-+ pc_set
-+ clkp
++ pc_set_b
++ clkp_b
 + pc
 + pc_b0
 + vdd
 + vss
 + sr_latch
-Xwr_drv_ctl
-+ wr_drv_set
-+ wl_en_write_rst
-+ write_driver_en0
-+ write_driver_en_b
-+ vdd
-+ vss
-+ sr_latch
-Xmux_wl_en_rst
-+ rbl_b
-+ wl_en_write_rst
-+ we
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ wl_en_rst
-+ sky130_fd_sc_hd__mux2_2_wrapper
-Xmux_pc_set
-+ pc_read_set
-+ pc_write_set
-+ we
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ pc_set
-+ sky130_fd_sc_hd__mux2_2_wrapper
-Xsae_set
-+ we_b
-+ rbl_b
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ sae_set
-+ sky130_fd_sc_hd__and2_2_wrapper
-Xwr_drv_set
-+ clkp
-+ we
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ wr_drv_set_undelayed
-+ sky130_fd_sc_hd__and2_2_wrapper
-Xwr_drv_set_decoder_delay_replica
-+ wr_drv_set_undelayed
-+ wr_drv_set
-+ vdd
-+ vss
-+ inv_chain_24
-Xinv_dummy_bl
-+ dummy_bl
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ dummy_bl_b
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xwl_en_write_rst_buf
-+ dummy_bl_b
-+ wl_en_write_rst
-+ vdd
-+ vss
-+ inv_chain_4
-Xpc_write_set_buf
-+ wl_en_write_rst
-+ pc_write_set
-+ vdd
-+ vss
-+ inv_chain_4
-Xwl_en_buf
-+ wl_en0
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ wl_en
-+ sky130_fd_sc_hd__bufbuf_16_wrapper
-Xsae_buf
-+ sae_int
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ sense_en
-+ sky130_fd_sc_hd__bufbuf_16_wrapper
-Xsae_buf2
-+ sae_int
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ sense_en
-+ sky130_fd_sc_hd__bufbuf_16_wrapper
 Xpc_b_buf
 + pc_b0
 + vss
@@ -1528,45 +1533,282 @@ Xpc_b_buf
 + vdd
 + vdd
 + pc_b
-+ sky130_fd_sc_hd__bufbuf_16_wrapper
-Xpc_b_buf2
-+ pc_b0
++ sky130_fd_sc_hs__buf_16_wrapper
+Xwrdrven_set
++ clkpd
++ we
 + vss
 + vss
 + vdd
 + vdd
-+ pc_b
-+ sky130_fd_sc_hd__bufbuf_16_wrapper
-Xwr_drv_buf
-+ write_driver_en0
-+ vss
-+ vss
++ wrdrven_set_b0
++ sky130_fd_sc_hs__nand2_4_wrapper
+Xwrdrven_set_delay
++ wrdrven_set_b0
++ wrdrven_set_b
 + vdd
++ vss
++ inv_chain_2
+Xwrdrven_ctl
++ wrdrven_set_b
++ wrdrven_grst_b
++ wrdrven
++ wrdrven_b
 + vdd
-+ write_driver_en
-+ sky130_fd_sc_hd__bufbuf_16_wrapper
-Xwbl_pulldown_en
-+ wl_en
-+ write_driver_en
 + vss
-+ vss
-+ vdd
-+ vdd
-+ wbl_pulldown_en
-+ sky130_fd_sc_hd__and2_2_wrapper
-Xdummy_bl_pulldown
-+ dummy_bl
-+ wbl_pulldown_en
-+ vss
-+ vss
-+ mos_w420_l150_m1_nf1_id0
++ sr_latch
 .ends control_logic_replica_v2
 
 
-.subckt dff_array_7
+.subckt decoder_stage_1
++ vdd
++ vss
++ y
++ y_b
++ predecode_0_0
+
+Xgate_0_0_0
++ vdd
++ vss
++ predecode_0_0
++ x_0
++ folded_inv
+Xgate_1_0_0
++ vdd
++ vss
++ x_0
++ x_1
++ multi_finger_inv
+Xgate_2_0_0
++ vdd
++ vss
++ x_1
++ y_b
++ multi_finger_inv_1
+Xgate_2_0_1
++ vdd
++ vss
++ x_1
++ y_b
++ multi_finger_inv_1
+Xgate_2_0_2
++ vdd
++ vss
++ x_1
++ y_b
++ multi_finger_inv_1
+Xgate_2_0_3
++ vdd
++ vss
++ x_1
++ y_b
++ multi_finger_inv_1
+Xgate_3_0_0
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_2
+Xgate_3_0_1
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_2
+Xgate_3_0_2
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_2
+Xgate_3_0_3
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_2
+Xgate_3_0_4
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_2
+Xgate_3_0_5
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_2
+.ends decoder_stage_1
+
+
+.subckt decoder_stage_2
++ vdd
++ vss
++ y
++ y_b
++ predecode_0_0
+
+Xgate_0_0_0
++ vdd
++ vss
++ predecode_0_0
++ y_b
++ folded_inv
+Xgate_1_0_0
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_3
+Xgate_1_0_1
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_3
+.ends decoder_stage_2
+
+
+.subckt decoder_stage_3
++ vdd
++ vss
++ y
++ y_b
++ predecode_0_0
+
+Xgate_0_0_0
++ vdd
++ vss
++ predecode_0_0
++ y_b
++ folded_inv
+Xgate_1_0_0
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_4
+.ends decoder_stage_3
+
+
+.subckt decoder_stage_4
++ vdd
++ vss
++ y
++ y_b
++ predecode_0_0
+
+Xgate_0_0_0
++ vdd
++ vss
++ predecode_0_0
++ x_0
++ folded_inv
+Xgate_1_0_0
++ vdd
++ vss
++ x_0
++ x_1
++ multi_finger_inv_5
+Xgate_2_0_0
++ vdd
++ vss
++ x_1
++ y_b
++ multi_finger_inv_6
+Xgate_2_0_1
++ vdd
++ vss
++ x_1
++ y_b
++ multi_finger_inv_6
+Xgate_2_0_2
++ vdd
++ vss
++ x_1
++ y_b
++ multi_finger_inv_6
+Xgate_2_0_3
++ vdd
++ vss
++ x_1
++ y_b
++ multi_finger_inv_6
+Xgate_2_0_4
++ vdd
++ vss
++ x_1
++ y_b
++ multi_finger_inv_6
+Xgate_3_0_0
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+Xgate_3_0_1
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+Xgate_3_0_2
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+Xgate_3_0_3
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+Xgate_3_0_4
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+Xgate_3_0_5
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+Xgate_3_0_6
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+Xgate_3_0_7
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+Xgate_3_0_8
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+Xgate_3_0_9
++ vdd
++ vss
++ y_b
++ y
++ multi_finger_inv_7
+.ends decoder_stage_4
+
+
+.subckt dff_array_8
 + vdd
 + vss
 + clk
++ rb
 + d[0]
 + d[1]
 + d[2]
@@ -1574,6 +1816,7 @@ Xdummy_bl_pulldown
 + d[4]
 + d[5]
 + d[6]
++ d[7]
 + q[0]
 + q[1]
 + q[2]
@@ -1581,6 +1824,7 @@ Xdummy_bl_pulldown
 + q[4]
 + q[5]
 + q[6]
++ q[7]
 + qn[0]
 + qn[1]
 + qn[2]
@@ -1588,64 +1832,97 @@ Xdummy_bl_pulldown
 + qn[4]
 + qn[5]
 + qn[6]
++ qn[7]
 
 Xdff_0
-+ vdd
-+ vss
 + clk
 + d[0]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[0]
 + qn[0]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 Xdff_1
-+ vdd
-+ vss
 + clk
 + d[1]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[1]
 + qn[1]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 Xdff_2
-+ vdd
-+ vss
 + clk
 + d[2]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[2]
 + qn[2]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 Xdff_3
-+ vdd
-+ vss
 + clk
 + d[3]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[3]
 + qn[3]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 Xdff_4
-+ vdd
-+ vss
 + clk
 + d[4]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[4]
 + qn[4]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 Xdff_5
-+ vdd
-+ vss
 + clk
 + d[5]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[5]
 + qn[5]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 Xdff_6
-+ vdd
-+ vss
 + clk
 + d[6]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[6]
 + qn[6]
-+ openram_dff_wrapper
-.ends dff_array_7
++ sky130_fd_sc_hs__dfrbp_2_wrapper
+Xdff_7
++ clk
++ d[7]
++ rb
++ vss
++ vss
++ vdd
++ vdd
++ q[7]
++ qn[7]
++ sky130_fd_sc_hs__dfrbp_2_wrapper
+.ends dff_array_8
 
 
 .subckt sp_cell_array
@@ -23026,6 +23303,22 @@ Xhstrap_2_0
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_0
++ dummy_br
++ vdd
++ vss
++ dummy_bl
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_0
++ dummy_br
++ vdd
++ vss
++ dummy_bl
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_1
 + br[0]
 + vdd
@@ -23059,6 +23352,22 @@ Xhstrap_1_1
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_1
++ br[0]
++ vdd
++ vss
++ bl[0]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_1
++ br[0]
++ vdd
++ vss
++ bl[0]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_1
 + br[0]
 + vdd
 + vss
@@ -23106,6 +23415,22 @@ Xhstrap_2_2
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_2
++ br[1]
++ vdd
++ vss
++ bl[1]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_2
++ br[1]
++ vdd
++ vss
++ bl[1]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_3
 + br[2]
 + vdd
@@ -23139,6 +23464,22 @@ Xhstrap_1_3
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_3
++ br[2]
++ vdd
++ vss
++ bl[2]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_3
++ br[2]
++ vdd
++ vss
++ bl[2]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_3
 + br[2]
 + vdd
 + vss
@@ -23186,6 +23527,22 @@ Xhstrap_2_4
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_4
++ br[3]
++ vdd
++ vss
++ bl[3]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_4
++ br[3]
++ vdd
++ vss
++ bl[3]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_5
 + br[4]
 + vdd
@@ -23219,6 +23576,22 @@ Xhstrap_1_5
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_5
++ br[4]
++ vdd
++ vss
++ bl[4]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_5
++ br[4]
++ vdd
++ vss
++ bl[4]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_5
 + br[4]
 + vdd
 + vss
@@ -23266,6 +23639,22 @@ Xhstrap_2_6
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_6
++ br[5]
++ vdd
++ vss
++ bl[5]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_6
++ br[5]
++ vdd
++ vss
++ bl[5]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_7
 + br[6]
 + vdd
@@ -23299,6 +23688,22 @@ Xhstrap_1_7
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_7
++ br[6]
++ vdd
++ vss
++ bl[6]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_7
++ br[6]
++ vdd
++ vss
++ bl[6]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_7
 + br[6]
 + vdd
 + vss
@@ -23346,6 +23751,22 @@ Xhstrap_2_8
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_8
++ br[7]
++ vdd
++ vss
++ bl[7]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_8
++ br[7]
++ vdd
++ vss
++ bl[7]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_9
 + br[8]
 + vdd
@@ -23379,6 +23800,22 @@ Xhstrap_1_9
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_9
++ br[8]
++ vdd
++ vss
++ bl[8]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_9
++ br[8]
++ vdd
++ vss
++ bl[8]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_9
 + br[8]
 + vdd
 + vss
@@ -23426,6 +23863,22 @@ Xhstrap_2_10
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_10
++ br[9]
++ vdd
++ vss
++ bl[9]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_10
++ br[9]
++ vdd
++ vss
++ bl[9]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_11
 + br[10]
 + vdd
@@ -23459,6 +23912,22 @@ Xhstrap_1_11
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_11
++ br[10]
++ vdd
++ vss
++ bl[10]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_11
++ br[10]
++ vdd
++ vss
++ bl[10]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_11
 + br[10]
 + vdd
 + vss
@@ -23506,6 +23975,22 @@ Xhstrap_2_12
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_12
++ br[11]
++ vdd
++ vss
++ bl[11]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_12
++ br[11]
++ vdd
++ vss
++ bl[11]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_13
 + br[12]
 + vdd
@@ -23539,6 +24024,22 @@ Xhstrap_1_13
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_13
++ br[12]
++ vdd
++ vss
++ bl[12]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_13
++ br[12]
++ vdd
++ vss
++ bl[12]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_13
 + br[12]
 + vdd
 + vss
@@ -23586,6 +24087,22 @@ Xhstrap_2_14
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_14
++ br[13]
++ vdd
++ vss
++ bl[13]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_14
++ br[13]
++ vdd
++ vss
++ bl[13]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_15
 + br[14]
 + vdd
@@ -23619,6 +24136,22 @@ Xhstrap_1_15
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_15
++ br[14]
++ vdd
++ vss
++ bl[14]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_15
++ br[14]
++ vdd
++ vss
++ bl[14]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_15
 + br[14]
 + vdd
 + vss
@@ -23666,6 +24199,22 @@ Xhstrap_2_16
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_16
++ br[15]
++ vdd
++ vss
++ bl[15]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_16
++ br[15]
++ vdd
++ vss
++ bl[15]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_17
 + br[16]
 + vdd
@@ -23699,6 +24248,22 @@ Xhstrap_1_17
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_17
++ br[16]
++ vdd
++ vss
++ bl[16]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_17
++ br[16]
++ vdd
++ vss
++ bl[16]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_17
 + br[16]
 + vdd
 + vss
@@ -23746,6 +24311,22 @@ Xhstrap_2_18
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_18
++ br[17]
++ vdd
++ vss
++ bl[17]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_18
++ br[17]
++ vdd
++ vss
++ bl[17]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_19
 + br[18]
 + vdd
@@ -23779,6 +24360,22 @@ Xhstrap_1_19
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_19
++ br[18]
++ vdd
++ vss
++ bl[18]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_19
++ br[18]
++ vdd
++ vss
++ bl[18]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_19
 + br[18]
 + vdd
 + vss
@@ -23826,6 +24423,22 @@ Xhstrap_2_20
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_20
++ br[19]
++ vdd
++ vss
++ bl[19]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_20
++ br[19]
++ vdd
++ vss
++ bl[19]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_21
 + br[20]
 + vdd
@@ -23859,6 +24472,22 @@ Xhstrap_1_21
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_21
++ br[20]
++ vdd
++ vss
++ bl[20]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_21
++ br[20]
++ vdd
++ vss
++ bl[20]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_21
 + br[20]
 + vdd
 + vss
@@ -23906,6 +24535,22 @@ Xhstrap_2_22
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_22
++ br[21]
++ vdd
++ vss
++ bl[21]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_22
++ br[21]
++ vdd
++ vss
++ bl[21]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_23
 + br[22]
 + vdd
@@ -23939,6 +24584,22 @@ Xhstrap_1_23
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_23
++ br[22]
++ vdd
++ vss
++ bl[22]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_23
++ br[22]
++ vdd
++ vss
++ bl[22]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_23
 + br[22]
 + vdd
 + vss
@@ -23986,6 +24647,22 @@ Xhstrap_2_24
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_24
++ br[23]
++ vdd
++ vss
++ bl[23]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_24
++ br[23]
++ vdd
++ vss
++ bl[23]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_25
 + br[24]
 + vdd
@@ -24019,6 +24696,22 @@ Xhstrap_1_25
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_25
++ br[24]
++ vdd
++ vss
++ bl[24]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_25
++ br[24]
++ vdd
++ vss
++ bl[24]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_25
 + br[24]
 + vdd
 + vss
@@ -24066,6 +24759,22 @@ Xhstrap_2_26
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_26
++ br[25]
++ vdd
++ vss
++ bl[25]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_26
++ br[25]
++ vdd
++ vss
++ bl[25]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_27
 + br[26]
 + vdd
@@ -24099,6 +24808,22 @@ Xhstrap_1_27
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_27
++ br[26]
++ vdd
++ vss
++ bl[26]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_27
++ br[26]
++ vdd
++ vss
++ bl[26]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_27
 + br[26]
 + vdd
 + vss
@@ -24146,6 +24871,22 @@ Xhstrap_2_28
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_28
++ br[27]
++ vdd
++ vss
++ bl[27]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_28
++ br[27]
++ vdd
++ vss
++ bl[27]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_29
 + br[28]
 + vdd
@@ -24179,6 +24920,22 @@ Xhstrap_1_29
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_29
++ br[28]
++ vdd
++ vss
++ bl[28]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_29
++ br[28]
++ vdd
++ vss
++ bl[28]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_29
 + br[28]
 + vdd
 + vss
@@ -24226,6 +24983,22 @@ Xhstrap_2_30
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_30
++ br[29]
++ vdd
++ vss
++ bl[29]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_30
++ br[29]
++ vdd
++ vss
++ bl[29]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_31
 + br[30]
 + vdd
@@ -24259,6 +25032,22 @@ Xhstrap_1_31
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_31
++ br[30]
++ vdd
++ vss
++ bl[30]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_31
++ br[30]
++ vdd
++ vss
++ bl[30]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_31
 + br[30]
 + vdd
 + vss
@@ -24306,6 +25095,22 @@ Xhstrap_2_32
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_32
++ br[31]
++ vdd
++ vss
++ bl[31]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_32
++ br[31]
++ vdd
++ vss
++ bl[31]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_33
 + br[32]
 + vdd
@@ -24339,6 +25144,22 @@ Xhstrap_1_33
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_33
++ br[32]
++ vdd
++ vss
++ bl[32]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_33
++ br[32]
++ vdd
++ vss
++ bl[32]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_33
 + br[32]
 + vdd
 + vss
@@ -24386,6 +25207,22 @@ Xhstrap_2_34
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_34
++ br[33]
++ vdd
++ vss
++ bl[33]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_34
++ br[33]
++ vdd
++ vss
++ bl[33]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_35
 + br[34]
 + vdd
@@ -24419,6 +25256,22 @@ Xhstrap_1_35
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_35
++ br[34]
++ vdd
++ vss
++ bl[34]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_35
++ br[34]
++ vdd
++ vss
++ bl[34]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_35
 + br[34]
 + vdd
 + vss
@@ -24466,6 +25319,22 @@ Xhstrap_2_36
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_36
++ br[35]
++ vdd
++ vss
++ bl[35]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_36
++ br[35]
++ vdd
++ vss
++ bl[35]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_37
 + br[36]
 + vdd
@@ -24499,6 +25368,22 @@ Xhstrap_1_37
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_37
++ br[36]
++ vdd
++ vss
++ bl[36]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_37
++ br[36]
++ vdd
++ vss
++ bl[36]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_37
 + br[36]
 + vdd
 + vss
@@ -24546,6 +25431,22 @@ Xhstrap_2_38
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_38
++ br[37]
++ vdd
++ vss
++ bl[37]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_38
++ br[37]
++ vdd
++ vss
++ bl[37]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_39
 + br[38]
 + vdd
@@ -24579,6 +25480,22 @@ Xhstrap_1_39
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_39
++ br[38]
++ vdd
++ vss
++ bl[38]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_39
++ br[38]
++ vdd
++ vss
++ bl[38]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_39
 + br[38]
 + vdd
 + vss
@@ -24626,6 +25543,22 @@ Xhstrap_2_40
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_40
++ br[39]
++ vdd
++ vss
++ bl[39]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_40
++ br[39]
++ vdd
++ vss
++ bl[39]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_41
 + br[40]
 + vdd
@@ -24659,6 +25592,22 @@ Xhstrap_1_41
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_41
++ br[40]
++ vdd
++ vss
++ bl[40]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_41
++ br[40]
++ vdd
++ vss
++ bl[40]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_41
 + br[40]
 + vdd
 + vss
@@ -24706,6 +25655,22 @@ Xhstrap_2_42
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_42
++ br[41]
++ vdd
++ vss
++ bl[41]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_42
++ br[41]
++ vdd
++ vss
++ bl[41]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_43
 + br[42]
 + vdd
@@ -24739,6 +25704,22 @@ Xhstrap_1_43
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_43
++ br[42]
++ vdd
++ vss
++ bl[42]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_43
++ br[42]
++ vdd
++ vss
++ bl[42]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_43
 + br[42]
 + vdd
 + vss
@@ -24786,6 +25767,22 @@ Xhstrap_2_44
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_44
++ br[43]
++ vdd
++ vss
++ bl[43]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_44
++ br[43]
++ vdd
++ vss
++ bl[43]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_45
 + br[44]
 + vdd
@@ -24819,6 +25816,22 @@ Xhstrap_1_45
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_45
++ br[44]
++ vdd
++ vss
++ bl[44]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_45
++ br[44]
++ vdd
++ vss
++ bl[44]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_45
 + br[44]
 + vdd
 + vss
@@ -24866,6 +25879,22 @@ Xhstrap_2_46
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_46
++ br[45]
++ vdd
++ vss
++ bl[45]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_46
++ br[45]
++ vdd
++ vss
++ bl[45]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_47
 + br[46]
 + vdd
@@ -24899,6 +25928,22 @@ Xhstrap_1_47
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_47
++ br[46]
++ vdd
++ vss
++ bl[46]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_47
++ br[46]
++ vdd
++ vss
++ bl[46]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_47
 + br[46]
 + vdd
 + vss
@@ -24946,6 +25991,22 @@ Xhstrap_2_48
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_48
++ br[47]
++ vdd
++ vss
++ bl[47]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_48
++ br[47]
++ vdd
++ vss
++ bl[47]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_49
 + br[48]
 + vdd
@@ -24979,6 +26040,22 @@ Xhstrap_1_49
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_49
++ br[48]
++ vdd
++ vss
++ bl[48]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_49
++ br[48]
++ vdd
++ vss
++ bl[48]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_49
 + br[48]
 + vdd
 + vss
@@ -25026,6 +26103,22 @@ Xhstrap_2_50
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_50
++ br[49]
++ vdd
++ vss
++ bl[49]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_50
++ br[49]
++ vdd
++ vss
++ bl[49]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_51
 + br[50]
 + vdd
@@ -25059,6 +26152,22 @@ Xhstrap_1_51
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_51
++ br[50]
++ vdd
++ vss
++ bl[50]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_51
++ br[50]
++ vdd
++ vss
++ bl[50]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_51
 + br[50]
 + vdd
 + vss
@@ -25106,6 +26215,22 @@ Xhstrap_2_52
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_52
++ br[51]
++ vdd
++ vss
++ bl[51]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_52
++ br[51]
++ vdd
++ vss
++ bl[51]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_53
 + br[52]
 + vdd
@@ -25139,6 +26264,22 @@ Xhstrap_1_53
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_53
++ br[52]
++ vdd
++ vss
++ bl[52]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_53
++ br[52]
++ vdd
++ vss
++ bl[52]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_53
 + br[52]
 + vdd
 + vss
@@ -25186,6 +26327,22 @@ Xhstrap_2_54
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_54
++ br[53]
++ vdd
++ vss
++ bl[53]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_54
++ br[53]
++ vdd
++ vss
++ bl[53]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_55
 + br[54]
 + vdd
@@ -25219,6 +26376,22 @@ Xhstrap_1_55
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_55
++ br[54]
++ vdd
++ vss
++ bl[54]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_55
++ br[54]
++ vdd
++ vss
++ bl[54]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_55
 + br[54]
 + vdd
 + vss
@@ -25266,6 +26439,22 @@ Xhstrap_2_56
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_56
++ br[55]
++ vdd
++ vss
++ bl[55]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_56
++ br[55]
++ vdd
++ vss
++ bl[55]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_57
 + br[56]
 + vdd
@@ -25299,6 +26488,22 @@ Xhstrap_1_57
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_57
++ br[56]
++ vdd
++ vss
++ bl[56]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_57
++ br[56]
++ vdd
++ vss
++ bl[56]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_57
 + br[56]
 + vdd
 + vss
@@ -25346,6 +26551,22 @@ Xhstrap_2_58
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_58
++ br[57]
++ vdd
++ vss
++ bl[57]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_58
++ br[57]
++ vdd
++ vss
++ bl[57]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_59
 + br[58]
 + vdd
@@ -25379,6 +26600,22 @@ Xhstrap_1_59
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_59
++ br[58]
++ vdd
++ vss
++ bl[58]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_59
++ br[58]
++ vdd
++ vss
++ bl[58]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_59
 + br[58]
 + vdd
 + vss
@@ -25426,6 +26663,22 @@ Xhstrap_2_60
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_60
++ br[59]
++ vdd
++ vss
++ bl[59]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_60
++ br[59]
++ vdd
++ vss
++ bl[59]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_61
 + br[60]
 + vdd
@@ -25459,6 +26712,22 @@ Xhstrap_1_61
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_61
++ br[60]
++ vdd
++ vss
++ bl[60]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_61
++ br[60]
++ vdd
++ vss
++ bl[60]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_61
 + br[60]
 + vdd
 + vss
@@ -25506,6 +26775,22 @@ Xhstrap_2_62
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_62
++ br[61]
++ vdd
++ vss
++ bl[61]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_62
++ br[61]
++ vdd
++ vss
++ bl[61]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_63
 + br[62]
 + vdd
@@ -25539,6 +26824,22 @@ Xhstrap_1_63
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_63
++ br[62]
++ vdd
++ vss
++ bl[62]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_63
++ br[62]
++ vdd
++ vss
++ bl[62]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_63
 + br[62]
 + vdd
 + vss
@@ -25586,6 +26887,22 @@ Xhstrap_2_64
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_64
++ br[63]
++ vdd
++ vss
++ bl[63]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_64
++ br[63]
++ vdd
++ vss
++ bl[63]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_65
 + br[64]
 + vdd
@@ -25619,6 +26936,22 @@ Xhstrap_1_65
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_65
++ br[64]
++ vdd
++ vss
++ bl[64]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_65
++ br[64]
++ vdd
++ vss
++ bl[64]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_65
 + br[64]
 + vdd
 + vss
@@ -25666,6 +26999,22 @@ Xhstrap_2_66
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_66
++ br[65]
++ vdd
++ vss
++ bl[65]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_66
++ br[65]
++ vdd
++ vss
++ bl[65]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_67
 + br[66]
 + vdd
@@ -25699,6 +27048,22 @@ Xhstrap_1_67
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_67
++ br[66]
++ vdd
++ vss
++ bl[66]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_67
++ br[66]
++ vdd
++ vss
++ bl[66]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_67
 + br[66]
 + vdd
 + vss
@@ -25746,6 +27111,22 @@ Xhstrap_2_68
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_68
++ br[67]
++ vdd
++ vss
++ bl[67]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_68
++ br[67]
++ vdd
++ vss
++ bl[67]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_69
 + br[68]
 + vdd
@@ -25779,6 +27160,22 @@ Xhstrap_1_69
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_69
++ br[68]
++ vdd
++ vss
++ bl[68]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_69
++ br[68]
++ vdd
++ vss
++ bl[68]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_69
 + br[68]
 + vdd
 + vss
@@ -25826,6 +27223,22 @@ Xhstrap_2_70
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_70
++ br[69]
++ vdd
++ vss
++ bl[69]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_70
++ br[69]
++ vdd
++ vss
++ bl[69]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_71
 + br[70]
 + vdd
@@ -25859,6 +27272,22 @@ Xhstrap_1_71
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_71
++ br[70]
++ vdd
++ vss
++ bl[70]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_71
++ br[70]
++ vdd
++ vss
++ bl[70]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_71
 + br[70]
 + vdd
 + vss
@@ -25906,6 +27335,22 @@ Xhstrap_2_72
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_72
++ br[71]
++ vdd
++ vss
++ bl[71]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_72
++ br[71]
++ vdd
++ vss
++ bl[71]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_73
 + br[72]
 + vdd
@@ -25939,6 +27384,22 @@ Xhstrap_1_73
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_73
++ br[72]
++ vdd
++ vss
++ bl[72]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_73
++ br[72]
++ vdd
++ vss
++ bl[72]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_73
 + br[72]
 + vdd
 + vss
@@ -25986,6 +27447,22 @@ Xhstrap_2_74
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_74
++ br[73]
++ vdd
++ vss
++ bl[73]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_74
++ br[73]
++ vdd
++ vss
++ bl[73]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_75
 + br[74]
 + vdd
@@ -26019,6 +27496,22 @@ Xhstrap_1_75
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_75
++ br[74]
++ vdd
++ vss
++ bl[74]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_75
++ br[74]
++ vdd
++ vss
++ bl[74]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_75
 + br[74]
 + vdd
 + vss
@@ -26066,6 +27559,22 @@ Xhstrap_2_76
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_76
++ br[75]
++ vdd
++ vss
++ bl[75]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_76
++ br[75]
++ vdd
++ vss
++ bl[75]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_77
 + br[76]
 + vdd
@@ -26099,6 +27608,22 @@ Xhstrap_1_77
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_77
++ br[76]
++ vdd
++ vss
++ bl[76]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_77
++ br[76]
++ vdd
++ vss
++ bl[76]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_77
 + br[76]
 + vdd
 + vss
@@ -26146,6 +27671,22 @@ Xhstrap_2_78
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_78
++ br[77]
++ vdd
++ vss
++ bl[77]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_78
++ br[77]
++ vdd
++ vss
++ bl[77]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_79
 + br[78]
 + vdd
@@ -26179,6 +27720,22 @@ Xhstrap_1_79
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_79
++ br[78]
++ vdd
++ vss
++ bl[78]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_79
++ br[78]
++ vdd
++ vss
++ bl[78]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_79
 + br[78]
 + vdd
 + vss
@@ -26226,6 +27783,22 @@ Xhstrap_2_80
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_80
++ br[79]
++ vdd
++ vss
++ bl[79]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_80
++ br[79]
++ vdd
++ vss
++ bl[79]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_81
 + br[80]
 + vdd
@@ -26259,6 +27832,22 @@ Xhstrap_1_81
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_81
++ br[80]
++ vdd
++ vss
++ bl[80]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_81
++ br[80]
++ vdd
++ vss
++ bl[80]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_81
 + br[80]
 + vdd
 + vss
@@ -26306,6 +27895,22 @@ Xhstrap_2_82
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_82
++ br[81]
++ vdd
++ vss
++ bl[81]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_82
++ br[81]
++ vdd
++ vss
++ bl[81]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_83
 + br[82]
 + vdd
@@ -26339,6 +27944,22 @@ Xhstrap_1_83
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_83
++ br[82]
++ vdd
++ vss
++ bl[82]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_83
++ br[82]
++ vdd
++ vss
++ bl[82]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_83
 + br[82]
 + vdd
 + vss
@@ -26386,6 +28007,22 @@ Xhstrap_2_84
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_84
++ br[83]
++ vdd
++ vss
++ bl[83]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_84
++ br[83]
++ vdd
++ vss
++ bl[83]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_85
 + br[84]
 + vdd
@@ -26419,6 +28056,22 @@ Xhstrap_1_85
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_85
++ br[84]
++ vdd
++ vss
++ bl[84]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_85
++ br[84]
++ vdd
++ vss
++ bl[84]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_85
 + br[84]
 + vdd
 + vss
@@ -26466,6 +28119,22 @@ Xhstrap_2_86
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_86
++ br[85]
++ vdd
++ vss
++ bl[85]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_86
++ br[85]
++ vdd
++ vss
++ bl[85]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_87
 + br[86]
 + vdd
@@ -26499,6 +28168,22 @@ Xhstrap_1_87
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_87
++ br[86]
++ vdd
++ vss
++ bl[86]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_87
++ br[86]
++ vdd
++ vss
++ bl[86]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_87
 + br[86]
 + vdd
 + vss
@@ -26546,6 +28231,22 @@ Xhstrap_2_88
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_88
++ br[87]
++ vdd
++ vss
++ bl[87]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_88
++ br[87]
++ vdd
++ vss
++ bl[87]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_89
 + br[88]
 + vdd
@@ -26579,6 +28280,22 @@ Xhstrap_1_89
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_89
++ br[88]
++ vdd
++ vss
++ bl[88]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_89
++ br[88]
++ vdd
++ vss
++ bl[88]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_89
 + br[88]
 + vdd
 + vss
@@ -26626,6 +28343,22 @@ Xhstrap_2_90
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_90
++ br[89]
++ vdd
++ vss
++ bl[89]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_90
++ br[89]
++ vdd
++ vss
++ bl[89]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_91
 + br[90]
 + vdd
@@ -26659,6 +28392,22 @@ Xhstrap_1_91
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_91
++ br[90]
++ vdd
++ vss
++ bl[90]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_91
++ br[90]
++ vdd
++ vss
++ bl[90]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_91
 + br[90]
 + vdd
 + vss
@@ -26706,6 +28455,22 @@ Xhstrap_2_92
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_92
++ br[91]
++ vdd
++ vss
++ bl[91]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_92
++ br[91]
++ vdd
++ vss
++ bl[91]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_93
 + br[92]
 + vdd
@@ -26739,6 +28504,22 @@ Xhstrap_1_93
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_93
++ br[92]
++ vdd
++ vss
++ bl[92]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_93
++ br[92]
++ vdd
++ vss
++ bl[92]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_93
 + br[92]
 + vdd
 + vss
@@ -26786,6 +28567,22 @@ Xhstrap_2_94
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_94
++ br[93]
++ vdd
++ vss
++ bl[93]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_94
++ br[93]
++ vdd
++ vss
++ bl[93]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_95
 + br[94]
 + vdd
@@ -26819,6 +28616,22 @@ Xhstrap_1_95
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_95
++ br[94]
++ vdd
++ vss
++ bl[94]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_95
++ br[94]
++ vdd
++ vss
++ bl[94]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_95
 + br[94]
 + vdd
 + vss
@@ -26866,6 +28679,22 @@ Xhstrap_2_96
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_96
++ br[95]
++ vdd
++ vss
++ bl[95]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_96
++ br[95]
++ vdd
++ vss
++ bl[95]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_97
 + br[96]
 + vdd
@@ -26899,6 +28728,22 @@ Xhstrap_1_97
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_97
++ br[96]
++ vdd
++ vss
++ bl[96]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_97
++ br[96]
++ vdd
++ vss
++ bl[96]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_97
 + br[96]
 + vdd
 + vss
@@ -26946,6 +28791,22 @@ Xhstrap_2_98
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_98
++ br[97]
++ vdd
++ vss
++ bl[97]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_98
++ br[97]
++ vdd
++ vss
++ bl[97]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_99
 + br[98]
 + vdd
@@ -26979,6 +28840,22 @@ Xhstrap_1_99
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_99
++ br[98]
++ vdd
++ vss
++ bl[98]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_99
++ br[98]
++ vdd
++ vss
++ bl[98]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_99
 + br[98]
 + vdd
 + vss
@@ -27026,6 +28903,22 @@ Xhstrap_2_100
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_100
++ br[99]
++ vdd
++ vss
++ bl[99]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_100
++ br[99]
++ vdd
++ vss
++ bl[99]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_101
 + br[100]
 + vdd
@@ -27059,6 +28952,22 @@ Xhstrap_1_101
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_101
++ br[100]
++ vdd
++ vss
++ bl[100]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_101
++ br[100]
++ vdd
++ vss
++ bl[100]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_101
 + br[100]
 + vdd
 + vss
@@ -27106,6 +29015,22 @@ Xhstrap_2_102
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_102
++ br[101]
++ vdd
++ vss
++ bl[101]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_102
++ br[101]
++ vdd
++ vss
++ bl[101]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_103
 + br[102]
 + vdd
@@ -27139,6 +29064,22 @@ Xhstrap_1_103
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_103
++ br[102]
++ vdd
++ vss
++ bl[102]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_103
++ br[102]
++ vdd
++ vss
++ bl[102]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_103
 + br[102]
 + vdd
 + vss
@@ -27186,6 +29127,22 @@ Xhstrap_2_104
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_104
++ br[103]
++ vdd
++ vss
++ bl[103]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_104
++ br[103]
++ vdd
++ vss
++ bl[103]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_105
 + br[104]
 + vdd
@@ -27219,6 +29176,22 @@ Xhstrap_1_105
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_105
++ br[104]
++ vdd
++ vss
++ bl[104]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_105
++ br[104]
++ vdd
++ vss
++ bl[104]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_105
 + br[104]
 + vdd
 + vss
@@ -27266,6 +29239,22 @@ Xhstrap_2_106
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_106
++ br[105]
++ vdd
++ vss
++ bl[105]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_106
++ br[105]
++ vdd
++ vss
++ bl[105]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_107
 + br[106]
 + vdd
@@ -27299,6 +29288,22 @@ Xhstrap_1_107
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_107
++ br[106]
++ vdd
++ vss
++ bl[106]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_107
++ br[106]
++ vdd
++ vss
++ bl[106]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_107
 + br[106]
 + vdd
 + vss
@@ -27346,6 +29351,22 @@ Xhstrap_2_108
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_108
++ br[107]
++ vdd
++ vss
++ bl[107]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_108
++ br[107]
++ vdd
++ vss
++ bl[107]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_109
 + br[108]
 + vdd
@@ -27379,6 +29400,22 @@ Xhstrap_1_109
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_109
++ br[108]
++ vdd
++ vss
++ bl[108]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_109
++ br[108]
++ vdd
++ vss
++ bl[108]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_109
 + br[108]
 + vdd
 + vss
@@ -27426,6 +29463,22 @@ Xhstrap_2_110
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_110
++ br[109]
++ vdd
++ vss
++ bl[109]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_110
++ br[109]
++ vdd
++ vss
++ bl[109]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_111
 + br[110]
 + vdd
@@ -27459,6 +29512,22 @@ Xhstrap_1_111
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_111
++ br[110]
++ vdd
++ vss
++ bl[110]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_111
++ br[110]
++ vdd
++ vss
++ bl[110]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_111
 + br[110]
 + vdd
 + vss
@@ -27506,6 +29575,22 @@ Xhstrap_2_112
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_112
++ br[111]
++ vdd
++ vss
++ bl[111]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_112
++ br[111]
++ vdd
++ vss
++ bl[111]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_113
 + br[112]
 + vdd
@@ -27539,6 +29624,22 @@ Xhstrap_1_113
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_113
++ br[112]
++ vdd
++ vss
++ bl[112]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_113
++ br[112]
++ vdd
++ vss
++ bl[112]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_113
 + br[112]
 + vdd
 + vss
@@ -27586,6 +29687,22 @@ Xhstrap_2_114
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_114
++ br[113]
++ vdd
++ vss
++ bl[113]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_114
++ br[113]
++ vdd
++ vss
++ bl[113]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_115
 + br[114]
 + vdd
@@ -27619,6 +29736,22 @@ Xhstrap_1_115
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_115
++ br[114]
++ vdd
++ vss
++ bl[114]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_115
++ br[114]
++ vdd
++ vss
++ bl[114]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_115
 + br[114]
 + vdd
 + vss
@@ -27666,6 +29799,22 @@ Xhstrap_2_116
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_116
++ br[115]
++ vdd
++ vss
++ bl[115]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_116
++ br[115]
++ vdd
++ vss
++ bl[115]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_117
 + br[116]
 + vdd
@@ -27699,6 +29848,22 @@ Xhstrap_1_117
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_117
++ br[116]
++ vdd
++ vss
++ bl[116]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_117
++ br[116]
++ vdd
++ vss
++ bl[116]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_117
 + br[116]
 + vdd
 + vss
@@ -27746,6 +29911,22 @@ Xhstrap_2_118
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_118
++ br[117]
++ vdd
++ vss
++ bl[117]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_118
++ br[117]
++ vdd
++ vss
++ bl[117]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_119
 + br[118]
 + vdd
@@ -27779,6 +29960,22 @@ Xhstrap_1_119
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_119
++ br[118]
++ vdd
++ vss
++ bl[118]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_119
++ br[118]
++ vdd
++ vss
++ bl[118]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_119
 + br[118]
 + vdd
 + vss
@@ -27826,6 +30023,22 @@ Xhstrap_2_120
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_120
++ br[119]
++ vdd
++ vss
++ bl[119]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_120
++ br[119]
++ vdd
++ vss
++ bl[119]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_121
 + br[120]
 + vdd
@@ -27859,6 +30072,22 @@ Xhstrap_1_121
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_121
++ br[120]
++ vdd
++ vss
++ bl[120]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_121
++ br[120]
++ vdd
++ vss
++ bl[120]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_121
 + br[120]
 + vdd
 + vss
@@ -27906,6 +30135,22 @@ Xhstrap_2_122
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_122
++ br[121]
++ vdd
++ vss
++ bl[121]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_122
++ br[121]
++ vdd
++ vss
++ bl[121]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_123
 + br[122]
 + vdd
@@ -27939,6 +30184,22 @@ Xhstrap_1_123
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_123
++ br[122]
++ vdd
++ vss
++ bl[122]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_123
++ br[122]
++ vdd
++ vss
++ bl[122]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_123
 + br[122]
 + vdd
 + vss
@@ -27986,6 +30247,22 @@ Xhstrap_2_124
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_124
++ br[123]
++ vdd
++ vss
++ bl[123]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_124
++ br[123]
++ vdd
++ vss
++ bl[123]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_125
 + br[124]
 + vdd
@@ -28019,6 +30296,22 @@ Xhstrap_1_125
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_125
++ br[124]
++ vdd
++ vss
++ bl[124]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_125
++ br[124]
++ vdd
++ vss
++ bl[124]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_125
 + br[124]
 + vdd
 + vss
@@ -28066,6 +30359,22 @@ Xhstrap_2_126
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_126
++ br[125]
++ vdd
++ vss
++ bl[125]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_126
++ br[125]
++ vdd
++ vss
++ bl[125]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_127
 + br[126]
 + vdd
@@ -28099,6 +30408,22 @@ Xhstrap_1_127
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_127
++ br[126]
++ vdd
++ vss
++ bl[126]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_127
++ br[126]
++ vdd
++ vss
++ bl[126]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_127
 + br[126]
 + vdd
 + vss
@@ -28146,6 +30471,22 @@ Xhstrap_2_128
 + vss
 + vdd
 + sram_sp_hstrap_wrapper
+Xhstrap_3_128
++ br[127]
++ vdd
++ vss
++ bl[127]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_128
++ br[127]
++ vdd
++ vss
++ bl[127]
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
 Xcolend_top_129
 + vdd
 + vdd
@@ -28179,6 +30520,22 @@ Xhstrap_1_129
 + vdd
 + sram_sp_hstrap_wrapper
 Xhstrap_2_129
++ vdd
++ vdd
++ vss
++ vdd
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_3_129
++ vdd
++ vdd
++ vss
++ vdd
++ vss
++ vdd
++ sram_sp_hstrap_wrapper
+Xhstrap_4_129
 + vdd
 + vdd
 + vss
@@ -28305,11 +30662,10 @@ Xcolend_1_1
 
 .subckt col_peripherals
 + clk
++ rstb
 + vdd
 + vss
 + sense_en
-+ dummy_bl
-+ dummy_br
 + bl[0]
 + bl[1]
 + bl[2]
@@ -28567,14 +30923,15 @@ Xcolend_1_1
 + br[126]
 + br[127]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
++ we
 + wmask[0]
 + wmask[1]
 + wmask[2]
@@ -28648,6 +31005,7 @@ Xwmask_dffs
 + vdd
 + vss
 + clk
++ rstb
 + wmask[0]
 + wmask[1]
 + wmask[2]
@@ -28661,8 +31019,41 @@ Xwmask_dffs
 + wmask_in_b[2]
 + wmask_in_b[3]
 + dff_array_4
+Xwmask_and_0
++ vdd
++ vss
++ we_i[0]
++ we_ib[0]
++ we
++ wmask_in[0]
++ decoder_stage_7
+Xwmask_and_1
++ vdd
++ vss
++ we_i[1]
++ we_ib[1]
++ we
++ wmask_in[1]
++ decoder_stage_7
+Xwmask_and_2
++ vdd
++ vss
++ we_i[2]
++ we_ib[2]
++ we
++ wmask_in[2]
++ decoder_stage_7
+Xwmask_and_3
++ vdd
++ vss
++ we_i[3]
++ we_ib[3]
++ we
++ wmask_in[3]
++ decoder_stage_7
 Xcol_group_0
 + clk
++ rstb
 + vdd
 + vss
 + bl[0]
@@ -28674,21 +31065,23 @@ Xcol_group_0
 + br[2]
 + br[3]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[0]
++ we_i[0]
++ we_ib[0]
 + din[0]
 + dout[0]
 + sense_en
 + column
 Xcol_group_1
 + clk
++ rstb
 + vdd
 + vss
 + bl[4]
@@ -28700,21 +31093,23 @@ Xcol_group_1
 + br[6]
 + br[7]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[0]
++ we_i[0]
++ we_ib[0]
 + din[1]
 + dout[1]
 + sense_en
 + column
 Xcol_group_2
 + clk
++ rstb
 + vdd
 + vss
 + bl[8]
@@ -28726,21 +31121,23 @@ Xcol_group_2
 + br[10]
 + br[11]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[0]
++ we_i[0]
++ we_ib[0]
 + din[2]
 + dout[2]
 + sense_en
 + column
 Xcol_group_3
 + clk
++ rstb
 + vdd
 + vss
 + bl[12]
@@ -28752,21 +31149,23 @@ Xcol_group_3
 + br[14]
 + br[15]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[0]
++ we_i[0]
++ we_ib[0]
 + din[3]
 + dout[3]
 + sense_en
 + column
 Xcol_group_4
 + clk
++ rstb
 + vdd
 + vss
 + bl[16]
@@ -28778,21 +31177,23 @@ Xcol_group_4
 + br[18]
 + br[19]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[0]
++ we_i[0]
++ we_ib[0]
 + din[4]
 + dout[4]
 + sense_en
 + column
 Xcol_group_5
 + clk
++ rstb
 + vdd
 + vss
 + bl[20]
@@ -28804,21 +31205,23 @@ Xcol_group_5
 + br[22]
 + br[23]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[0]
++ we_i[0]
++ we_ib[0]
 + din[5]
 + dout[5]
 + sense_en
 + column
 Xcol_group_6
 + clk
++ rstb
 + vdd
 + vss
 + bl[24]
@@ -28830,21 +31233,23 @@ Xcol_group_6
 + br[26]
 + br[27]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[0]
++ we_i[0]
++ we_ib[0]
 + din[6]
 + dout[6]
 + sense_en
 + column
 Xcol_group_7
 + clk
++ rstb
 + vdd
 + vss
 + bl[28]
@@ -28856,21 +31261,23 @@ Xcol_group_7
 + br[30]
 + br[31]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[0]
++ we_i[0]
++ we_ib[0]
 + din[7]
 + dout[7]
 + sense_en
 + column
 Xcol_group_8
 + clk
++ rstb
 + vdd
 + vss
 + bl[32]
@@ -28882,21 +31289,23 @@ Xcol_group_8
 + br[34]
 + br[35]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[1]
++ we_i[1]
++ we_ib[1]
 + din[8]
 + dout[8]
 + sense_en
 + column
 Xcol_group_9
 + clk
++ rstb
 + vdd
 + vss
 + bl[36]
@@ -28908,21 +31317,23 @@ Xcol_group_9
 + br[38]
 + br[39]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[1]
++ we_i[1]
++ we_ib[1]
 + din[9]
 + dout[9]
 + sense_en
 + column
 Xcol_group_10
 + clk
++ rstb
 + vdd
 + vss
 + bl[40]
@@ -28934,21 +31345,23 @@ Xcol_group_10
 + br[42]
 + br[43]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[1]
++ we_i[1]
++ we_ib[1]
 + din[10]
 + dout[10]
 + sense_en
 + column
 Xcol_group_11
 + clk
++ rstb
 + vdd
 + vss
 + bl[44]
@@ -28960,21 +31373,23 @@ Xcol_group_11
 + br[46]
 + br[47]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[1]
++ we_i[1]
++ we_ib[1]
 + din[11]
 + dout[11]
 + sense_en
 + column
 Xcol_group_12
 + clk
++ rstb
 + vdd
 + vss
 + bl[48]
@@ -28986,21 +31401,23 @@ Xcol_group_12
 + br[50]
 + br[51]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[1]
++ we_i[1]
++ we_ib[1]
 + din[12]
 + dout[12]
 + sense_en
 + column
 Xcol_group_13
 + clk
++ rstb
 + vdd
 + vss
 + bl[52]
@@ -29012,21 +31429,23 @@ Xcol_group_13
 + br[54]
 + br[55]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[1]
++ we_i[1]
++ we_ib[1]
 + din[13]
 + dout[13]
 + sense_en
 + column
 Xcol_group_14
 + clk
++ rstb
 + vdd
 + vss
 + bl[56]
@@ -29038,21 +31457,23 @@ Xcol_group_14
 + br[58]
 + br[59]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[1]
++ we_i[1]
++ we_ib[1]
 + din[14]
 + dout[14]
 + sense_en
 + column
 Xcol_group_15
 + clk
++ rstb
 + vdd
 + vss
 + bl[60]
@@ -29064,21 +31485,23 @@ Xcol_group_15
 + br[62]
 + br[63]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[1]
++ we_i[1]
++ we_ib[1]
 + din[15]
 + dout[15]
 + sense_en
 + column
 Xcol_group_16
 + clk
++ rstb
 + vdd
 + vss
 + bl[64]
@@ -29090,21 +31513,23 @@ Xcol_group_16
 + br[66]
 + br[67]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[2]
++ we_i[2]
++ we_ib[2]
 + din[16]
 + dout[16]
 + sense_en
 + column
 Xcol_group_17
 + clk
++ rstb
 + vdd
 + vss
 + bl[68]
@@ -29116,21 +31541,23 @@ Xcol_group_17
 + br[70]
 + br[71]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[2]
++ we_i[2]
++ we_ib[2]
 + din[17]
 + dout[17]
 + sense_en
 + column
 Xcol_group_18
 + clk
++ rstb
 + vdd
 + vss
 + bl[72]
@@ -29142,21 +31569,23 @@ Xcol_group_18
 + br[74]
 + br[75]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[2]
++ we_i[2]
++ we_ib[2]
 + din[18]
 + dout[18]
 + sense_en
 + column
 Xcol_group_19
 + clk
++ rstb
 + vdd
 + vss
 + bl[76]
@@ -29168,21 +31597,23 @@ Xcol_group_19
 + br[78]
 + br[79]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[2]
++ we_i[2]
++ we_ib[2]
 + din[19]
 + dout[19]
 + sense_en
 + column
 Xcol_group_20
 + clk
++ rstb
 + vdd
 + vss
 + bl[80]
@@ -29194,21 +31625,23 @@ Xcol_group_20
 + br[82]
 + br[83]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[2]
++ we_i[2]
++ we_ib[2]
 + din[20]
 + dout[20]
 + sense_en
 + column
 Xcol_group_21
 + clk
++ rstb
 + vdd
 + vss
 + bl[84]
@@ -29220,21 +31653,23 @@ Xcol_group_21
 + br[86]
 + br[87]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[2]
++ we_i[2]
++ we_ib[2]
 + din[21]
 + dout[21]
 + sense_en
 + column
 Xcol_group_22
 + clk
++ rstb
 + vdd
 + vss
 + bl[88]
@@ -29246,21 +31681,23 @@ Xcol_group_22
 + br[90]
 + br[91]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[2]
++ we_i[2]
++ we_ib[2]
 + din[22]
 + dout[22]
 + sense_en
 + column
 Xcol_group_23
 + clk
++ rstb
 + vdd
 + vss
 + bl[92]
@@ -29272,21 +31709,23 @@ Xcol_group_23
 + br[94]
 + br[95]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[2]
++ we_i[2]
++ we_ib[2]
 + din[23]
 + dout[23]
 + sense_en
 + column
 Xcol_group_24
 + clk
++ rstb
 + vdd
 + vss
 + bl[96]
@@ -29298,21 +31737,23 @@ Xcol_group_24
 + br[98]
 + br[99]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[3]
++ we_i[3]
++ we_ib[3]
 + din[24]
 + dout[24]
 + sense_en
 + column
 Xcol_group_25
 + clk
++ rstb
 + vdd
 + vss
 + bl[100]
@@ -29324,21 +31765,23 @@ Xcol_group_25
 + br[102]
 + br[103]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[3]
++ we_i[3]
++ we_ib[3]
 + din[25]
 + dout[25]
 + sense_en
 + column
 Xcol_group_26
 + clk
++ rstb
 + vdd
 + vss
 + bl[104]
@@ -29350,21 +31793,23 @@ Xcol_group_26
 + br[106]
 + br[107]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[3]
++ we_i[3]
++ we_ib[3]
 + din[26]
 + dout[26]
 + sense_en
 + column
 Xcol_group_27
 + clk
++ rstb
 + vdd
 + vss
 + bl[108]
@@ -29376,21 +31821,23 @@ Xcol_group_27
 + br[110]
 + br[111]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[3]
++ we_i[3]
++ we_ib[3]
 + din[27]
 + dout[27]
 + sense_en
 + column
 Xcol_group_28
 + clk
++ rstb
 + vdd
 + vss
 + bl[112]
@@ -29402,21 +31849,23 @@ Xcol_group_28
 + br[114]
 + br[115]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[3]
++ we_i[3]
++ we_ib[3]
 + din[28]
 + dout[28]
 + sense_en
 + column
 Xcol_group_29
 + clk
++ rstb
 + vdd
 + vss
 + bl[116]
@@ -29428,21 +31877,23 @@ Xcol_group_29
 + br[118]
 + br[119]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[3]
++ we_i[3]
++ we_ib[3]
 + din[29]
 + dout[29]
 + sense_en
 + column
 Xcol_group_30
 + clk
++ rstb
 + vdd
 + vss
 + bl[120]
@@ -29454,21 +31905,23 @@ Xcol_group_30
 + br[122]
 + br[123]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[3]
++ we_i[3]
++ we_ib[3]
 + din[30]
 + dout[30]
 + sense_en
 + column
 Xcol_group_31
 + clk
++ rstb
 + vdd
 + vss
 + bl[124]
@@ -29480,31 +31933,20 @@ Xcol_group_31
 + br[126]
 + br[127]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask_in[3]
++ we_i[3]
++ we_ib[3]
 + din[31]
 + dout[31]
 + sense_en
 + column
-Xdummy_precharge
-+ vdd
-+ dummy_bl
-+ dummy_br
-+ pc_b
-+ precharge
-Xdummy_precharge_noconn
-+ vdd
-+ dummy_bl_noconn
-+ dummy_br_noconn
-+ pc_b
-+ precharge
 .ends col_peripherals
 
 
@@ -29519,20 +31961,33 @@ Xbl_pull_up
 + en_b
 + vdd
 + vdd
-+ mos_w2000_l150_m1_nf1_id1
++ mos_w800_l150_m1_nf1_id1
 Xbr_pull_up
 + br
 + en_b
 + vdd
 + vdd
-+ mos_w2000_l150_m1_nf1_id1
++ mos_w800_l150_m1_nf1_id1
 Xequalizer
 + bl
 + en_b
 + br
 + vdd
-+ mos_w1200_l150_m1_nf1_id1
++ mos_w500_l150_m1_nf1_id1
 .ends precharge
+
+
+.subckt replica_column_mos
++ vdd
++ vss
++ bl
+
+Xunit0
++ vdd
++ vss
++ bl
++ column_mos
+.ends replica_column_mos
 
 
 .subckt and2
@@ -29555,312 +32010,652 @@ X0_1
 + vss
 + yb
 + y
-+ inv
++ folded_inv_1
 .ends and2
 
 
-.subckt decoder_stage
+.subckt decoder_2
 + vdd
 + vss
-+ decode[0]
-+ decode[1]
-+ decode[2]
-+ decode[3]
-+ decode[4]
-+ decode[5]
-+ decode[6]
-+ decode[7]
-+ decode[8]
-+ decode[9]
-+ decode[10]
-+ decode[11]
-+ decode[12]
-+ decode[13]
-+ decode[14]
-+ decode[15]
-+ decode_b[0]
-+ decode_b[1]
-+ decode_b[2]
-+ decode_b[3]
-+ decode_b[4]
-+ decode_b[5]
-+ decode_b[6]
-+ decode_b[7]
-+ decode_b[8]
-+ decode_b[9]
-+ decode_b[10]
-+ decode_b[11]
-+ decode_b[12]
-+ decode_b[13]
-+ decode_b[14]
-+ decode_b[15]
-+ a[0]
-+ a[1]
-+ a[2]
-+ a[3]
-+ b[0]
-+ b[1]
-+ b[2]
-+ b[3]
-
-X0
-+ vdd
-+ a[0]
-+ b[0]
-+ decode[0]
-+ decode_b[0]
-+ vss
-+ and2_2
-X0_1
-+ vdd
-+ a[0]
-+ b[1]
-+ decode[1]
-+ decode_b[1]
-+ vss
-+ and2_2
-X0_2
-+ vdd
-+ a[0]
-+ b[2]
-+ decode[2]
-+ decode_b[2]
-+ vss
-+ and2_2
-X0_3
-+ vdd
-+ a[0]
-+ b[3]
-+ decode[3]
-+ decode_b[3]
-+ vss
-+ and2_2
-X0_4
-+ vdd
-+ a[1]
-+ b[0]
-+ decode[4]
-+ decode_b[4]
-+ vss
-+ and2_2
-X0_5
-+ vdd
-+ a[1]
-+ b[1]
-+ decode[5]
-+ decode_b[5]
-+ vss
-+ and2_2
-X0_6
-+ vdd
-+ a[1]
-+ b[2]
-+ decode[6]
-+ decode_b[6]
-+ vss
-+ and2_2
-X0_7
-+ vdd
-+ a[1]
-+ b[3]
-+ decode[7]
-+ decode_b[7]
-+ vss
-+ and2_2
-X0_8
-+ vdd
-+ a[2]
-+ b[0]
-+ decode[8]
-+ decode_b[8]
-+ vss
-+ and2_2
-X0_9
-+ vdd
-+ a[2]
-+ b[1]
-+ decode[9]
-+ decode_b[9]
-+ vss
-+ and2_2
-X0_10
-+ vdd
-+ a[2]
-+ b[2]
-+ decode[10]
-+ decode_b[10]
-+ vss
-+ and2_2
-X0_11
-+ vdd
-+ a[2]
-+ b[3]
-+ decode[11]
-+ decode_b[11]
-+ vss
-+ and2_2
-X0_12
-+ vdd
-+ a[3]
-+ b[0]
-+ decode[12]
-+ decode_b[12]
-+ vss
-+ and2_2
-X0_13
-+ vdd
-+ a[3]
-+ b[1]
-+ decode[13]
-+ decode_b[13]
-+ vss
-+ and2_2
-X0_14
-+ vdd
-+ a[3]
-+ b[2]
-+ decode[14]
-+ decode_b[14]
-+ vss
-+ and2_2
-X0_15
-+ vdd
-+ a[3]
-+ b[3]
-+ decode[15]
-+ decode_b[15]
-+ vss
-+ and2_2
-.ends decoder_stage
-
-
-.subckt decoder_stage_1
-+ vdd
-+ vss
-+ decode[0]
-+ decode[1]
-+ decode[2]
-+ decode[3]
-+ decode_b[0]
-+ decode_b[1]
-+ decode_b[2]
-+ decode_b[3]
-+ a[0]
-+ a[1]
-+ b[0]
-+ b[1]
-
-X0
-+ vdd
-+ a[0]
-+ b[0]
-+ decode[0]
-+ decode_b[0]
-+ vss
-+ and2_3
-X0_1
-+ vdd
-+ a[0]
-+ b[1]
-+ decode[1]
-+ decode_b[1]
-+ vss
-+ and2_3
-X0_2
-+ vdd
-+ a[1]
-+ b[0]
-+ decode[2]
-+ decode_b[2]
-+ vss
-+ and2_3
-X0_3
-+ vdd
-+ a[1]
-+ b[1]
-+ decode[3]
-+ decode_b[3]
-+ vss
-+ and2_3
-.ends decoder_stage_1
-
-
-.subckt decoder_stage_2
-+ vdd
-+ vss
-+ decode[0]
-+ decode[1]
-+ decode[2]
-+ decode[3]
-+ decode_b[0]
-+ decode_b[1]
-+ decode_b[2]
-+ decode_b[3]
-+ a[0]
-+ a[1]
-+ b[0]
-+ b[1]
-
-X0
-+ vdd
-+ a[0]
-+ b[0]
-+ decode[0]
-+ decode_b[0]
-+ vss
-+ and2_4
-X0_1
-+ vdd
-+ a[0]
-+ b[1]
-+ decode[1]
-+ decode_b[1]
-+ vss
-+ and2_4
-X0_2
-+ vdd
-+ a[1]
-+ b[0]
-+ decode[2]
-+ decode_b[2]
-+ vss
-+ and2_4
-X0_3
-+ vdd
-+ a[1]
-+ b[1]
-+ decode[3]
-+ decode_b[3]
-+ vss
-+ and2_4
-.ends decoder_stage_2
-
-
-.subckt and2_1
-+ vdd
-+ a
-+ b
-+ y
-+ yb
-+ vss
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ predecode_0_0
++ predecode_0_1
++ predecode_1_0
++ predecode_1_1
 
 X0
 + vdd
 + vss
-+ a
-+ b
-+ yb
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ predecode_0_0
++ predecode_0_1
++ predecode_1_0
++ predecode_1_1
++ decoder_stage_8
+.ends decoder_2
+
+
+.subckt decoder_stage_5
++ vdd
++ vss
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y[4]
++ y[5]
++ y[6]
++ y[7]
++ y[8]
++ y[9]
++ y[10]
++ y[11]
++ y[12]
++ y[13]
++ y[14]
++ y[15]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ y_b[4]
++ y_b[5]
++ y_b[6]
++ y_b[7]
++ y_b[8]
++ y_b[9]
++ y_b[10]
++ y_b[11]
++ y_b[12]
++ y_b[13]
++ y_b[14]
++ y_b[15]
++ predecode_0_0
++ predecode_0_1
++ predecode_0_2
++ predecode_0_3
++ predecode_1_0
++ predecode_1_1
++ predecode_1_2
++ predecode_1_3
+
+Xgate_0_0_0
++ vdd
++ predecode_0_0
++ predecode_1_0
++ x_0[0]
++ y_b_noconn_0_0_0
++ vss
++ and2_1
+Xgate_0_1_0
++ vdd
++ predecode_0_1
++ predecode_1_0
++ x_0[1]
++ y_b_noconn_0_1_0
++ vss
++ and2_1
+Xgate_0_2_0
++ vdd
++ predecode_0_2
++ predecode_1_0
++ x_0[2]
++ y_b_noconn_0_2_0
++ vss
++ and2_1
+Xgate_0_3_0
++ vdd
++ predecode_0_3
++ predecode_1_0
++ x_0[3]
++ y_b_noconn_0_3_0
++ vss
++ and2_1
+Xgate_0_4_0
++ vdd
++ predecode_0_0
++ predecode_1_1
++ x_0[4]
++ y_b_noconn_0_4_0
++ vss
++ and2_1
+Xgate_0_5_0
++ vdd
++ predecode_0_1
++ predecode_1_1
++ x_0[5]
++ y_b_noconn_0_5_0
++ vss
++ and2_1
+Xgate_0_6_0
++ vdd
++ predecode_0_2
++ predecode_1_1
++ x_0[6]
++ y_b_noconn_0_6_0
++ vss
++ and2_1
+Xgate_0_7_0
++ vdd
++ predecode_0_3
++ predecode_1_1
++ x_0[7]
++ y_b_noconn_0_7_0
++ vss
++ and2_1
+Xgate_0_8_0
++ vdd
++ predecode_0_0
++ predecode_1_2
++ x_0[8]
++ y_b_noconn_0_8_0
++ vss
++ and2_1
+Xgate_0_9_0
++ vdd
++ predecode_0_1
++ predecode_1_2
++ x_0[9]
++ y_b_noconn_0_9_0
++ vss
++ and2_1
+Xgate_0_10_0
++ vdd
++ predecode_0_2
++ predecode_1_2
++ x_0[10]
++ y_b_noconn_0_10_0
++ vss
++ and2_1
+Xgate_0_11_0
++ vdd
++ predecode_0_3
++ predecode_1_2
++ x_0[11]
++ y_b_noconn_0_11_0
++ vss
++ and2_1
+Xgate_0_12_0
++ vdd
++ predecode_0_0
++ predecode_1_3
++ x_0[12]
++ y_b_noconn_0_12_0
++ vss
++ and2_1
+Xgate_0_13_0
++ vdd
++ predecode_0_1
++ predecode_1_3
++ x_0[13]
++ y_b_noconn_0_13_0
++ vss
++ and2_1
+Xgate_0_14_0
++ vdd
++ predecode_0_2
++ predecode_1_3
++ x_0[14]
++ y_b_noconn_0_14_0
++ vss
++ and2_1
+Xgate_0_15_0
++ vdd
++ predecode_0_3
++ predecode_1_3
++ x_0[15]
++ y_b_noconn_0_15_0
++ vss
++ and2_1
+Xgate_1_0_0
++ vdd
++ vss
++ x_0[0]
++ y_b[0]
++ multi_finger_inv_8
+Xgate_1_1_0
++ vdd
++ vss
++ x_0[1]
++ y_b[1]
++ multi_finger_inv_8
+Xgate_1_2_0
++ vdd
++ vss
++ x_0[2]
++ y_b[2]
++ multi_finger_inv_8
+Xgate_1_3_0
++ vdd
++ vss
++ x_0[3]
++ y_b[3]
++ multi_finger_inv_8
+Xgate_1_4_0
++ vdd
++ vss
++ x_0[4]
++ y_b[4]
++ multi_finger_inv_8
+Xgate_1_5_0
++ vdd
++ vss
++ x_0[5]
++ y_b[5]
++ multi_finger_inv_8
+Xgate_1_6_0
++ vdd
++ vss
++ x_0[6]
++ y_b[6]
++ multi_finger_inv_8
+Xgate_1_7_0
++ vdd
++ vss
++ x_0[7]
++ y_b[7]
++ multi_finger_inv_8
+Xgate_1_8_0
++ vdd
++ vss
++ x_0[8]
++ y_b[8]
++ multi_finger_inv_8
+Xgate_1_9_0
++ vdd
++ vss
++ x_0[9]
++ y_b[9]
++ multi_finger_inv_8
+Xgate_1_10_0
++ vdd
++ vss
++ x_0[10]
++ y_b[10]
++ multi_finger_inv_8
+Xgate_1_11_0
++ vdd
++ vss
++ x_0[11]
++ y_b[11]
++ multi_finger_inv_8
+Xgate_1_12_0
++ vdd
++ vss
++ x_0[12]
++ y_b[12]
++ multi_finger_inv_8
+Xgate_1_13_0
++ vdd
++ vss
++ x_0[13]
++ y_b[13]
++ multi_finger_inv_8
+Xgate_1_14_0
++ vdd
++ vss
++ x_0[14]
++ y_b[14]
++ multi_finger_inv_8
+Xgate_1_15_0
++ vdd
++ vss
++ x_0[15]
++ y_b[15]
++ multi_finger_inv_8
+Xgate_2_0_0
++ vdd
++ vss
++ y_b[0]
++ y[0]
++ multi_finger_inv_9
+Xgate_2_1_0
++ vdd
++ vss
++ y_b[1]
++ y[1]
++ multi_finger_inv_9
+Xgate_2_2_0
++ vdd
++ vss
++ y_b[2]
++ y[2]
++ multi_finger_inv_9
+Xgate_2_3_0
++ vdd
++ vss
++ y_b[3]
++ y[3]
++ multi_finger_inv_9
+Xgate_2_4_0
++ vdd
++ vss
++ y_b[4]
++ y[4]
++ multi_finger_inv_9
+Xgate_2_5_0
++ vdd
++ vss
++ y_b[5]
++ y[5]
++ multi_finger_inv_9
+Xgate_2_6_0
++ vdd
++ vss
++ y_b[6]
++ y[6]
++ multi_finger_inv_9
+Xgate_2_7_0
++ vdd
++ vss
++ y_b[7]
++ y[7]
++ multi_finger_inv_9
+Xgate_2_8_0
++ vdd
++ vss
++ y_b[8]
++ y[8]
++ multi_finger_inv_9
+Xgate_2_9_0
++ vdd
++ vss
++ y_b[9]
++ y[9]
++ multi_finger_inv_9
+Xgate_2_10_0
++ vdd
++ vss
++ y_b[10]
++ y[10]
++ multi_finger_inv_9
+Xgate_2_11_0
++ vdd
++ vss
++ y_b[11]
++ y[11]
++ multi_finger_inv_9
+Xgate_2_12_0
++ vdd
++ vss
++ y_b[12]
++ y[12]
++ multi_finger_inv_9
+Xgate_2_13_0
++ vdd
++ vss
++ y_b[13]
++ y[13]
++ multi_finger_inv_9
+Xgate_2_14_0
++ vdd
++ vss
++ y_b[14]
++ y[14]
++ multi_finger_inv_9
+Xgate_2_15_0
++ vdd
++ vss
++ y_b[15]
++ y[15]
++ multi_finger_inv_9
+.ends decoder_stage_5
+
+
+.subckt decoder_stage_6
++ vdd
++ vss
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ predecode_0_0
++ predecode_0_1
++ predecode_1_0
++ predecode_1_1
+
+Xgate_0_0_0
++ vdd
++ vss
++ predecode_0_0
++ predecode_1_0
++ x_0[0]
 + nand2_1
-X0_1
+Xgate_0_1_0
 + vdd
 + vss
-+ yb
-+ y
-+ inv_1
-.ends and2_1
++ predecode_0_1
++ predecode_1_0
++ x_0[1]
++ nand2_1
+Xgate_0_2_0
++ vdd
++ vss
++ predecode_0_0
++ predecode_1_1
++ x_0[2]
++ nand2_1
+Xgate_0_3_0
++ vdd
++ vss
++ predecode_0_1
++ predecode_1_1
++ x_0[3]
++ nand2_1
+Xgate_1_0_0
++ vdd
++ vss
++ x_0[0]
++ x_1[0]
++ multi_finger_inv_10
+Xgate_1_1_0
++ vdd
++ vss
++ x_0[1]
++ x_1[1]
++ multi_finger_inv_10
+Xgate_1_2_0
++ vdd
++ vss
++ x_0[2]
++ x_1[2]
++ multi_finger_inv_10
+Xgate_1_3_0
++ vdd
++ vss
++ x_0[3]
++ x_1[3]
++ multi_finger_inv_10
+Xgate_2_0_0
++ vdd
++ vss
++ x_1[0]
++ y_b[0]
++ multi_finger_inv_11
+Xgate_2_0_1
++ vdd
++ vss
++ x_1[0]
++ y_b[0]
++ multi_finger_inv_11
+Xgate_2_0_2
++ vdd
++ vss
++ x_1[0]
++ y_b[0]
++ multi_finger_inv_11
+Xgate_2_1_0
++ vdd
++ vss
++ x_1[1]
++ y_b[1]
++ multi_finger_inv_11
+Xgate_2_1_1
++ vdd
++ vss
++ x_1[1]
++ y_b[1]
++ multi_finger_inv_11
+Xgate_2_1_2
++ vdd
++ vss
++ x_1[1]
++ y_b[1]
++ multi_finger_inv_11
+Xgate_2_2_0
++ vdd
++ vss
++ x_1[2]
++ y_b[2]
++ multi_finger_inv_11
+Xgate_2_2_1
++ vdd
++ vss
++ x_1[2]
++ y_b[2]
++ multi_finger_inv_11
+Xgate_2_2_2
++ vdd
++ vss
++ x_1[2]
++ y_b[2]
++ multi_finger_inv_11
+Xgate_2_3_0
++ vdd
++ vss
++ x_1[3]
++ y_b[3]
++ multi_finger_inv_11
+Xgate_2_3_1
++ vdd
++ vss
++ x_1[3]
++ y_b[3]
++ multi_finger_inv_11
+Xgate_2_3_2
++ vdd
++ vss
++ x_1[3]
++ y_b[3]
++ multi_finger_inv_11
+Xgate_3_0_0
++ vdd
++ vss
++ y_b[0]
++ y[0]
++ multi_finger_inv_12
+Xgate_3_0_1
++ vdd
++ vss
++ y_b[0]
++ y[0]
++ multi_finger_inv_12
+Xgate_3_0_2
++ vdd
++ vss
++ y_b[0]
++ y[0]
++ multi_finger_inv_12
+Xgate_3_0_3
++ vdd
++ vss
++ y_b[0]
++ y[0]
++ multi_finger_inv_12
+Xgate_3_1_0
++ vdd
++ vss
++ y_b[1]
++ y[1]
++ multi_finger_inv_12
+Xgate_3_1_1
++ vdd
++ vss
++ y_b[1]
++ y[1]
++ multi_finger_inv_12
+Xgate_3_1_2
++ vdd
++ vss
++ y_b[1]
++ y[1]
++ multi_finger_inv_12
+Xgate_3_1_3
++ vdd
++ vss
++ y_b[1]
++ y[1]
++ multi_finger_inv_12
+Xgate_3_2_0
++ vdd
++ vss
++ y_b[2]
++ y[2]
++ multi_finger_inv_12
+Xgate_3_2_1
++ vdd
++ vss
++ y_b[2]
++ y[2]
++ multi_finger_inv_12
+Xgate_3_2_2
++ vdd
++ vss
++ y_b[2]
++ y[2]
++ multi_finger_inv_12
+Xgate_3_2_3
++ vdd
++ vss
++ y_b[2]
++ y[2]
++ multi_finger_inv_12
+Xgate_3_3_0
++ vdd
++ vss
++ y_b[3]
++ y[3]
++ multi_finger_inv_12
+Xgate_3_3_1
++ vdd
++ vss
++ y_b[3]
++ y[3]
++ multi_finger_inv_12
+Xgate_3_3_2
++ vdd
++ vss
++ y_b[3]
++ y[3]
++ multi_finger_inv_12
+Xgate_3_3_3
++ vdd
++ vss
++ y_b[3]
++ y[3]
++ multi_finger_inv_12
+.ends decoder_stage_6
 
 
-.subckt sky130_fd_sc_hd__inv_2_wrapper
+.subckt sky130_fd_sc_hs__inv_16_wrapper
 + A
 + VGND
 + VNB
@@ -29875,8 +32670,134 @@ X0
 + VPB
 + VPWR
 + Y
-+ sky130_fd_sc_hd__inv_2
-.ends sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_16
+.ends sky130_fd_sc_hs__inv_16_wrapper
+
+
+.subckt inv_chain_12
++ din
++ dout
++ vdd
++ vss
+
+Xinv0
++ din
++ vss
++ vss
++ vdd
++ vdd
++ x[0]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv1
++ x[0]
++ vss
++ vss
++ vdd
++ vdd
++ x[1]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv2
++ x[1]
++ vss
++ vss
++ vdd
++ vdd
++ x[2]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv3
++ x[2]
++ vss
++ vss
++ vdd
++ vdd
++ x[3]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv4
++ x[3]
++ vss
++ vss
++ vdd
++ vdd
++ x[4]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv5
++ x[4]
++ vss
++ vss
++ vdd
++ vdd
++ x[5]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv6
++ x[5]
++ vss
++ vss
++ vdd
++ vdd
++ x[6]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv7
++ x[6]
++ vss
++ vss
++ vdd
++ vdd
++ x[7]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv8
++ x[7]
++ vss
++ vss
++ vdd
++ vdd
++ x[8]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv9
++ x[8]
++ vss
++ vss
++ vdd
++ vdd
++ x[9]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv10
++ x[9]
++ vss
++ vss
++ vdd
++ vdd
++ x[10]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv11
++ x[10]
++ vss
++ vss
++ vdd
++ vdd
++ dout
++ sky130_fd_sc_hs__inv_4_wrapper
+.ends inv_chain_12
+
+
+.subckt sky130_fd_sc_hs__and2_2_wrapper
++ A
++ B
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
+
+X0
++ A
++ B
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
++ sky130_fd_sc_hs__and2_2
+.ends sky130_fd_sc_hs__and2_2_wrapper
 
 
 .subckt edge_detector
@@ -29890,7 +32811,7 @@ Xdelay_chain
 + delayed
 + vdd
 + vss
-+ inv_chain_17
++ inv_chain_9
 Xand
 + din
 + delayed
@@ -29899,11 +32820,30 @@ Xand
 + vdd
 + vdd
 + dout
-+ sky130_fd_sc_hd__and2_4_wrapper
++ sky130_fd_sc_hs__and2_4_wrapper
 .ends edge_detector
 
 
-.subckt inv_chain_8
+.subckt sky130_fd_sc_hs__buf_16_wrapper
++ A
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
+
+X0
++ A
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
++ sky130_fd_sc_hs__buf_16
+.ends sky130_fd_sc_hs__buf_16_wrapper
+
+
+.subckt inv_chain_3
 + din
 + dout
 + vdd
@@ -29916,7 +32856,7 @@ Xinv0
 + vdd
 + vdd
 + x[0]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv1
 + x[0]
 + vss
@@ -29924,7 +32864,59 @@ Xinv1
 + vdd
 + vdd
 + x[1]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv2
++ x[1]
++ vss
++ vss
++ vdd
++ vdd
++ dout
++ sky130_fd_sc_hs__inv_4_wrapper
+.ends inv_chain_3
+
+
+.subckt sky130_fd_sc_hs__inv_2_wrapper
++ A
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
+
+X0
++ A
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
++ sky130_fd_sc_hs__inv_2
+.ends sky130_fd_sc_hs__inv_2_wrapper
+
+
+.subckt inv_chain_13
++ din
++ dout
++ vdd
++ vss
+
+Xinv0
++ din
++ vss
++ vss
++ vdd
++ vdd
++ x[0]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv1
++ x[0]
++ vss
++ vss
++ vdd
++ vdd
++ x[1]
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv2
 + x[1]
 + vss
@@ -29932,7 +32924,7 @@ Xinv2
 + vdd
 + vdd
 + x[2]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv3
 + x[2]
 + vss
@@ -29940,7 +32932,7 @@ Xinv3
 + vdd
 + vdd
 + x[3]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv4
 + x[3]
 + vss
@@ -29948,7 +32940,7 @@ Xinv4
 + vdd
 + vdd
 + x[4]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv5
 + x[4]
 + vss
@@ -29956,7 +32948,7 @@ Xinv5
 + vdd
 + vdd
 + x[5]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv6
 + x[5]
 + vss
@@ -29964,19 +32956,414 @@ Xinv6
 + vdd
 + vdd
 + x[6]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv7
 + x[6]
 + vss
 + vss
 + vdd
 + vdd
++ x[7]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv8
++ x[7]
++ vss
++ vss
++ vdd
++ vdd
++ x[8]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv9
++ x[8]
++ vss
++ vss
++ vdd
++ vdd
++ x[9]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv10
++ x[9]
++ vss
++ vss
++ vdd
++ vdd
++ x[10]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv11
++ x[10]
++ vss
++ vss
++ vdd
++ vdd
++ x[11]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv12
++ x[11]
++ vss
++ vss
++ vdd
++ vdd
 + dout
-+ sky130_fd_sc_hd__inv_2_wrapper
-.ends inv_chain_8
++ sky130_fd_sc_hs__inv_4_wrapper
+.ends inv_chain_13
 
 
-.subckt sky130_fd_sc_hd__and2_2_wrapper
+.subckt sky130_fd_sc_hs__mux2_4_wrapper
++ A0
++ A1
++ S
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
+
+X0
++ A0
++ A1
++ S
++ VGND
++ VNB
++ VPB
++ VPWR
++ X
++ sky130_fd_sc_hs__mux2_4
+.ends sky130_fd_sc_hs__mux2_4_wrapper
+
+
+.subckt svt_inv_chain_18
++ din
++ dout
++ vdd
++ vss
+
+Xinv0
++ din
++ vss
++ vss
++ vdd
++ vdd
++ x[0]
++ sramgen_svt_inv_2_wrapper
+Xinv1
++ x[0]
++ vss
++ vss
++ vdd
++ vdd
++ x[1]
++ sramgen_svt_inv_2_wrapper
+Xinv2
++ x[1]
++ vss
++ vss
++ vdd
++ vdd
++ x[2]
++ sramgen_svt_inv_2_wrapper
+Xinv3
++ x[2]
++ vss
++ vss
++ vdd
++ vdd
++ x[3]
++ sramgen_svt_inv_2_wrapper
+Xinv4
++ x[3]
++ vss
++ vss
++ vdd
++ vdd
++ x[4]
++ sramgen_svt_inv_2_wrapper
+Xinv5
++ x[4]
++ vss
++ vss
++ vdd
++ vdd
++ x[5]
++ sramgen_svt_inv_2_wrapper
+Xinv6
++ x[5]
++ vss
++ vss
++ vdd
++ vdd
++ x[6]
++ sramgen_svt_inv_2_wrapper
+Xinv7
++ x[6]
++ vss
++ vss
++ vdd
++ vdd
++ x[7]
++ sramgen_svt_inv_2_wrapper
+Xinv8
++ x[7]
++ vss
++ vss
++ vdd
++ vdd
++ x[8]
++ sramgen_svt_inv_2_wrapper
+Xinv9
++ x[8]
++ vss
++ vss
++ vdd
++ vdd
++ x[9]
++ sramgen_svt_inv_2_wrapper
+Xinv10
++ x[9]
++ vss
++ vss
++ vdd
++ vdd
++ x[10]
++ sramgen_svt_inv_2_wrapper
+Xinv11
++ x[10]
++ vss
++ vss
++ vdd
++ vdd
++ x[11]
++ sramgen_svt_inv_2_wrapper
+Xinv12
++ x[11]
++ vss
++ vss
++ vdd
++ vdd
++ x[12]
++ sramgen_svt_inv_2_wrapper
+Xinv13
++ x[12]
++ vss
++ vss
++ vdd
++ vdd
++ x[13]
++ sramgen_svt_inv_2_wrapper
+Xinv14
++ x[13]
++ vss
++ vss
++ vdd
++ vdd
++ x[14]
++ sramgen_svt_inv_2_wrapper
+Xinv15
++ x[14]
++ vss
++ vss
++ vdd
++ vdd
++ x[15]
++ sramgen_svt_inv_2_wrapper
+Xinv16
++ x[15]
++ vss
++ vss
++ vdd
++ vdd
++ x[16]
++ sramgen_svt_inv_2_wrapper
+Xinv17
++ x[16]
++ vss
++ vss
++ vdd
++ vdd
++ dout
++ sramgen_svt_inv_4_wrapper
+.ends svt_inv_chain_18
+
+
+.subckt inv_chain_16
++ din
++ dout
++ vdd
++ vss
+
+Xinv0
++ din
++ vss
++ vss
++ vdd
++ vdd
++ x[0]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv1
++ x[0]
++ vss
++ vss
++ vdd
++ vdd
++ x[1]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv2
++ x[1]
++ vss
++ vss
++ vdd
++ vdd
++ x[2]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv3
++ x[2]
++ vss
++ vss
++ vdd
++ vdd
++ x[3]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv4
++ x[3]
++ vss
++ vss
++ vdd
++ vdd
++ x[4]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv5
++ x[4]
++ vss
++ vss
++ vdd
++ vdd
++ x[5]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv6
++ x[5]
++ vss
++ vss
++ vdd
++ vdd
++ x[6]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv7
++ x[6]
++ vss
++ vss
++ vdd
++ vdd
++ x[7]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv8
++ x[7]
++ vss
++ vss
++ vdd
++ vdd
++ x[8]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv9
++ x[8]
++ vss
++ vss
++ vdd
++ vdd
++ x[9]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv10
++ x[9]
++ vss
++ vss
++ vdd
++ vdd
++ x[10]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv11
++ x[10]
++ vss
++ vss
++ vdd
++ vdd
++ x[11]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv12
++ x[11]
++ vss
++ vss
++ vdd
++ vdd
++ x[12]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv13
++ x[12]
++ vss
++ vss
++ vdd
++ vdd
++ x[13]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv14
++ x[13]
++ vss
++ vss
++ vdd
++ vdd
++ x[14]
++ sky130_fd_sc_hs__inv_2_wrapper
+Xinv15
++ x[14]
++ vss
++ vss
++ vdd
++ vdd
++ dout
++ sky130_fd_sc_hs__inv_4_wrapper
+.ends inv_chain_16
+
+
+.subckt sky130_fd_sc_hs__nor2_4_wrapper
++ A
++ B
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
+
+X0
++ A
++ B
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
++ sky130_fd_sc_hs__nor2_4
+.ends sky130_fd_sc_hs__nor2_4_wrapper
+
+
+.subckt sky130_fd_sc_hs__nand2_4_wrapper
++ A
++ B
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
+
+X0
++ A
++ B
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
++ sky130_fd_sc_hs__nand2_4
+.ends sky130_fd_sc_hs__nand2_4_wrapper
+
+
+.subckt sky130_fd_sc_hs__and2_4_wrapper
 + A
 + B
 + VGND
@@ -29993,8 +33380,53 @@ X0
 + VPB
 + VPWR
 + X
-+ sky130_fd_sc_hd__and2_2
-.ends sky130_fd_sc_hd__and2_2_wrapper
++ sky130_fd_sc_hs__and2_4
+.ends sky130_fd_sc_hs__and2_4_wrapper
+
+
+.subckt sr_latch
++ sb
++ rb
++ q
++ qb
++ vdd
++ vss
+
+Xnand_set
++ q0b
++ sb
++ vss
++ vss
++ vdd
++ vdd
++ q0
++ sky130_fd_sc_hs__nand2_8_wrapper
+Xnand_reset
++ q0
++ rb
++ vss
++ vss
++ vdd
++ vdd
++ q0b
++ sky130_fd_sc_hs__nand2_8_wrapper
+Xqb_inv
++ q0
++ vss
++ vss
++ vdd
++ vdd
++ qb
++ sky130_fd_sc_hs__inv_2_wrapper
+Xq_inv
++ q0b
++ vss
++ vss
++ vdd
++ vdd
++ q
++ sky130_fd_sc_hs__inv_2_wrapper
+.ends sr_latch
 
 
 .subckt inv_chain_2
@@ -30010,7 +33442,7 @@ Xinv0
 + vdd
 + vdd
 + x
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv1
 + x
 + vss
@@ -30018,350 +33450,762 @@ Xinv1
 + vdd
 + vdd
 + dout
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_4_wrapper
 .ends inv_chain_2
 
 
-.subckt sr_latch
-+ s
-+ r
-+ q
-+ qb
+.subckt folded_inv
 + vdd
 + vss
++ a
++ y
 
-Xnor_set
-+ s
-+ q
-+ vss
-+ vss
+XMP0
++ y
++ a
 + vdd
 + vdd
-+ qb
-+ sky130_fd_sc_hd__nor2_2_wrapper
-Xnor_reset
-+ r
-+ qb
++ mos_w1250_l150_m1_nf1_id1
+XMN0
++ y
++ a
 + vss
 + vss
++ mos_w500_l150_m1_nf1_id0
+XMP1
++ y
++ a
 + vdd
 + vdd
-+ q
-+ sky130_fd_sc_hd__nor2_2_wrapper
-.ends sr_latch
-
-
-.subckt sky130_fd_sc_hd__mux2_2_wrapper
-+ A0
-+ A1
-+ S
-+ VGND
-+ VNB
-+ VPB
-+ VPWR
-+ X
-
-X0
-+ A0
-+ A1
-+ S
-+ VGND
-+ VNB
-+ VPB
-+ VPWR
-+ X
-+ sky130_fd_sc_hd__mux2_2
-.ends sky130_fd_sc_hd__mux2_2_wrapper
++ mos_w1250_l150_m1_nf1_id1
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w500_l150_m1_nf1_id0
+.ends folded_inv
 
 
-.subckt inv_chain_24
-+ din
-+ dout
+.subckt multi_finger_inv
 + vdd
 + vss
++ a
++ y
 
-Xinv0
-+ din
-+ vss
-+ vss
+XMP0
++ y
++ a
 + vdd
 + vdd
-+ x[0]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv1
-+ x[0]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
 + vdd
 + vdd
-+ x[1]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv2
-+ x[1]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
 + vdd
 + vdd
-+ x[2]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv3
-+ x[2]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
 + vdd
 + vdd
-+ x[3]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv4
-+ x[3]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
 + vdd
 + vdd
-+ x[4]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv5
-+ x[4]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
 + vdd
 + vdd
-+ x[5]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv6
-+ x[5]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
 + vdd
 + vdd
-+ x[6]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv7
-+ x[6]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
 + vdd
 + vdd
-+ x[7]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv8
-+ x[7]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP8
++ y
++ a
 + vdd
 + vdd
-+ x[8]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv9
-+ x[8]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP9
++ y
++ a
 + vdd
 + vdd
-+ x[9]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv10
-+ x[9]
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
 + vss
 + vss
-+ vdd
-+ vdd
-+ x[10]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv11
-+ x[10]
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
 + vss
 + vss
-+ vdd
-+ vdd
-+ x[11]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv12
-+ x[11]
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
 + vss
 + vss
-+ vdd
-+ vdd
-+ x[12]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv13
-+ x[12]
++ mos_w700_l150_m1_nf1_id0
+XMN3
++ y
++ a
 + vss
 + vss
-+ vdd
-+ vdd
-+ x[13]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv14
-+ x[13]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[14]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv15
-+ x[14]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[15]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv16
-+ x[15]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[16]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv17
-+ x[16]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[17]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv18
-+ x[17]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[18]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv19
-+ x[18]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[19]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv20
-+ x[19]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[20]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv21
-+ x[20]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[21]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv22
-+ x[21]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[22]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv23
-+ x[22]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ dout
-+ sky130_fd_sc_hd__inv_2_wrapper
-.ends inv_chain_24
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv
 
 
-.subckt inv_chain_4
-+ din
-+ dout
+.subckt multi_finger_inv_1
 + vdd
 + vss
++ a
++ y
 
-Xinv0
-+ din
-+ vss
-+ vss
+XMP0
++ y
++ a
 + vdd
 + vdd
-+ x[0]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv1
-+ x[0]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
 + vdd
 + vdd
-+ x[1]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv2
-+ x[1]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
 + vdd
 + vdd
-+ x[2]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv3
-+ x[2]
-+ vss
-+ vss
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
 + vdd
 + vdd
-+ dout
-+ sky130_fd_sc_hd__inv_2_wrapper
-.ends inv_chain_4
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_1
 
 
-.subckt sky130_fd_sc_hd__bufbuf_16_wrapper
-+ A
-+ VGND
-+ VNB
-+ VPB
-+ VPWR
-+ X
+.subckt multi_finger_inv_2
++ vdd
++ vss
++ a
++ y
 
-X0
-+ A
-+ VGND
-+ VNB
-+ VPB
-+ VPWR
-+ X
-+ sky130_fd_sc_hd__bufbuf_16
-.ends sky130_fd_sc_hd__bufbuf_16_wrapper
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP8
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP9
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP10
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP11
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN3
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN4
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_2
 
 
-.subckt mos_w420_l150_m1_nf1_id0
-+ d
-+ g
-+ s
-+ b
+.subckt multi_finger_inv_3
++ vdd
++ vss
++ a
++ y
 
-M0 d g s b nshort w=0.420 l=0.150 nf=1 mult=1
-.ends mos_w420_l150_m1_nf1_id0
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_3
 
 
-.subckt openram_dff_wrapper
-+ VDD
-+ GND
+.subckt multi_finger_inv_4
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP8
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP9
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN3
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_4
+
+
+.subckt multi_finger_inv_5
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP8
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP9
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP10
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN3
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_5
+
+
+.subckt multi_finger_inv_6
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_6
+
+
+.subckt multi_finger_inv_7
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP8
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP9
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN3
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_7
+
+
+.subckt sky130_fd_sc_hs__dfrbp_2_wrapper
 + CLK
 + D
++ RESET_B
++ VGND
++ VNB
++ VPB
++ VPWR
 + Q
 + Q_N
 
 X0
-+ VDD
-+ GND
 + CLK
 + D
++ RESET_B
++ VGND
++ VNB
++ VPB
++ VPWR
 + Q
 + Q_N
-+ openram_dff
-.ends openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2
+.ends sky130_fd_sc_hs__dfrbp_2_wrapper
 
 
 .subckt sram_sp_cell_wrapper
@@ -30448,6 +34292,7 @@ X0
 + vdd
 + vss
 + clk
++ rb
 + d[0]
 + d[1]
 + d[2]
@@ -30462,42 +34307,103 @@ X0
 + qn[3]
 
 Xdff_0
-+ vdd
-+ vss
 + clk
 + d[0]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[0]
 + qn[0]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 Xdff_1
-+ vdd
-+ vss
 + clk
 + d[1]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[1]
 + qn[1]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 Xdff_2
-+ vdd
-+ vss
 + clk
 + d[2]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[2]
 + qn[2]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 Xdff_3
-+ vdd
-+ vss
 + clk
 + d[3]
++ rb
++ vss
++ vss
++ vdd
++ vdd
 + q[3]
 + qn[3]
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 .ends dff_array_4
+
+
+.subckt decoder_stage_7
++ vdd
++ vss
++ y
++ y_b
++ predecode_0_0
++ predecode_1_0
+
+Xgate_0_0_0
++ vdd
++ vss
++ predecode_0_0
++ predecode_1_0
++ x_0
++ nand2_1
+Xgate_1_0_0
++ vdd
++ vss
++ x_0
++ x_1
++ folded_inv_2
+Xgate_2_0_0
++ vdd
++ vss
++ x_1
++ y_b
++ folded_inv_3
+Xgate_2_0_1
++ vdd
++ vss
++ x_1
++ y_b
++ folded_inv_3
+Xgate_3_0_0
++ vdd
++ vss
++ y_b
++ y
++ folded_inv_3
+Xgate_3_0_1
++ vdd
++ vss
++ y_b
++ y
++ folded_inv_3
+.ends decoder_stage_7
 
 
 .subckt column
 + clk
++ rstb
 + vdd
 + vss
 + bl[0]
@@ -30509,15 +34415,16 @@ Xdff_3
 + br[2]
 + br[3]
 + pc_b
++ sel[0]
++ sel[1]
++ sel[2]
++ sel[3]
 + sel_b[0]
 + sel_b[1]
 + sel_b[2]
 + sel_b[3]
-+ we[0]
-+ we[1]
-+ we[2]
-+ we[3]
-+ wmask
++ we
++ we_b
 + din
 + dout
 + sense_en
@@ -30527,93 +34434,75 @@ Xprecharge_0
 + bl[0]
 + br[0]
 + pc_b
-+ precharge
-Xread_mux_0
++ precharge_1
+Xmux_0
 + sel_b[0]
++ sel[0]
 + bl[0]
 + br[0]
 + bl_out
 + br_out
 + vdd
-+ read_mux
-Xwrite_mux_0
-+ we[0]
-+ wmask
-+ q
-+ q_b
-+ bl[0]
-+ br[0]
 + vss
-+ write_mux
++ tgate_mux
 Xprecharge_1
 + vdd
 + bl[1]
 + br[1]
 + pc_b
-+ precharge
-Xread_mux_1
++ precharge_1
+Xmux_1
 + sel_b[1]
++ sel[1]
 + bl[1]
 + br[1]
 + bl_out
 + br_out
 + vdd
-+ read_mux_1
-Xwrite_mux_1
-+ we[1]
-+ wmask
-+ q
-+ q_b
-+ bl[1]
-+ br[1]
 + vss
-+ write_mux_1
++ tgate_mux
 Xprecharge_2
 + vdd
 + bl[2]
 + br[2]
 + pc_b
-+ precharge
-Xread_mux_2
++ precharge_1
+Xmux_2
 + sel_b[2]
++ sel[2]
 + bl[2]
 + br[2]
 + bl_out
 + br_out
 + vdd
-+ read_mux_2
-Xwrite_mux_2
-+ we[2]
-+ wmask
-+ q
-+ q_b
-+ bl[2]
-+ br[2]
 + vss
-+ write_mux_2
++ tgate_mux
 Xprecharge_3
 + vdd
 + bl[3]
 + br[3]
 + pc_b
-+ precharge
-Xread_mux_3
++ precharge_1
+Xmux_3
 + sel_b[3]
++ sel[3]
 + bl[3]
 + br[3]
 + bl_out
 + br_out
 + vdd
-+ read_mux_3
-Xwrite_mux_3
-+ we[3]
-+ wmask
++ vss
++ tgate_mux
+Xwrite_driver
++ we
++ we_b
 + q
 + q_b
-+ bl[3]
-+ br[3]
++ bl_out
++ br_out
++ vdd
 + vss
-+ write_mux_3
++ write_driver
 Xsense_amp
 + sense_en
 + br_out
@@ -30623,43 +34512,74 @@ Xsense_amp
 + vdd
 + vss
 + sramgen_sp_sense_amp_wrapper
-Xbuf
+Xlatch
 + vdd
 + vss
 + sa_outp
 + sa_outn
 + dout
-+ diff_buf_outn
-+ diff_buf
++ diff_latch_outn
++ diff_latch
 Xdff
-+ vdd
-+ vss
 + clk
 + din
++ rstb
++ vss
++ vss
++ vdd
++ vdd
 + q
 + q_b
-+ openram_dff_wrapper
++ sky130_fd_sc_hs__dfrbp_2_wrapper
 .ends column
 
 
-.subckt mos_w2000_l150_m1_nf1_id1
+.subckt mos_w800_l150_m1_nf1_id1
 + d
 + g
 + s
 + b
 
-M0 d g s b pshort w=2.000 l=0.150 nf=1 mult=1
-.ends mos_w2000_l150_m1_nf1_id1
+M0 d g s b pshort w=0.800 l=0.150 nf=1 mult=1
+
+.ends mos_w800_l150_m1_nf1_id1
 
 
-.subckt mos_w1200_l150_m1_nf1_id1
+.subckt mos_w500_l150_m1_nf1_id1
 + d
 + g
 + s
 + b
 
-M0 d g s b pshort w=1.200 l=0.150 nf=1 mult=1
-.ends mos_w1200_l150_m1_nf1_id1
+M0 d g s b pshort w=0.500 l=0.150 nf=1 mult=1
+
+.ends mos_w500_l150_m1_nf1_id1
+
+
+.subckt column_mos
++ vdd
++ vss
++ bl
+
+Xgate_nmos
++ vss
++ bl
++ vss
++ vss
++ mos_w800_l150_m1_nf1_id0
+Xdrain_nmos
++ bl
++ vss
++ vss
++ vss
++ mos_w1200_l150_m1_nf1_id0
+Xdrain_pmos
++ bl
++ vdd
++ vdd
++ vdd
++ mos_w1700_l150_m1_nf1_id1
+.ends column_mos
 
 
 .subckt nand2
@@ -30674,74 +34594,133 @@ Xn1
 + a
 + vss
 + vss
-+ mos_w4800_l150_m1_nf1_id0
++ mos_w2000_l150_m1_nf1_id0
 Xn2
 + y
 + b
 + x
 + vss
-+ mos_w4800_l150_m1_nf1_id0
++ mos_w2000_l150_m1_nf1_id0
 Xp1
 + y
 + a
 + vdd
 + vdd
-+ mos_w1600_l150_m1_nf1_id1
++ mos_w2500_l150_m1_nf1_id1
 Xp2
 + y
 + b
 + vdd
 + vdd
-+ mos_w1600_l150_m1_nf1_id1
++ mos_w2500_l150_m1_nf1_id1
 .ends nand2
 
 
-.subckt inv
+.subckt folded_inv_1
 + vdd
 + vss
-+ din
-+ din_b
++ a
++ y
 
 XMP0
-+ din_b
-+ din
++ y
++ a
 + vdd
 + vdd
-+ mos_w8600_l150_m1_nf1_id1
++ mos_w5000_l150_m1_nf1_id1
 XMN0
-+ din_b
-+ din
-+ vss
-+ vss
-+ mos_w6200_l150_m1_nf1_id0
-.ends inv
-
-
-.subckt and2_2
-+ vdd
-+ a
-+ b
 + y
-+ yb
-+ vss
-
-X0
-+ vdd
-+ vss
 + a
-+ b
-+ yb
-+ nand2
-X0_1
++ vss
++ vss
++ mos_w2000_l150_m1_nf1_id0
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w5000_l150_m1_nf1_id1
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w2000_l150_m1_nf1_id0
+.ends folded_inv_1
+
+
+.subckt decoder_stage_8
 + vdd
 + vss
-+ yb
-+ y
-+ inv
-.ends and2_2
++ y[0]
++ y[1]
++ y[2]
++ y[3]
++ y_b[0]
++ y_b[1]
++ y_b[2]
++ y_b[3]
++ predecode_0_0
++ predecode_0_1
++ predecode_1_0
++ predecode_1_1
+
+Xgate_0_0_0
++ vdd
++ vss
++ predecode_0_0
++ predecode_1_0
++ y_b[0]
++ nand2_1
+Xgate_0_1_0
++ vdd
++ vss
++ predecode_0_1
++ predecode_1_0
++ y_b[1]
++ nand2_1
+Xgate_0_2_0
++ vdd
++ vss
++ predecode_0_0
++ predecode_1_1
++ y_b[2]
++ nand2_1
+Xgate_0_3_0
++ vdd
++ vss
++ predecode_0_1
++ predecode_1_1
++ y_b[3]
++ nand2_1
+Xgate_1_0_0
++ vdd
++ vss
++ y_b[0]
++ y[0]
++ folded_inv_4
+Xgate_1_1_0
++ vdd
++ vss
++ y_b[1]
++ y[1]
++ folded_inv_4
+Xgate_1_2_0
++ vdd
++ vss
++ y_b[2]
++ y[2]
++ folded_inv_4
+Xgate_1_3_0
++ vdd
++ vss
++ y_b[3]
++ y[3]
++ folded_inv_4
+.ends decoder_stage_8
 
 
-.subckt and2_3
+.subckt and2_1
 + vdd
 + a
 + b
@@ -30761,32 +34740,914 @@ X0_1
 + vss
 + yb
 + y
-+ inv_2
-.ends and2_3
++ folded_inv_5
+.ends and2_1
 
 
-.subckt and2_4
-+ vdd
-+ a
-+ b
-+ y
-+ yb
-+ vss
-
-X0
+.subckt multi_finger_inv_8
 + vdd
 + vss
 + a
-+ b
-+ yb
-+ nand2_1
-X0_1
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP8
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP9
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP10
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP11
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP12
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP13
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP14
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP15
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP16
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP17
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP18
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP19
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP20
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP21
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP22
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP23
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP24
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP25
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP26
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP27
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP28
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP29
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN3
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN4
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN5
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN6
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN7
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN8
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN9
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN10
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN11
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_8
+
+
+.subckt multi_finger_inv_9
 + vdd
 + vss
-+ yb
++ a
 + y
-+ inv_1
-.ends and2_4
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP8
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP9
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP10
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP11
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP12
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP13
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP14
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP15
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP16
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP17
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP18
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP19
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP20
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP21
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP22
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP23
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP24
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP25
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP26
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP27
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP28
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP29
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP30
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP31
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP32
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP33
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP34
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP35
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP36
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP37
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP38
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP39
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP40
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP41
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP42
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP43
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP44
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP45
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP46
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP47
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP48
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP49
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP50
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP51
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP52
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP53
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP54
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP55
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP56
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP57
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP58
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP59
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP60
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP61
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP62
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP63
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP64
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP65
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP66
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP67
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP68
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP69
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP70
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP71
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP72
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP73
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP74
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP75
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN3
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN4
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN5
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN6
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN7
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN8
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN9
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN10
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN11
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN12
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN13
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN14
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN15
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN16
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN17
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN18
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN19
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN20
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN21
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN22
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN23
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN24
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN25
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN26
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN27
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN28
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN29
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_9
 
 
 .subckt nand2_1
@@ -30801,50 +35662,345 @@ Xn1
 + a
 + vss
 + vss
-+ mos_w10000_l150_m1_nf1_id0
++ mos_w2000_l150_m1_nf1_id0
 Xn2
 + y
 + b
 + x
 + vss
-+ mos_w10000_l150_m1_nf1_id0
++ mos_w2000_l150_m1_nf1_id0
 Xp1
 + y
 + a
 + vdd
 + vdd
-+ mos_w8000_l150_m1_nf1_id1
++ mos_w2500_l150_m1_nf1_id1
 Xp2
 + y
 + b
 + vdd
 + vdd
-+ mos_w8000_l150_m1_nf1_id1
++ mos_w2500_l150_m1_nf1_id1
 .ends nand2_1
 
 
-.subckt inv_1
+.subckt multi_finger_inv_10
 + vdd
 + vss
-+ din
-+ din_b
++ a
++ y
 
 XMP0
-+ din_b
-+ din
++ y
++ a
 + vdd
 + vdd
-+ mos_w10000_l150_m1_nf1_id1
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP8
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
 XMN0
-+ din_b
-+ din
++ y
++ a
 + vss
 + vss
-+ mos_w8000_l150_m1_nf1_id0
-.ends inv_1
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN3
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_10
 
 
-.subckt inv_chain_17
+.subckt multi_finger_inv_11
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_11
+
+
+.subckt multi_finger_inv_12
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP2
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP3
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP4
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP5
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP6
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP7
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP8
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP9
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP10
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP11
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP12
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP13
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMP14
++ y
++ a
++ vdd
++ vdd
++ mos_w700_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN2
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN3
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN4
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+XMN5
++ y
++ a
++ vss
++ vss
++ mos_w700_l150_m1_nf1_id0
+.ends multi_finger_inv_12
+
+
+.subckt sky130_fd_sc_hs__inv_4_wrapper
++ A
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
+
+X0
++ A
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
++ sky130_fd_sc_hs__inv_4
+.ends sky130_fd_sc_hs__inv_4_wrapper
+
+
+.subckt inv_chain_9
 + din
 + dout
 + vdd
@@ -30857,7 +36013,7 @@ Xinv0
 + vdd
 + vdd
 + x[0]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv1
 + x[0]
 + vss
@@ -30865,7 +36021,7 @@ Xinv1
 + vdd
 + vdd
 + x[1]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv2
 + x[1]
 + vss
@@ -30873,7 +36029,7 @@ Xinv2
 + vdd
 + vdd
 + x[2]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv3
 + x[2]
 + vss
@@ -30881,7 +36037,7 @@ Xinv3
 + vdd
 + vdd
 + x[3]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv4
 + x[3]
 + vss
@@ -30889,7 +36045,7 @@ Xinv4
 + vdd
 + vdd
 + x[4]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv5
 + x[4]
 + vss
@@ -30897,7 +36053,7 @@ Xinv5
 + vdd
 + vdd
 + x[5]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv6
 + x[5]
 + vss
@@ -30905,7 +36061,7 @@ Xinv6
 + vdd
 + vdd
 + x[6]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv7
 + x[6]
 + vss
@@ -30913,104 +36069,57 @@ Xinv7
 + vdd
 + vdd
 + x[7]
-+ sky130_fd_sc_hd__inv_2_wrapper
++ sky130_fd_sc_hs__inv_2_wrapper
 Xinv8
 + x[7]
 + vss
 + vss
 + vdd
 + vdd
-+ x[8]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv9
-+ x[8]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[9]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv10
-+ x[9]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[10]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv11
-+ x[10]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[11]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv12
-+ x[11]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[12]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv13
-+ x[12]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[13]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv14
-+ x[13]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[14]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv15
-+ x[14]
-+ vss
-+ vss
-+ vdd
-+ vdd
-+ x[15]
-+ sky130_fd_sc_hd__inv_2_wrapper
-Xinv16
-+ x[15]
-+ vss
-+ vss
-+ vdd
-+ vdd
 + dout
-+ sky130_fd_sc_hd__inv_2_wrapper
-.ends inv_chain_17
++ sky130_fd_sc_hs__inv_4_wrapper
+.ends inv_chain_9
 
 
-.subckt sky130_fd_sc_hd__and2_4_wrapper
+.subckt sramgen_svt_inv_2_wrapper
 + A
-+ B
 + VGND
 + VNB
 + VPB
 + VPWR
-+ X
++ Y
 
 X0
 + A
-+ B
 + VGND
 + VNB
 + VPB
 + VPWR
-+ X
-+ sky130_fd_sc_hd__and2_4
-.ends sky130_fd_sc_hd__and2_4_wrapper
++ Y
++ sramgen_svt_inv_2
+.ends sramgen_svt_inv_2_wrapper
 
 
-.subckt sky130_fd_sc_hd__nor2_2_wrapper
+.subckt sramgen_svt_inv_4_wrapper
++ A
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
+
+X0
++ A
++ VGND
++ VNB
++ VPB
++ VPWR
++ Y
++ sramgen_svt_inv_4
+.ends sramgen_svt_inv_4_wrapper
+
+
+.subckt sky130_fd_sc_hs__nand2_8_wrapper
 + A
 + B
 + VGND
@@ -31027,244 +36136,211 @@ X0
 + VPB
 + VPWR
 + Y
-+ sky130_fd_sc_hd__nor2_2
-.ends sky130_fd_sc_hd__nor2_2_wrapper
++ sky130_fd_sc_hs__nand2_8
+.ends sky130_fd_sc_hs__nand2_8_wrapper
 
 
-.subckt read_mux
+.subckt mos_w1250_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=1.250 l=0.150 nf=1 mult=1
+
+.ends mos_w1250_l150_m1_nf1_id1
+
+
+.subckt mos_w500_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=0.500 l=0.150 nf=1 mult=1
+
+.ends mos_w500_l150_m1_nf1_id0
+
+
+.subckt mos_w700_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=0.700 l=0.150 nf=1 mult=1
+
+.ends mos_w700_l150_m1_nf1_id1
+
+
+.subckt mos_w700_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=0.700 l=0.150 nf=1 mult=1
+
+.ends mos_w700_l150_m1_nf1_id0
+
+
+.subckt folded_inv_2
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w2500_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w1000_l150_m1_nf1_id0
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w2500_l150_m1_nf1_id1
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w1000_l150_m1_nf1_id0
+.ends folded_inv_2
+
+
+.subckt folded_inv_3
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w2590_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w1040_l150_m1_nf1_id0
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w2590_l150_m1_nf1_id1
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w1040_l150_m1_nf1_id0
+.ends folded_inv_3
+
+
+.subckt precharge_1
++ vdd
++ bl
++ br
++ en_b
+
+Xbl_pull_up
++ bl
++ en_b
++ vdd
++ vdd
++ mos_w800_l150_m1_nf1_id1
+Xbr_pull_up
++ br
++ en_b
++ vdd
++ vdd
++ mos_w800_l150_m1_nf1_id1
+Xequalizer
++ bl
++ en_b
++ br
++ vdd
++ mos_w500_l150_m1_nf1_id1
+.ends precharge_1
+
+
+.subckt tgate_mux
 + sel_b
++ sel
 + bl
 + br
 + bl_out
 + br_out
 + vdd
++ vss
 
-XMBL
+XMPBL
 + bl_out
 + sel_b
 + bl
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
-XMBR
++ mos_w1800_l150_m1_nf1_id1
+XMPBR
 + br_out
 + sel_b
 + br
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
-.ends read_mux
-
-
-.subckt write_mux
-+ we
-+ wmask
-+ data
-+ data_b
-+ bl
-+ br
-+ vss
-
-XMMUXBR
-+ br
-+ data
-+ x
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMMUXBL
-+ bl
-+ data_b
-+ x
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMWMASK
-+ x
-+ wmask
-+ y
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMPD
-+ y
-+ we
-+ vss
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-.ends write_mux
-
-
-.subckt read_mux_1
-+ sel_b
-+ bl
-+ br
++ mos_w1800_l150_m1_nf1_id1
+XMNBL
 + bl_out
-+ br_out
-+ vdd
-
-XMBL
-+ bl_out
-+ sel_b
++ sel
 + bl
-+ vdd
-+ mos_w4000_l150_m1_nf1_id1
-XMBR
++ vss
++ mos_w1200_l150_m1_nf1_id0
+XMNBR
 + br_out
-+ sel_b
++ sel
 + br
-+ vdd
-+ mos_w4000_l150_m1_nf1_id1
-.ends read_mux_1
++ vss
++ mos_w1200_l150_m1_nf1_id0
+.ends tgate_mux
 
 
-.subckt write_mux_1
-+ we
-+ wmask
+.subckt write_driver
++ en
++ en_b
 + data
 + data_b
 + bl
 + br
++ vdd
 + vss
 
-XMMUXBR
-+ br
-+ data
-+ x
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMMUXBL
-+ bl
+Xbldriver
 + data_b
-+ x
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMWMASK
-+ x
-+ wmask
-+ y
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMPD
-+ y
-+ we
-+ vss
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-.ends write_mux_1
-
-
-.subckt read_mux_2
-+ sel_b
-+ bl
-+ br
-+ bl_out
-+ br_out
-+ vdd
-
-XMBL
-+ bl_out
-+ sel_b
++ en
++ en_b
 + bl
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
-XMBR
-+ br_out
-+ sel_b
-+ br
-+ vdd
-+ mos_w4000_l150_m1_nf1_id1
-.ends read_mux_2
-
-
-.subckt write_mux_2
-+ we
-+ wmask
++ vss
++ tristate_inv
+Xbrdriver
 + data
-+ data_b
-+ bl
-+ br
-+ vss
-
-XMMUXBR
-+ br
-+ data
-+ x
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMMUXBL
-+ bl
-+ data_b
-+ x
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMWMASK
-+ x
-+ wmask
-+ y
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMPD
-+ y
-+ we
-+ vss
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-.ends write_mux_2
-
-
-.subckt read_mux_3
-+ sel_b
-+ bl
-+ br
-+ bl_out
-+ br_out
-+ vdd
-
-XMBL
-+ bl_out
-+ sel_b
-+ bl
-+ vdd
-+ mos_w4000_l150_m1_nf1_id1
-XMBR
-+ br_out
-+ sel_b
++ en
++ en_b
 + br
 + vdd
-+ mos_w4000_l150_m1_nf1_id1
-.ends read_mux_3
-
-
-.subckt write_mux_3
-+ we
-+ wmask
-+ data
-+ data_b
-+ bl
-+ br
 + vss
-
-XMMUXBR
-+ br
-+ data
-+ x
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMMUXBL
-+ bl
-+ data_b
-+ x
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMWMASK
-+ x
-+ wmask
-+ y
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-XMPD
-+ y
-+ we
-+ vss
-+ vss
-+ mos_w8800_l150_m1_nf1_id0
-.ends write_mux_3
++ tristate_inv
+.ends write_driver
 
 
 .subckt sramgen_sp_sense_amp_wrapper
@@ -31288,7 +36364,7 @@ X0
 .ends sramgen_sp_sense_amp_wrapper
 
 
-.subckt diff_buf
+.subckt diff_latch
 + vdd
 + vss
 + din1
@@ -31296,59 +36372,166 @@ X0
 + dout1
 + dout2
 
-Xbuf_1
+Xinbuf_1
 + vdd
 + vss
 + din1
-+ dout1
-+ buf
-Xbuf_2
++ rst
++ folded_inv_6
+Xinbuf_2
 + vdd
 + vss
 + din2
++ set
++ folded_inv_6
+Xoutbuf_1
++ vdd
++ vss
++ q
 + dout2
-+ buf
-.ends diff_buf
++ folded_inv_6
+Xoutbuf_2
++ vdd
++ vss
++ qb
++ dout1
++ folded_inv_6
+Xinvq_1
++ vdd
++ vss
++ q
++ qb
++ folded_inv_6
+Xinvq_2
++ vdd
++ vss
++ qb
++ q
++ folded_inv_6
+XMN10
++ q
++ rst
++ vss
++ vss
++ mos_w1000_l150_m1_nf1_id0
+XMN11
++ q
++ rst
++ vss
++ vss
++ mos_w1000_l150_m1_nf1_id0
+XMN20
++ qb
++ set
++ vss
++ vss
++ mos_w1000_l150_m1_nf1_id0
+XMN21
++ qb
++ set
++ vss
++ vss
++ mos_w1000_l150_m1_nf1_id0
+.ends diff_latch
 
 
-.subckt mos_w4800_l150_m1_nf1_id0
+.subckt mos_w800_l150_m1_nf1_id0
 + d
 + g
 + s
 + b
 
-M0 d g s b nshort w=4.800 l=0.150 nf=1 mult=1
-.ends mos_w4800_l150_m1_nf1_id0
+M0 d g s b nshort w=0.800 l=0.150 nf=1 mult=1
+
+.ends mos_w800_l150_m1_nf1_id0
 
 
-.subckt mos_w1600_l150_m1_nf1_id1
+.subckt mos_w1200_l150_m1_nf1_id0
 + d
 + g
 + s
 + b
 
-M0 d g s b pshort w=1.600 l=0.150 nf=1 mult=1
-.ends mos_w1600_l150_m1_nf1_id1
+M0 d g s b nshort w=1.200 l=0.150 nf=1 mult=1
+
+.ends mos_w1200_l150_m1_nf1_id0
 
 
-.subckt mos_w8600_l150_m1_nf1_id1
+.subckt mos_w1700_l150_m1_nf1_id1
 + d
 + g
 + s
 + b
 
-M0 d g s b pshort w=8.600 l=0.150 nf=1 mult=1
-.ends mos_w8600_l150_m1_nf1_id1
+M0 d g s b pshort w=1.700 l=0.150 nf=1 mult=1
+
+.ends mos_w1700_l150_m1_nf1_id1
 
 
-.subckt mos_w6200_l150_m1_nf1_id0
+.subckt mos_w2000_l150_m1_nf1_id0
 + d
 + g
 + s
 + b
 
-M0 d g s b nshort w=6.200 l=0.150 nf=1 mult=1
-.ends mos_w6200_l150_m1_nf1_id0
+M0 d g s b nshort w=2.000 l=0.150 nf=1 mult=1
+
+.ends mos_w2000_l150_m1_nf1_id0
+
+
+.subckt mos_w2500_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=2.500 l=0.150 nf=1 mult=1
+
+.ends mos_w2500_l150_m1_nf1_id1
+
+
+.subckt mos_w5000_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=5.000 l=0.150 nf=1 mult=1
+
+.ends mos_w5000_l150_m1_nf1_id1
+
+
+.subckt folded_inv_4
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w3080_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w1230_l150_m1_nf1_id0
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w3080_l150_m1_nf1_id1
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w1230_l150_m1_nf1_id0
+.ends folded_inv_4
 
 
 .subckt nand2_2
@@ -31363,209 +36546,286 @@ Xn1
 + a
 + vss
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w2600_l150_m1_nf1_id0
 Xn2
 + y
 + b
 + x
 + vss
-+ mos_w2400_l150_m1_nf1_id0
++ mos_w2600_l150_m1_nf1_id0
 Xp1
 + y
 + a
 + vdd
 + vdd
-+ mos_w800_l150_m1_nf1_id1
++ mos_w3300_l150_m1_nf1_id1
 Xp2
 + y
 + b
 + vdd
 + vdd
-+ mos_w800_l150_m1_nf1_id1
++ mos_w3300_l150_m1_nf1_id1
 .ends nand2_2
 
 
-.subckt inv_2
+.subckt folded_inv_5
 + vdd
 + vss
-+ din
-+ din_b
++ a
++ y
 
 XMP0
-+ din_b
-+ din
++ y
++ a
 + vdd
 + vdd
-+ mos_w4300_l150_m1_nf1_id1
++ mos_w4030_l150_m1_nf1_id1
 XMN0
++ y
++ a
++ vss
++ vss
++ mos_w1630_l150_m1_nf1_id0
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w4030_l150_m1_nf1_id1
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w1630_l150_m1_nf1_id0
+.ends folded_inv_5
+
+
+.subckt mos_w1000_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=1.000 l=0.150 nf=1 mult=1
+
+.ends mos_w1000_l150_m1_nf1_id0
+
+
+.subckt mos_w2590_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=2.590 l=0.150 nf=1 mult=1
+
+.ends mos_w2590_l150_m1_nf1_id1
+
+
+.subckt mos_w1040_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=1.040 l=0.150 nf=1 mult=1
+
+.ends mos_w1040_l150_m1_nf1_id0
+
+
+.subckt mos_w1800_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=1.800 l=0.150 nf=1 mult=1
+
+.ends mos_w1800_l150_m1_nf1_id1
+
+
+.subckt tristate_inv
++ din
++ en
++ en_b
 + din_b
-+ din
-+ vss
-+ vss
-+ mos_w3100_l150_m1_nf1_id0
-.ends inv_2
-
-
-.subckt mos_w10000_l150_m1_nf1_id0
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b nshort w=10.000 l=0.150 nf=1 mult=1
-.ends mos_w10000_l150_m1_nf1_id0
-
-
-.subckt mos_w8000_l150_m1_nf1_id1
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b pshort w=8.000 l=0.150 nf=1 mult=1
-.ends mos_w8000_l150_m1_nf1_id1
-
-
-.subckt mos_w10000_l150_m1_nf1_id1
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b pshort w=10.000 l=0.150 nf=1 mult=1
-.ends mos_w10000_l150_m1_nf1_id1
-
-
-.subckt mos_w8000_l150_m1_nf1_id0
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b nshort w=8.000 l=0.150 nf=1 mult=1
-.ends mos_w8000_l150_m1_nf1_id0
-
-
-.subckt mos_w4000_l150_m1_nf1_id1
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b pshort w=4.000 l=0.150 nf=1 mult=1
-.ends mos_w4000_l150_m1_nf1_id1
-
-
-.subckt mos_w8800_l150_m1_nf1_id0
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b nshort w=8.800 l=0.150 nf=1 mult=1
-.ends mos_w8800_l150_m1_nf1_id0
-
-
-.subckt buf
 + vdd
 + vss
-+ din
-+ dout
 
-Xinv_1
-+ vdd
-+ vss
-+ din
-+ x
-+ inv_3
-Xinv_2
-+ vdd
-+ vss
-+ x
-+ dout
-+ inv_3
-.ends buf
-
-
-.subckt mos_w2400_l150_m1_nf1_id0
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b nshort w=2.400 l=0.150 nf=1 mult=1
-.ends mos_w2400_l150_m1_nf1_id0
-
-
-.subckt mos_w800_l150_m1_nf1_id1
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b pshort w=0.800 l=0.150 nf=1 mult=1
-.ends mos_w800_l150_m1_nf1_id1
-
-
-.subckt mos_w4300_l150_m1_nf1_id1
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b pshort w=4.300 l=0.150 nf=1 mult=1
-.ends mos_w4300_l150_m1_nf1_id1
-
-
-.subckt mos_w3100_l150_m1_nf1_id0
-+ d
-+ g
-+ s
-+ b
-
-M0 d g s b nshort w=3.100 l=0.150 nf=1 mult=1
-.ends mos_w3100_l150_m1_nf1_id0
-
-
-.subckt inv_3
-+ vdd
-+ vss
-+ din
+Xmn_en
 + din_b
-
-XMP0
-+ din_b
-+ din
-+ vdd
-+ vdd
-+ mos_w2000_l150_m1_nf1_id1
-XMN0
-+ din_b
++ en
++ nint
++ vss
++ mos_w1200_l150_m1_nf1_id0
+Xmn_pd
++ nint
 + din
 + vss
 + vss
 + mos_w1200_l150_m1_nf1_id0
-.ends inv_3
+Xmp_en
++ din_b
++ en_b
++ pint
++ vdd
++ mos_w1200_l150_m1_nf1_id1
+Xmp_pu
++ pint
++ din
++ vdd
++ vdd
++ mos_w1200_l150_m1_nf1_id1
+.ends tristate_inv
 
 
-.subckt mos_w1200_l150_m1_nf1_id0
+.subckt folded_inv_6
++ vdd
++ vss
++ a
++ y
+
+XMP0
++ y
++ a
++ vdd
++ vdd
++ mos_w1000_l150_m1_nf1_id1
+XMN0
++ y
++ a
++ vss
++ vss
++ mos_w600_l150_m1_nf1_id0
+XMP1
++ y
++ a
++ vdd
++ vdd
++ mos_w1000_l150_m1_nf1_id1
+XMN1
++ y
++ a
++ vss
++ vss
++ mos_w600_l150_m1_nf1_id0
+.ends folded_inv_6
+
+
+.subckt mos_w3080_l150_m1_nf1_id1
 + d
 + g
 + s
 + b
 
-M0 d g s b nshort w=1.200 l=0.150 nf=1 mult=1
-.ends mos_w1200_l150_m1_nf1_id0
+M0 d g s b pshort w=3.080 l=0.150 nf=1 mult=1
 
-.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sramgen_sp_sense_amp.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sram_sp_cell.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sram_sp_colend.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sram_sp_cell_replica.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/and2/sky130_fd_sc_hd__and2_4.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/mux2/sky130_fd_sc_hd__mux2_2.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/sram_sp_hstrap.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/inv/sky130_fd_sc_hd__inv_2.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/bufbuf/sky130_fd_sc_hd__bufbuf_16.spice"
-.include "/bwrcq/C/rahulkumar/personal/sram22/tech/sky130/spice/openram_dff.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/and2/sky130_fd_sc_hd__and2_2.spice"
-.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/nor2/sky130_fd_sc_hd__nor2_2.spice"
+.ends mos_w3080_l150_m1_nf1_id1
+
+
+.subckt mos_w1230_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=1.230 l=0.150 nf=1 mult=1
+
+.ends mos_w1230_l150_m1_nf1_id0
+
+
+.subckt mos_w2600_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=2.600 l=0.150 nf=1 mult=1
+
+.ends mos_w2600_l150_m1_nf1_id0
+
+
+.subckt mos_w3300_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=3.300 l=0.150 nf=1 mult=1
+
+.ends mos_w3300_l150_m1_nf1_id1
+
+
+.subckt mos_w4030_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=4.030 l=0.150 nf=1 mult=1
+
+.ends mos_w4030_l150_m1_nf1_id1
+
+
+.subckt mos_w1630_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=1.630 l=0.150 nf=1 mult=1
+
+.ends mos_w1630_l150_m1_nf1_id0
+
+
+.subckt mos_w1200_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=1.200 l=0.150 nf=1 mult=1
+
+.ends mos_w1200_l150_m1_nf1_id1
+
+
+.subckt mos_w1000_l150_m1_nf1_id1
++ d
++ g
++ s
++ b
+
+M0 d g s b pshort w=1.000 l=0.150 nf=1 mult=1
+
+.ends mos_w1000_l150_m1_nf1_id1
+
+
+.subckt mos_w600_l150_m1_nf1_id0
++ d
++ g
++ s
++ b
+
+M0 d g s b nshort w=0.600 l=0.150 nf=1 mult=1
+
+.ends mos_w600_l150_m1_nf1_id0
+
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/nand2/sky130_fd_sc_hs__nand2_4.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/inv/sky130_fd_sc_hs__inv_2.spice"
+.include "/bwrcq/scratch/rahulkumar/sram22/tech/sky130/spice/sramgen_svt_inv_4.spice"
+.include "/bwrcq/scratch/rahulkumar/sram22/tech/sky130/spice/sram_sp_colend.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/inv/sky130_fd_sc_hs__inv_4.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/dfrbp/sky130_fd_sc_hs__dfrbp_2.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/nor2/sky130_fd_sc_hs__nor2_4.spice"
+.include "/bwrcq/scratch/rahulkumar/sram22/tech/sky130/spice/sram_sp_cell.spice"
+.include "/bwrcq/scratch/rahulkumar/sram22/tech/sky130/spice/sramgen_svt_inv_2.spice"
+.include "/bwrcq/scratch/rahulkumar/sram22/tech/sky130/spice/sram_sp_hstrap.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/buf/sky130_fd_sc_hs__buf_16.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/and2/sky130_fd_sc_hs__and2_4.spice"
+.include "/bwrcq/scratch/rahulkumar/sram22/tech/sky130/spice/sramgen_sp_sense_amp.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/mux2/sky130_fd_sc_hs__mux2_4.spice"
+.include "/bwrcq/scratch/rahulkumar/sram22/tech/sky130/spice/sram_sp_cell_replica.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/and2/sky130_fd_sc_hs__and2_2.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/inv/sky130_fd_sc_hs__inv_16.spice"
+.include "/bwrcq/C/rahulkumar/sky130/skywater-pdk/libraries/sky130_fd_sc_hs/latest/cells/nand2/sky130_fd_sc_hs__nand2_8.spice"

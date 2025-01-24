@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu -o pipefail
+set -euf -o pipefail
 
 SRAM22=/tools/scratch/rahulkumar/sram22
 SRAM22BUILD=$SRAM22/build
@@ -44,8 +44,4 @@ do
     cp $CELLDIR/$cell\_ff_n40C_1v95.lib $cell/
 done
 
-# echo "changing temperature=40 to temperature=-40"
-# sed -i "s/PVT_1P95V_40C/PVT_1P95V_-40C/g" */*.lib
-# sed -i "s/temperature : 40/temperature : -40/g" */*.lib
-# 
 echo "done"

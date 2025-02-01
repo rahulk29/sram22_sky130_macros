@@ -44,4 +44,9 @@ do
     cp $CELLDIR/$cell\_ff_n40C_1v95.lib $cell/
 done
 
+# ensure all netlists are self contained and use consistent device names
+# sky130spconv can be installed by running `cargo install --path .`
+# in `substrate2/bins/sky130spconv` (make a local clone of https://github.com/substrate-labs/substrate2).
+find . -name "*.spice" -execdir sky130spconv -o {} -s open {} \;
+
 echo "done"

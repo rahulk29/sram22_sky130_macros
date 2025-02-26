@@ -2,4 +2,4 @@
 
 set -euf -o pipefail
 
-find . -name "*.gds.gz" -execdir tar -xzvf {} \;
+find . -name "*.gds.gz" -execdir gzip -dfv {} \;

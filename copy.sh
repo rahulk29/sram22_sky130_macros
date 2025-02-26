@@ -37,7 +37,7 @@ do
     cp $CELLDIR/$cell.spice $cell/
     cp $CELLDIR/$cell.v $cell/
     cp $CELLDIR/$cell.gds $cell/
-    cd $cell/ && tar -czf $cell.gds.gz $cell.gds && rm -f $cell.gds && cd -
+    cd $cell/ && gzip -f $cell.gds && cd -
     cp $CELLDIR/$cell.lef $cell/
     cp $CELLDIR/$cell\_tt_025C_1v80.lib $cell/
     cp $CELLDIR/$cell\_ss_100C_1v60.lib $cell/

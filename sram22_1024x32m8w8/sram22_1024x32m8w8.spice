@@ -2,6 +2,13 @@
 * This is a generated file. Be careful when editing manually: this file may be overwritten.
 
 
+.SUBCKT mos_w600_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.600
+
+
+.ENDS mos_w600_l150_m1_nf1_id0
+
 .SUBCKT mos_w2000_l150_m1_nf1_id0 d g s b
 
   X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=2.000
@@ -25,128 +32,76 @@
 
 .ENDS nand2_1
 
-.SUBCKT mos_w2480_l150_m1_nf1_id1 d g s b
+.SUBCKT mos_w3200_l150_m1_nf1_id1 d g s b
 
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.480
-
-
-.ENDS mos_w2480_l150_m1_nf1_id1
-
-.SUBCKT mos_w1000_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.000
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=3.200
 
 
-.ENDS mos_w1000_l150_m1_nf1_id0
+.ENDS mos_w3200_l150_m1_nf1_id1
 
-.SUBCKT folded_inv_2 vdd vss a y
+.SUBCKT mos_w1280_l150_m1_nf1_id0 d g s b
 
-  XMP0 y a vdd vdd mos_w2480_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w1000_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w2480_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w1000_l150_m1_nf1_id0
-
-.ENDS folded_inv_2
-
-.SUBCKT mos_w2550_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.550
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.280
 
 
-.ENDS mos_w2550_l150_m1_nf1_id1
+.ENDS mos_w1280_l150_m1_nf1_id0
 
-.SUBCKT mos_w1030_l150_m1_nf1_id0 d g s b
+.SUBCKT folded_inv_10 vdd vss a y
 
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.030
+  XMP0 y a vdd vdd mos_w3200_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w1280_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w3200_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w1280_l150_m1_nf1_id0
 
+.ENDS folded_inv_10
 
-.ENDS mos_w1030_l150_m1_nf1_id0
+.SUBCKT decoder_stage_10 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1
 
-.SUBCKT folded_inv_3 vdd vss a y
+  Xgate_0_0_0 vdd vss predecode_0_0 predecode_1_0 y_b[0] nand2_1
+  Xgate_0_1_0 vdd vss predecode_0_1 predecode_1_0 y_b[1] nand2_1
+  Xgate_0_2_0 vdd vss predecode_0_0 predecode_1_1 y_b[2] nand2_1
+  Xgate_0_3_0 vdd vss predecode_0_1 predecode_1_1 y_b[3] nand2_1
+  Xgate_1_0_0 vdd vss y_b[0] y[0] folded_inv_10
+  Xgate_1_1_0 vdd vss y_b[1] y[1] folded_inv_10
+  Xgate_1_2_0 vdd vss y_b[2] y[2] folded_inv_10
+  Xgate_1_3_0 vdd vss y_b[3] y[3] folded_inv_10
 
-  XMP0 y a vdd vdd mos_w2550_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w1030_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w2550_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w1030_l150_m1_nf1_id0
+.ENDS decoder_stage_10
 
-.ENDS folded_inv_3
+.SUBCKT decoder_4 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1
 
-.SUBCKT mos_w2640_l150_m1_nf1_id1 d g s b
+  X0 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 decoder_stage_10
 
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.640
+.ENDS decoder_4
 
+.SUBCKT mos_w800_l150_m1_nf1_id0 d g s b
 
-.ENDS mos_w2640_l150_m1_nf1_id1
-
-.SUBCKT mos_w1060_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.060
-
-
-.ENDS mos_w1060_l150_m1_nf1_id0
-
-.SUBCKT folded_inv_4 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w2640_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w1060_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w2640_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w1060_l150_m1_nf1_id0
-
-.ENDS folded_inv_4
-
-.SUBCKT mos_w2420_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.420
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.800
 
 
-.ENDS mos_w2420_l150_m1_nf1_id1
+.ENDS mos_w800_l150_m1_nf1_id0
 
-.SUBCKT mos_w970_l150_m1_nf1_id0 d g s b
+.SUBCKT mos_w1950_l150_m1_nf1_id0 d g s b
 
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.970
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.950
 
 
-.ENDS mos_w970_l150_m1_nf1_id0
+.ENDS mos_w1950_l150_m1_nf1_id0
 
-.SUBCKT folded_inv_5 vdd vss a y
+.SUBCKT mos_w2850_l150_m1_nf1_id1 d g s b
 
-  XMP0 y a vdd vdd mos_w2420_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w970_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w2420_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w970_l150_m1_nf1_id0
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.850
 
-.ENDS folded_inv_5
 
-.SUBCKT decoder_stage_7 vdd vss y y_b predecode_0_0 predecode_1_0
+.ENDS mos_w2850_l150_m1_nf1_id1
 
-  Xgate_0_0_0 vdd vss predecode_0_0 predecode_1_0 x_0 nand2_1
-  Xgate_1_0_0 vdd vss x_0 x_1 folded_inv_2
-  Xgate_2_0_0 vdd vss x_1 x_2 folded_inv_3
-  Xgate_2_0_1 vdd vss x_1 x_2 folded_inv_3
-  Xgate_3_0_0 vdd vss x_2 x_3 folded_inv_4
-  Xgate_3_0_1 vdd vss x_2 x_3 folded_inv_4
-  Xgate_3_0_2 vdd vss x_2 x_3 folded_inv_4
-  Xgate_3_0_3 vdd vss x_2 x_3 folded_inv_4
-  Xgate_4_0_0 vdd vss x_3 y_b folded_inv_5
-  Xgate_4_0_1 vdd vss x_3 y_b folded_inv_5
-  Xgate_4_0_2 vdd vss x_3 y_b folded_inv_5
-  Xgate_4_0_3 vdd vss x_3 y_b folded_inv_5
-  Xgate_4_0_4 vdd vss x_3 y_b folded_inv_5
-  Xgate_4_0_5 vdd vss x_3 y_b folded_inv_5
-  Xgate_4_0_6 vdd vss x_3 y_b folded_inv_5
-  Xgate_4_0_7 vdd vss x_3 y_b folded_inv_5
-  Xgate_4_0_8 vdd vss x_3 y_b folded_inv_5
-  Xgate_5_0_0 vdd vss y_b y folded_inv_5
-  Xgate_5_0_1 vdd vss y_b y folded_inv_5
-  Xgate_5_0_2 vdd vss y_b y folded_inv_5
-  Xgate_5_0_3 vdd vss y_b y folded_inv_5
-  Xgate_5_0_4 vdd vss y_b y folded_inv_5
-  Xgate_5_0_5 vdd vss y_b y folded_inv_5
-  Xgate_5_0_6 vdd vss y_b y folded_inv_5
-  Xgate_5_0_7 vdd vss y_b y folded_inv_5
-  Xgate_5_0_8 vdd vss y_b y folded_inv_5
+.SUBCKT column_mos vdd vss bl
 
-.ENDS decoder_stage_7
+  Xgate_nmos vss bl vss vss mos_w800_l150_m1_nf1_id0
+  Xdrain_nmos bl vss vss vss mos_w1950_l150_m1_nf1_id0
+  Xdrain_pmos bl vdd vdd vdd mos_w2850_l150_m1_nf1_id1
+
+.ENDS column_mos
 
 .SUBCKT sky130_fd_sc_hs__inv_2 A VGND VNB VPB VPWR Y
 
@@ -194,7 +149,7 @@
 
 .ENDS sky130_fd_sc_hs__inv_4_wrapper
 
-.SUBCKT inv_chain_9 din dout vdd vss
+.SUBCKT inv_chain_15 din dout vdd vss
 
   Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
   Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
@@ -204,9 +159,546 @@
   Xinv5 x[4] vss vss vdd vdd x[5] sky130_fd_sc_hs__inv_2_wrapper
   Xinv6 x[5] vss vss vdd vdd x[6] sky130_fd_sc_hs__inv_2_wrapper
   Xinv7 x[6] vss vss vdd vdd x[7] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv8 x[7] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
+  Xinv8 x[7] vss vss vdd vdd x[8] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv9 x[8] vss vss vdd vdd x[9] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv10 x[9] vss vss vdd vdd x[10] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv11 x[10] vss vss vdd vdd x[11] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv12 x[11] vss vss vdd vdd x[12] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv13 x[12] vss vss vdd vdd x[13] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv14 x[13] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
 
-.ENDS inv_chain_9
+.ENDS inv_chain_15
+
+.SUBCKT sramgen_svt_inv_2 A VGND VNB VPB VPWR Y
+
+  X0 Y A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X1 VPWR A Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X2 VGND A Y VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.740
+
+  X3 Y A VGND VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.740
+
+
+.ENDS sramgen_svt_inv_2
+
+.SUBCKT sramgen_svt_inv_2_wrapper A VGND VNB VPB VPWR Y
+
+  X0 A VGND VNB VPB VPWR Y sramgen_svt_inv_2
+
+.ENDS sramgen_svt_inv_2_wrapper
+
+.SUBCKT sram_sp_horiz_wlstrap_p2 VSS VNB
+
+  X0 VSS VSS VSS VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.420
+
+
+.ENDS sram_sp_horiz_wlstrap_p2
+
+.SUBCKT sram_sp_horiz_wlstrap_p2_wrapper VSS VNB
+
+  X0 VSS VNB sram_sp_horiz_wlstrap_p2
+
+.ENDS sram_sp_horiz_wlstrap_p2_wrapper
+
+.SUBCKT sky130_fd_sc_hs__mux2_4 A0 A1 S VGND VNB VPB VPWR X
+
+  X0 a_27_368# S VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X1 a_722_391# A0 a_193_241# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X2 a_722_391# S VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X3 VGND a_27_368# a_937_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X4 a_193_241# A1 a_936_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X5 a_709_119# S VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X6 a_709_119# A1 a_193_241# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X7 X a_193_241# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X8 X a_193_241# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X9 VPWR a_27_368# a_936_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X10 X a_193_241# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X11 a_193_241# A0 a_722_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X12 a_937_119# A0 a_193_241# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X13 a_936_391# a_27_368# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X14 VGND a_193_241# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X15 VPWR a_193_241# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X16 VPWR S a_722_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X17 a_936_391# A1 a_193_241# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X18 a_193_241# A0 a_937_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X19 a_193_241# A1 a_709_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X20 X a_193_241# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X21 VGND a_193_241# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X22 a_27_368# S VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X23 a_937_119# a_27_368# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X24 VPWR a_193_241# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X25 VGND S a_709_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+
+.ENDS sky130_fd_sc_hs__mux2_4
+
+.SUBCKT mos_w5000_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=5.000
+
+
+.ENDS mos_w5000_l150_m1_nf1_id1
+
+.SUBCKT mos_w3000_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=3.000
+
+
+.ENDS mos_w3000_l150_m1_nf1_id1
+
+.SUBCKT precharge_1 vdd bl br en_b
+
+  Xbl_pull_up bl en_b vdd vdd mos_w5000_l150_m1_nf1_id1
+  Xbr_pull_up br en_b vdd vdd mos_w5000_l150_m1_nf1_id1
+  Xequalizer bl en_b br vdd mos_w3000_l150_m1_nf1_id1
+
+.ENDS precharge_1
+
+.SUBCKT mos_w7050_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=7.050
+
+
+.ENDS mos_w7050_l150_m1_nf1_id1
+
+.SUBCKT mos_w4700_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=4.700
+
+
+.ENDS mos_w4700_l150_m1_nf1_id0
+
+.SUBCKT tgate_mux sel_b sel bl br bl_out br_out vdd vss
+
+  XMPBL bl_out sel_b bl vdd mos_w7050_l150_m1_nf1_id1
+  XMPBR br_out sel_b br vdd mos_w7050_l150_m1_nf1_id1
+  XMNBL bl_out sel bl vss mos_w4700_l150_m1_nf1_id0
+  XMNBR br_out sel br vss mos_w4700_l150_m1_nf1_id0
+
+.ENDS tgate_mux
+
+.SUBCKT mos_w5000_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=5.000
+
+
+.ENDS mos_w5000_l150_m1_nf1_id0
+
+.SUBCKT tristate_inv din en en_b din_b vdd vss
+
+  Xmn_en din_b en nint vss mos_w5000_l150_m1_nf1_id0
+  Xmn_pd nint din vss vss mos_w5000_l150_m1_nf1_id0
+  Xmp_en din_b en_b pint vdd mos_w5000_l150_m1_nf1_id1
+  Xmp_pu pint din vdd vdd mos_w5000_l150_m1_nf1_id1
+
+.ENDS tristate_inv
+
+.SUBCKT write_driver en en_b data data_b bl br vdd vss
+
+  Xbldriver data_b en en_b bl vdd vss tristate_inv
+  Xbrdriver data en en_b br vdd vss tristate_inv
+
+.ENDS write_driver
+
+.SUBCKT sramgen_sp_sense_amp clk inn inp outn outp VDD VSS
+
+  XSWOP outp clk VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=1.000
+
+  XSWON outn clk VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=1.000
+
+  XSWMP midp clk VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=1.000
+
+  XSWMN midn clk VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=1.000
+
+  XPFBP outp outn VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=2.000
+
+  XPFBN outn outp VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=2.000
+
+  XTAIL tail clk VSS VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=4 w=1.680
+
+  XNFBP outp outn midp VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=2 w=1.680
+
+  XNFBN outn outp midn VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=2 w=1.680
+
+  XINP midn inp tail VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=2 w=1.680
+
+  XINN midp inn tail VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=2 w=1.680
+
+
+.ENDS sramgen_sp_sense_amp
+
+.SUBCKT sramgen_sp_sense_amp_wrapper clk inn inp outn outp VDD VSS
+
+  X0 clk inn inp outn outp VDD VSS sramgen_sp_sense_amp
+
+.ENDS sramgen_sp_sense_amp_wrapper
+
+.SUBCKT mos_w1000_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+
+.ENDS mos_w1000_l150_m1_nf1_id1
+
+.SUBCKT folded_inv_9 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w1000_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w600_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w1000_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w600_l150_m1_nf1_id0
+
+.ENDS folded_inv_9
+
+.SUBCKT mos_w1000_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.000
+
+
+.ENDS mos_w1000_l150_m1_nf1_id0
+
+.SUBCKT diff_latch vdd vss din1 din2 dout1 dout2
+
+  Xinbuf_1 vdd vss din1 rst folded_inv_9
+  Xinbuf_2 vdd vss din2 set folded_inv_9
+  Xoutbuf_1 vdd vss q dout2 folded_inv_9
+  Xoutbuf_2 vdd vss qb dout1 folded_inv_9
+  Xinvq_1 vdd vss q qb folded_inv_9
+  Xinvq_2 vdd vss qb q folded_inv_9
+  XMN10 q rst vss vss mos_w1000_l150_m1_nf1_id0
+  XMN11 q rst vss vss mos_w1000_l150_m1_nf1_id0
+  XMN20 qb set vss vss mos_w1000_l150_m1_nf1_id0
+  XMN21 qb set vss vss mos_w1000_l150_m1_nf1_id0
+
+.ENDS diff_latch
+
+.SUBCKT sky130_fd_sc_hs__dfrbp_2 CLK D RESET_B VGND VNB VPB VPWR Q Q_N
+
+  X0 a_1800_291# a_1586_149# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X1 VGND CLK a_728_331# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X2 Q a_2363_352# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X3 VPWR CLK a_728_331# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X4 a_1499_149# a_728_331# a_1586_149# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X5 a_536_81# a_331_392# a_614_81# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X6 a_156_74# RESET_B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X7 a_298_294# a_818_418# a_614_81# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X8 a_70_74# a_728_331# a_298_294# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X9 a_331_392# a_728_331# a_1586_149# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X10 a_70_74# D a_156_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X11 a_818_418# a_728_331# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X12 a_818_418# a_728_331# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X13 a_1586_149# a_818_418# a_1755_389# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X14 Q_N a_1586_149# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X15 a_298_294# a_818_418# a_70_74# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X16 VGND RESET_B a_536_81# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X17 a_1755_389# a_1800_291# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X18 a_1586_149# a_818_418# a_331_392# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X19 Q a_2363_352# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X20 VGND a_1586_149# Q_N VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X21 VGND a_1586_149# a_2363_352# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X22 VPWR a_298_294# a_331_392# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X23 a_298_294# RESET_B VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X24 a_1499_149# a_1800_291# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X25 VPWR a_331_392# a_683_485# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X26 VPWR D a_70_74# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X27 VPWR RESET_B a_1800_291# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X28 a_1974_74# a_1586_149# a_1800_291# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X29 a_70_74# RESET_B VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X30 Q_N a_1586_149# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X31 VPWR a_1586_149# a_2363_352# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X32 VGND a_2363_352# Q VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X33 VPWR a_1586_149# Q_N VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X34 VGND RESET_B a_1974_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
+
+  X35 a_683_485# a_728_331# a_298_294# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
+
+  X36 VGND a_298_294# a_331_392# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X37 VPWR a_2363_352# Q VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+
+.ENDS sky130_fd_sc_hs__dfrbp_2
+
+.SUBCKT sky130_fd_sc_hs__dfrbp_2_wrapper CLK D RESET_B VGND VNB VPB VPWR Q Q_N
+
+  X0 CLK D RESET_B VGND VNB VPB VPWR Q Q_N sky130_fd_sc_hs__dfrbp_2
+
+.ENDS sky130_fd_sc_hs__dfrbp_2_wrapper
+
+.SUBCKT column clk rstb vdd vss bl[0] bl[1] bl[2] bl[3] bl[4] bl[5] bl[6] bl[7] br[0] br[1] br[2] br[3] br[4] br[5] br[6] br[7] pc_b sel[0] sel[1] sel[2] sel[3] sel[4] sel[5] sel[6] sel[7] sel_b[0] sel_b[1] sel_b[2] sel_b[3] sel_b[4] sel_b[5] sel_b[6] sel_b[7] we we_b din dout sense_en
+
+  Xprecharge_0 vdd bl[0] br[0] pc_b precharge_1
+  Xmux_0 sel_b[0] sel[0] bl[0] br[0] bl_out br_out vdd vss tgate_mux
+  Xprecharge_1 vdd bl[1] br[1] pc_b precharge_1
+  Xmux_1 sel_b[1] sel[1] bl[1] br[1] bl_out br_out vdd vss tgate_mux
+  Xprecharge_2 vdd bl[2] br[2] pc_b precharge_1
+  Xmux_2 sel_b[2] sel[2] bl[2] br[2] bl_out br_out vdd vss tgate_mux
+  Xprecharge_3 vdd bl[3] br[3] pc_b precharge_1
+  Xmux_3 sel_b[3] sel[3] bl[3] br[3] bl_out br_out vdd vss tgate_mux
+  Xprecharge_4 vdd bl[4] br[4] pc_b precharge_1
+  Xmux_4 sel_b[4] sel[4] bl[4] br[4] bl_out br_out vdd vss tgate_mux
+  Xprecharge_5 vdd bl[5] br[5] pc_b precharge_1
+  Xmux_5 sel_b[5] sel[5] bl[5] br[5] bl_out br_out vdd vss tgate_mux
+  Xprecharge_6 vdd bl[6] br[6] pc_b precharge_1
+  Xmux_6 sel_b[6] sel[6] bl[6] br[6] bl_out br_out vdd vss tgate_mux
+  Xprecharge_7 vdd bl[7] br[7] pc_b precharge_1
+  Xmux_7 sel_b[7] sel[7] bl[7] br[7] bl_out br_out vdd vss tgate_mux
+  Xwrite_driver we we_b q q_b bl_out br_out vdd vss write_driver
+  Xsense_amp sense_en br_out bl_out sa_outn sa_outp vdd vss sramgen_sp_sense_amp_wrapper
+  Xlatch vdd vss sa_outp sa_outn dout diff_latch_outn diff_latch
+  Xdff clk din rstb vss vss vdd vdd q q_b sky130_fd_sc_hs__dfrbp_2_wrapper
+
+.ENDS column
+
+.SUBCKT sram_sp_cell_replica BL BR VSS VDD VPB VNB WL
+
+  X0 VDD WL BR VNB sky130_fd_pr__special_nfet_pass l=0.150 nf=1 w=0.140
+
+  X1 Q VDD VSS VNB sky130_fd_pr__special_nfet_latch l=0.150 nf=1 w=0.210
+
+  X2 BL WL Q VNB sky130_fd_pr__special_nfet_pass l=0.150 nf=1 w=0.140
+
+  X3 Q WL Q VPB sky130_fd_pr__special_pfet_pass l=0.025 nf=1 w=0.140
+
+  X4 VDD WL VDD VPB sky130_fd_pr__special_pfet_pass l=0.025 nf=1 w=0.140
+
+  X5 VDD Q VDD VPB sky130_fd_pr__special_pfet_pass l=0.150 nf=1 w=0.140
+
+  X6 Q VDD VDD VPB sky130_fd_pr__special_pfet_pass l=0.150 nf=1 w=0.140
+
+  X7 VSS Q VDD VNB sky130_fd_pr__special_nfet_latch l=0.150 nf=1 w=0.210
+
+
+.ENDS sram_sp_cell_replica
+
+.SUBCKT sram_sp_cell_replica_wrapper BL BR VSS VDD VPB VNB WL
+
+  X0 BL BR VSS VDD VPB VNB WL sram_sp_cell_replica
+
+.ENDS sram_sp_cell_replica_wrapper
+
+.SUBCKT sram_sp_colend BR VDD VSS BL VNB VPB
+
+  X0 BR VNB BR VNB sky130_fd_pr__special_nfet_pass l=0.140 nf=1 w=0.140
+
+
+.ENDS sram_sp_colend
+
+.SUBCKT sram_sp_colend_wrapper BR VDD VSS BL VNB VPB
+
+  X0 BR VDD VSS BL VNB VPB sram_sp_colend
+
+.ENDS sram_sp_colend_wrapper
+
+.SUBCKT sram_sp_rowtapend_replica VSS VNB
+
+  X0 VSS VSS VSS VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.420
+
+
+.ENDS sram_sp_rowtapend_replica
+
+.SUBCKT sram_sp_rowtapend_replica_wrapper VSS VNB
+
+  X0 VSS VNB sram_sp_rowtapend_replica
+
+.ENDS sram_sp_rowtapend_replica_wrapper
+
+.SUBCKT sram_sp_hstrap BR VDD VSS BL VNB VPB
+
+  X0 BL VNB BL VNB sky130_fd_pr__special_nfet_pass l=0.140 nf=1 w=0.140
+
+  X1 BL VNB BL VNB sky130_fd_pr__special_nfet_pass l=0.140 nf=1 w=0.140
+
+
+.ENDS sram_sp_hstrap
+
+.SUBCKT sram_sp_hstrap_wrapper BR VDD VSS BL VNB VPB
+
+  X0 BR VDD VSS BL VNB VPB sram_sp_hstrap
+
+.ENDS sram_sp_hstrap_wrapper
+
+.SUBCKT replica_cell_array vdd vss rbl rbr rwl
+
+  Xcell_0_0 rbl rbr vss vdd vdd vss rwl sram_sp_cell_replica_wrapper
+  Xcell_0_1 rbl rbr vss vdd vdd vss rwl sram_sp_cell_replica_wrapper
+  Xcell_1_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_1_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_2_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_2_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_3_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_3_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_4_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_4_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_5_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_5_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_6_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_6_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_7_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_7_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_8_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_8_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_9_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_9_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_10_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_10_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_11_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_11_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_12_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_12_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_13_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_13_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_14_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_14_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_15_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_15_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_16_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_16_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_17_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_17_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_18_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_18_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_19_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_19_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_20_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_20_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_21_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_21_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_22_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_22_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_23_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_23_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_24_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_24_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_25_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_25_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcolend_0_0 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
+  Xcolend_1_0 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
+  Xcolend_0_1 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
+  Xcolend_1_1 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
+  Xrowtapend_0_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_0_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_0_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_0_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xrowtapend_1_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_1_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_1_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_1_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xrowtapend_2_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_2_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_2_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_2_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xrowtapend_3_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_3_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_3_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_3_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xrowtapend_4_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_4_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_4_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_4_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xrowtapend_5_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_5_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_5_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_5_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xrowtapend_6_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_6_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_6_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_6_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+
+.ENDS replica_cell_array
+
+.SUBCKT mos_w700_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.700
+
+
+.ENDS mos_w700_l150_m1_nf1_id1
+
+.SUBCKT mos_w700_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.700
+
+
+.ENDS mos_w700_l150_m1_nf1_id0
+
+.SUBCKT multi_finger_inv_10 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP9 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP10 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
+
+.ENDS multi_finger_inv_10
 
 .SUBCKT sky130_fd_sc_hs__nand2_4 A B VGND VNB VPB VPWR Y
 
@@ -243,90 +735,56 @@
 
 .ENDS sky130_fd_sc_hs__nand2_4_wrapper
 
-.SUBCKT mos_w700_l150_m1_nf1_id1 d g s b
+.SUBCKT mos_w2550_l150_m1_nf1_id1 d g s b
 
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.700
-
-
-.ENDS mos_w700_l150_m1_nf1_id1
-
-.SUBCKT mos_w700_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.700
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.550
 
 
-.ENDS mos_w700_l150_m1_nf1_id0
+.ENDS mos_w2550_l150_m1_nf1_id1
 
-.SUBCKT multi_finger_inv_3 vdd vss a y
+.SUBCKT nand2 vdd vss a b y
 
-  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP9 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP10 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP11 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP12 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP13 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP14 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP15 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP16 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN4 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN5 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN6 y a vss vss mos_w700_l150_m1_nf1_id0
+  Xn1 x a vss vss mos_w2000_l150_m1_nf1_id0
+  Xn2 y b x vss mos_w2000_l150_m1_nf1_id0
+  Xp1 y a vdd vdd mos_w2500_l150_m1_nf1_id1
+  Xp2 y b vdd vdd mos_w2500_l150_m1_nf1_id1
 
-.ENDS multi_finger_inv_3
+.ENDS nand2
 
-.SUBCKT mos_w3200_l150_m1_nf1_id1 d g s b
+.SUBCKT folded_inv_1 vdd vss a y
 
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=3.200
+  XMP0 y a vdd vdd mos_w5000_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w2000_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w5000_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w2000_l150_m1_nf1_id0
 
+.ENDS folded_inv_1
 
-.ENDS mos_w3200_l150_m1_nf1_id1
+.SUBCKT and2 vdd a b y yb vss
 
-.SUBCKT mos_w1280_l150_m1_nf1_id0 d g s b
+  X0 vdd vss a b yb nand2
+  X0_1 vdd vss yb y folded_inv_1
 
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.280
+.ENDS and2
 
+.SUBCKT decoder_stage vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y[8] y[9] y[10] y[11] y[12] y[13] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] y_b[8] y_b[9] y_b[10] y_b[11] y_b[12] y_b[13] wl_en in[0] in[1] in[2] in[3] in[4] in[5] in[6] in[7] in[8] in[9] in[10] in[11] in[12] in[13]
 
-.ENDS mos_w1280_l150_m1_nf1_id0
+  Xgate_0_0_0 vdd wl_en in[0] y[0] y_b[0] vss and2
+  Xgate_0_1_0 vdd wl_en in[1] y[1] y_b[1] vss and2
+  Xgate_0_2_0 vdd wl_en in[2] y[2] y_b[2] vss and2
+  Xgate_0_3_0 vdd wl_en in[3] y[3] y_b[3] vss and2
+  Xgate_0_4_0 vdd wl_en in[4] y[4] y_b[4] vss and2
+  Xgate_0_5_0 vdd wl_en in[5] y[5] y_b[5] vss and2
+  Xgate_0_6_0 vdd wl_en in[6] y[6] y_b[6] vss and2
+  Xgate_0_7_0 vdd wl_en in[7] y[7] y_b[7] vss and2
+  Xgate_0_8_0 vdd wl_en in[8] y[8] y_b[8] vss and2
+  Xgate_0_9_0 vdd wl_en in[9] y[9] y_b[9] vss and2
+  Xgate_0_10_0 vdd wl_en in[10] y[10] y_b[10] vss and2
+  Xgate_0_11_0 vdd wl_en in[11] y[11] y_b[11] vss and2
+  Xgate_0_12_0 vdd wl_en in[12] y[12] y_b[12] vss and2
+  Xgate_0_13_0 vdd wl_en in[13] y[13] y_b[13] vss and2
 
-.SUBCKT folded_inv_10 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w3200_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w1280_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w3200_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w1280_l150_m1_nf1_id0
-
-.ENDS folded_inv_10
-
-.SUBCKT decoder_stage_10 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1
-
-  Xgate_0_0_0 vdd vss predecode_0_0 predecode_1_0 y_b[0] nand2_1
-  Xgate_0_1_0 vdd vss predecode_0_1 predecode_1_0 y_b[1] nand2_1
-  Xgate_0_2_0 vdd vss predecode_0_0 predecode_1_1 y_b[2] nand2_1
-  Xgate_0_3_0 vdd vss predecode_0_1 predecode_1_1 y_b[3] nand2_1
-  Xgate_1_0_0 vdd vss y_b[0] y[0] folded_inv_10
-  Xgate_1_1_0 vdd vss y_b[1] y[1] folded_inv_10
-  Xgate_1_2_0 vdd vss y_b[2] y[2] folded_inv_10
-  Xgate_1_3_0 vdd vss y_b[3] y[3] folded_inv_10
-
-.ENDS decoder_stage_10
-
-.SUBCKT decoder_4 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1
-
-  X0 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 decoder_stage_10
-
-.ENDS decoder_4
+.ENDS decoder_stage
 
 .SUBCKT mos_w2850_l150_m1_nf1_id0 d g s b
 
@@ -511,15 +969,6 @@
 
 .ENDS decoder_3
 
-.SUBCKT nand2 vdd vss a b y
-
-  Xn1 x a vss vss mos_w2000_l150_m1_nf1_id0
-  Xn2 y b x vss mos_w2000_l150_m1_nf1_id0
-  Xp1 y a vdd vdd mos_w2500_l150_m1_nf1_id1
-  Xp2 y b vdd vdd mos_w2500_l150_m1_nf1_id1
-
-.ENDS nand2
-
 .SUBCKT mos_w2180_l150_m1_nf1_id1 d g s b
 
   X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.180
@@ -549,26 +998,6 @@
   X0_1 vdd vss yb y folded_inv_8
 
 .ENDS and2_1
-
-.SUBCKT multi_finger_inv_10 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP9 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP10 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
-
-.ENDS multi_finger_inv_10
 
 .SUBCKT multi_finger_inv_11 vdd vss a y
 
@@ -2133,90 +2562,6 @@
 
 .ENDS decoder
 
-.SUBCKT multi_finger_inv_7 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP9 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP10 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
-
-.ENDS multi_finger_inv_7
-
-.SUBCKT mos_w5000_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=5.000
-
-
-.ENDS mos_w5000_l150_m1_nf1_id1
-
-.SUBCKT mos_w3000_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=3.000
-
-
-.ENDS mos_w3000_l150_m1_nf1_id1
-
-.SUBCKT precharge_1 vdd bl br en_b
-
-  Xbl_pull_up bl en_b vdd vdd mos_w5000_l150_m1_nf1_id1
-  Xbr_pull_up br en_b vdd vdd mos_w5000_l150_m1_nf1_id1
-  Xequalizer bl en_b br vdd mos_w3000_l150_m1_nf1_id1
-
-.ENDS precharge_1
-
-.SUBCKT mos_w2850_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.850
-
-
-.ENDS mos_w2850_l150_m1_nf1_id1
-
-.SUBCKT folded_inv_1 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w5000_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w2000_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w5000_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w2000_l150_m1_nf1_id0
-
-.ENDS folded_inv_1
-
-.SUBCKT and2 vdd a b y yb vss
-
-  X0 vdd vss a b yb nand2
-  X0_1 vdd vss yb y folded_inv_1
-
-.ENDS and2
-
-.SUBCKT decoder_stage vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y[8] y[9] y[10] y[11] y[12] y[13] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] y_b[8] y_b[9] y_b[10] y_b[11] y_b[12] y_b[13] wl_en in[0] in[1] in[2] in[3] in[4] in[5] in[6] in[7] in[8] in[9] in[10] in[11] in[12] in[13]
-
-  Xgate_0_0_0 vdd wl_en in[0] y[0] y_b[0] vss and2
-  Xgate_0_1_0 vdd wl_en in[1] y[1] y_b[1] vss and2
-  Xgate_0_2_0 vdd wl_en in[2] y[2] y_b[2] vss and2
-  Xgate_0_3_0 vdd wl_en in[3] y[3] y_b[3] vss and2
-  Xgate_0_4_0 vdd wl_en in[4] y[4] y_b[4] vss and2
-  Xgate_0_5_0 vdd wl_en in[5] y[5] y_b[5] vss and2
-  Xgate_0_6_0 vdd wl_en in[6] y[6] y_b[6] vss and2
-  Xgate_0_7_0 vdd wl_en in[7] y[7] y_b[7] vss and2
-  Xgate_0_8_0 vdd wl_en in[8] y[8] y_b[8] vss and2
-  Xgate_0_9_0 vdd wl_en in[9] y[9] y_b[9] vss and2
-  Xgate_0_10_0 vdd wl_en in[10] y[10] y_b[10] vss and2
-  Xgate_0_11_0 vdd wl_en in[11] y[11] y_b[11] vss and2
-  Xgate_0_12_0 vdd wl_en in[12] y[12] y_b[12] vss and2
-  Xgate_0_13_0 vdd wl_en in[13] y[13] y_b[13] vss and2
-
-.ENDS decoder_stage
-
 .SUBCKT multi_finger_inv_16 vdd vss a y
 
   XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
@@ -2694,6 +3039,20 @@
 
 .ENDS sky130_fd_sc_hs__and2_2_wrapper
 
+.SUBCKT inv_chain_9 din dout vdd vss
+
+  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv2 x[1] vss vss vdd vdd x[2] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv3 x[2] vss vss vdd vdd x[3] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv4 x[3] vss vss vdd vdd x[4] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv5 x[4] vss vss vdd vdd x[5] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv6 x[5] vss vss vdd vdd x[6] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv7 x[6] vss vss vdd vdd x[7] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv8 x[7] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
+
+.ENDS inv_chain_9
+
 .SUBCKT sky130_fd_sc_hs__and2_4 A B VGND VNB VPB VPWR X
 
   X0 VPWR a_83_269# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
@@ -2851,107 +3210,11 @@
 
 .ENDS inv_chain_3
 
-.SUBCKT inv_chain_15 din dout vdd vss
-
-  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv2 x[1] vss vss vdd vdd x[2] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv3 x[2] vss vss vdd vdd x[3] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv4 x[3] vss vss vdd vdd x[4] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv5 x[4] vss vss vdd vdd x[5] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv6 x[5] vss vss vdd vdd x[6] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv7 x[6] vss vss vdd vdd x[7] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv8 x[7] vss vss vdd vdd x[8] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv9 x[8] vss vss vdd vdd x[9] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv10 x[9] vss vss vdd vdd x[10] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv11 x[10] vss vss vdd vdd x[11] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv12 x[11] vss vss vdd vdd x[12] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv13 x[12] vss vss vdd vdd x[13] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv14 x[13] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
-
-.ENDS inv_chain_15
-
-.SUBCKT sky130_fd_sc_hs__mux2_4 A0 A1 S VGND VNB VPB VPWR X
-
-  X0 a_27_368# S VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X1 a_722_391# A0 a_193_241# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X2 a_722_391# S VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X3 VGND a_27_368# a_937_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X4 a_193_241# A1 a_936_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X5 a_709_119# S VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X6 a_709_119# A1 a_193_241# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X7 X a_193_241# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X8 X a_193_241# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X9 VPWR a_27_368# a_936_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X10 X a_193_241# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X11 a_193_241# A0 a_722_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X12 a_937_119# A0 a_193_241# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X13 a_936_391# a_27_368# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X14 VGND a_193_241# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X15 VPWR a_193_241# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X16 VPWR S a_722_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X17 a_936_391# A1 a_193_241# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X18 a_193_241# A0 a_937_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X19 a_193_241# A1 a_709_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X20 X a_193_241# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X21 VGND a_193_241# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X22 a_27_368# S VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X23 a_937_119# a_27_368# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X24 VPWR a_193_241# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X25 VGND S a_709_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-
-.ENDS sky130_fd_sc_hs__mux2_4
-
 .SUBCKT sky130_fd_sc_hs__mux2_4_wrapper A0 A1 S VGND VNB VPB VPWR X
 
   X0 A0 A1 S VGND VNB VPB VPWR X sky130_fd_sc_hs__mux2_4
 
 .ENDS sky130_fd_sc_hs__mux2_4_wrapper
-
-.SUBCKT sramgen_svt_inv_2 A VGND VNB VPB VPWR Y
-
-  X0 Y A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X1 VPWR A Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X2 VGND A Y VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.740
-
-  X3 Y A VGND VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.740
-
-
-.ENDS sramgen_svt_inv_2
-
-.SUBCKT sramgen_svt_inv_2_wrapper A VGND VNB VPB VPWR Y
-
-  X0 A VGND VNB VPB VPWR Y sramgen_svt_inv_2
-
-.ENDS sramgen_svt_inv_2_wrapper
 
 .SUBCKT sramgen_svt_inv_4 A VGND VNB VPB VPWR Y
 
@@ -3254,6 +3517,35 @@
 
 .ENDS multi_finger_inv_2
 
+.SUBCKT multi_finger_inv_3 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP9 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP10 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP11 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP12 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP13 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP14 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP15 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP16 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN4 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN5 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN6 y a vss vss mos_w700_l150_m1_nf1_id0
+
+.ENDS multi_finger_inv_3
+
 .SUBCKT multi_finger_inv_4 vdd vss a y
 
   XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
@@ -3438,6 +3730,26 @@
 
 .ENDS decoder_stage_3
 
+.SUBCKT multi_finger_inv_7 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP9 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP10 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
+
+.ENDS multi_finger_inv_7
+
 .SUBCKT multi_finger_inv_8 vdd vss a y
 
   XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
@@ -3554,93 +3866,6 @@
 
 .ENDS decoder_stage_4
 
-.SUBCKT sky130_fd_sc_hs__dfrbp_2 CLK D RESET_B VGND VNB VPB VPWR Q Q_N
-
-  X0 a_1800_291# a_1586_149# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X1 VGND CLK a_728_331# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X2 Q a_2363_352# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X3 VPWR CLK a_728_331# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X4 a_1499_149# a_728_331# a_1586_149# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X5 a_536_81# a_331_392# a_614_81# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X6 a_156_74# RESET_B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X7 a_298_294# a_818_418# a_614_81# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X8 a_70_74# a_728_331# a_298_294# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X9 a_331_392# a_728_331# a_1586_149# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X10 a_70_74# D a_156_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X11 a_818_418# a_728_331# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X12 a_818_418# a_728_331# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X13 a_1586_149# a_818_418# a_1755_389# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X14 Q_N a_1586_149# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X15 a_298_294# a_818_418# a_70_74# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X16 VGND RESET_B a_536_81# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X17 a_1755_389# a_1800_291# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X18 a_1586_149# a_818_418# a_331_392# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X19 Q a_2363_352# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X20 VGND a_1586_149# Q_N VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X21 VGND a_1586_149# a_2363_352# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X22 VPWR a_298_294# a_331_392# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X23 a_298_294# RESET_B VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X24 a_1499_149# a_1800_291# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X25 VPWR a_331_392# a_683_485# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X26 VPWR D a_70_74# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X27 VPWR RESET_B a_1800_291# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X28 a_1974_74# a_1586_149# a_1800_291# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X29 a_70_74# RESET_B VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X30 Q_N a_1586_149# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X31 VPWR a_1586_149# a_2363_352# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X32 VGND a_2363_352# Q VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X33 VPWR a_1586_149# Q_N VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X34 VGND RESET_B a_1974_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.420
-
-  X35 a_683_485# a_728_331# a_298_294# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.420
-
-  X36 VGND a_298_294# a_331_392# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X37 VPWR a_2363_352# Q VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-
-.ENDS sky130_fd_sc_hs__dfrbp_2
-
-.SUBCKT sky130_fd_sc_hs__dfrbp_2_wrapper CLK D RESET_B VGND VNB VPB VPWR Q Q_N
-
-  X0 CLK D RESET_B VGND VNB VPB VPWR Q Q_N sky130_fd_sc_hs__dfrbp_2
-
-.ENDS sky130_fd_sc_hs__dfrbp_2_wrapper
-
 .SUBCKT dff_array_12 vdd vss clk rb d[0] d[1] d[2] d[3] d[4] d[5] d[6] d[7] d[8] d[9] d[10] d[11] q[0] q[1] q[2] q[3] q[4] q[5] q[6] q[7] q[8] q[9] q[10] q[11] qn[0] qn[1] qn[2] qn[3] qn[4] qn[5] qn[6] qn[7] qn[8] qn[9] qn[10] qn[11]
 
   Xdff_0 clk d[0] rb vss vss vdd vdd q[0] qn[0] sky130_fd_sc_hs__dfrbp_2_wrapper
@@ -3684,34 +3909,6 @@
   X0 BL BR VDD VSS WL VNB VPB sram_sp_cell
 
 .ENDS sram_sp_cell_wrapper
-
-.SUBCKT sram_sp_colend BR VDD VSS BL VNB VPB
-
-  X0 BR VNB BR VNB sky130_fd_pr__special_nfet_pass l=0.140 nf=1 w=0.140
-
-
-.ENDS sram_sp_colend
-
-.SUBCKT sram_sp_colend_wrapper BR VDD VSS BL VNB VPB
-
-  X0 BR VDD VSS BL VNB VPB sram_sp_colend
-
-.ENDS sram_sp_colend_wrapper
-
-.SUBCKT sram_sp_hstrap BR VDD VSS BL VNB VPB
-
-  X0 BL VNB BL VNB sky130_fd_pr__special_nfet_pass l=0.140 nf=1 w=0.140
-
-  X1 BL VNB BL VNB sky130_fd_pr__special_nfet_pass l=0.140 nf=1 w=0.140
-
-
-.ENDS sram_sp_hstrap
-
-.SUBCKT sram_sp_hstrap_wrapper BR VDD VSS BL VNB VPB
-
-  X0 BR VDD VSS BL VNB VPB sram_sp_hstrap
-
-.ENDS sram_sp_hstrap_wrapper
 
 .SUBCKT sp_cell_array vdd vss dummy_bl dummy_br bl[0] bl[1] bl[2] bl[3] bl[4] bl[5] bl[6] bl[7] bl[8] bl[9] bl[10] bl[11] bl[12] bl[13] bl[14] bl[15] bl[16] bl[17] bl[18] bl[19] bl[20] bl[21] bl[22] bl[23] bl[24] bl[25] bl[26] bl[27] bl[28] bl[29] bl[30] bl[31] bl[32] bl[33] bl[34] bl[35] bl[36] bl[37] bl[38] bl[39] bl[40] bl[41] bl[42] bl[43] bl[44] bl[45] bl[46] bl[47] bl[48] bl[49] bl[50] bl[51] bl[52] bl[53] bl[54] bl[55] bl[56] bl[57] bl[58] bl[59] bl[60] bl[61] bl[62] bl[63] bl[64] bl[65] bl[66] bl[67] bl[68] bl[69] bl[70] bl[71] bl[72] bl[73] bl[74] bl[75] bl[76] bl[77] bl[78] bl[79] bl[80] bl[81] bl[82] bl[83] bl[84] bl[85] bl[86] bl[87] bl[88] bl[89] bl[90] bl[91] bl[92] bl[93] bl[94] bl[95] bl[96] bl[97] bl[98] bl[99] bl[100] bl[101] bl[102] bl[103] bl[104] bl[105] bl[106] bl[107] bl[108] bl[109] bl[110] bl[111] bl[112] bl[113] bl[114] bl[115] bl[116] bl[117] bl[118] bl[119] bl[120] bl[121] bl[122] bl[123] bl[124] bl[125] bl[126] bl[127] bl[128] bl[129] bl[130] bl[131] bl[132] bl[133] bl[134] bl[135] bl[136] bl[137] bl[138] bl[139] bl[140] bl[141] bl[142] bl[143] bl[144] bl[145] bl[146] bl[147] bl[148] bl[149] bl[150] bl[151] bl[152] bl[153] bl[154] bl[155] bl[156] bl[157] bl[158] bl[159] bl[160] bl[161] bl[162] bl[163] bl[164] bl[165] bl[166] bl[167] bl[168] bl[169] bl[170] bl[171] bl[172] bl[173] bl[174] bl[175] bl[176] bl[177] bl[178] bl[179] bl[180] bl[181] bl[182] bl[183] bl[184] bl[185] bl[186] bl[187] bl[188] bl[189] bl[190] bl[191] bl[192] bl[193] bl[194] bl[195] bl[196] bl[197] bl[198] bl[199] bl[200] bl[201] bl[202] bl[203] bl[204] bl[205] bl[206] bl[207] bl[208] bl[209] bl[210] bl[211] bl[212] bl[213] bl[214] bl[215] bl[216] bl[217] bl[218] bl[219] bl[220] bl[221] bl[222] bl[223] bl[224] bl[225] bl[226] bl[227] bl[228] bl[229] bl[230] bl[231] bl[232] bl[233] bl[234] bl[235] bl[236] bl[237] bl[238] bl[239] bl[240] bl[241] bl[242] bl[243] bl[244] bl[245] bl[246] bl[247] bl[248] bl[249] bl[250] bl[251] bl[252] bl[253] bl[254] bl[255] br[0] br[1] br[2] br[3] br[4] br[5] br[6] br[7] br[8] br[9] br[10] br[11] br[12] br[13] br[14] br[15] br[16] br[17] br[18] br[19] br[20] br[21] br[22] br[23] br[24] br[25] br[26] br[27] br[28] br[29] br[30] br[31] br[32] br[33] br[34] br[35] br[36] br[37] br[38] br[39] br[40] br[41] br[42] br[43] br[44] br[45] br[46] br[47] br[48] br[49] br[50] br[51] br[52] br[53] br[54] br[55] br[56] br[57] br[58] br[59] br[60] br[61] br[62] br[63] br[64] br[65] br[66] br[67] br[68] br[69] br[70] br[71] br[72] br[73] br[74] br[75] br[76] br[77] br[78] br[79] br[80] br[81] br[82] br[83] br[84] br[85] br[86] br[87] br[88] br[89] br[90] br[91] br[92] br[93] br[94] br[95] br[96] br[97] br[98] br[99] br[100] br[101] br[102] br[103] br[104] br[105] br[106] br[107] br[108] br[109] br[110] br[111] br[112] br[113] br[114] br[115] br[116] br[117] br[118] br[119] br[120] br[121] br[122] br[123] br[124] br[125] br[126] br[127] br[128] br[129] br[130] br[131] br[132] br[133] br[134] br[135] br[136] br[137] br[138] br[139] br[140] br[141] br[142] br[143] br[144] br[145] br[146] br[147] br[148] br[149] br[150] br[151] br[152] br[153] br[154] br[155] br[156] br[157] br[158] br[159] br[160] br[161] br[162] br[163] br[164] br[165] br[166] br[167] br[168] br[169] br[170] br[171] br[172] br[173] br[174] br[175] br[176] br[177] br[178] br[179] br[180] br[181] br[182] br[183] br[184] br[185] br[186] br[187] br[188] br[189] br[190] br[191] br[192] br[193] br[194] br[195] br[196] br[197] br[198] br[199] br[200] br[201] br[202] br[203] br[204] br[205] br[206] br[207] br[208] br[209] br[210] br[211] br[212] br[213] br[214] br[215] br[216] br[217] br[218] br[219] br[220] br[221] br[222] br[223] br[224] br[225] br[226] br[227] br[228] br[229] br[230] br[231] br[232] br[233] br[234] br[235] br[236] br[237] br[238] br[239] br[240] br[241] br[242] br[243] br[244] br[245] br[246] br[247] br[248] br[249] br[250] br[251] br[252] br[253] br[254] br[255] wl[0] wl[1] wl[2] wl[3] wl[4] wl[5] wl[6] wl[7] wl[8] wl[9] wl[10] wl[11] wl[12] wl[13] wl[14] wl[15] wl[16] wl[17] wl[18] wl[19] wl[20] wl[21] wl[22] wl[23] wl[24] wl[25] wl[26] wl[27] wl[28] wl[29] wl[30] wl[31] wl[32] wl[33] wl[34] wl[35] wl[36] wl[37] wl[38] wl[39] wl[40] wl[41] wl[42] wl[43] wl[44] wl[45] wl[46] wl[47] wl[48] wl[49] wl[50] wl[51] wl[52] wl[53] wl[54] wl[55] wl[56] wl[57] wl[58] wl[59] wl[60] wl[61] wl[62] wl[63] wl[64] wl[65] wl[66] wl[67] wl[68] wl[69] wl[70] wl[71] wl[72] wl[73] wl[74] wl[75] wl[76] wl[77] wl[78] wl[79] wl[80] wl[81] wl[82] wl[83] wl[84] wl[85] wl[86] wl[87] wl[88] wl[89] wl[90] wl[91] wl[92] wl[93] wl[94] wl[95] wl[96] wl[97] wl[98] wl[99] wl[100] wl[101] wl[102] wl[103] wl[104] wl[105] wl[106] wl[107] wl[108] wl[109] wl[110] wl[111] wl[112] wl[113] wl[114] wl[115] wl[116] wl[117] wl[118] wl[119] wl[120] wl[121] wl[122] wl[123] wl[124] wl[125] wl[126] wl[127]
 
@@ -46285,88 +46482,1097 @@
   Xhstrap_30_257 vdd vdd vss vdd vss vdd sram_sp_hstrap_wrapper
   Xhstrap_31_257 vdd vdd vss vdd vss vdd sram_sp_hstrap_wrapper
   Xhstrap_32_257 vdd vdd vss vdd vss vdd sram_sp_hstrap_wrapper
+  Xhoriz_wlstrap_0_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_17 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_18 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_19 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_20 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_21 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_22 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_23 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_24 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_25 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_26 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_27 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_28 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_29 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_30 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_31 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_9_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_10_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_11_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_12_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_13_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_14_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_15_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_16_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_17_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_18_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_19_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_20_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_21_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_22_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_23_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_24_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_25_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_26_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_27_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_28_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_29_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_30_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_31_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_32_32 vss vss sram_sp_horiz_wlstrap_p2_wrapper
 
 .ENDS sp_cell_array
-
-.SUBCKT sram_sp_cell_replica BL BR VSS VDD VPB VNB WL
-
-  X0 VDD WL BR VNB sky130_fd_pr__special_nfet_pass l=0.150 nf=1 w=0.140
-
-  X1 Q VDD VSS VNB sky130_fd_pr__special_nfet_latch l=0.150 nf=1 w=0.210
-
-  X2 BL WL Q VNB sky130_fd_pr__special_nfet_pass l=0.150 nf=1 w=0.140
-
-  X3 Q WL Q VPB sky130_fd_pr__special_pfet_pass l=0.025 nf=1 w=0.140
-
-  X4 VDD WL VDD VPB sky130_fd_pr__special_pfet_pass l=0.025 nf=1 w=0.140
-
-  X5 VDD Q VDD VPB sky130_fd_pr__special_pfet_pass l=0.150 nf=1 w=0.140
-
-  X6 Q VDD VDD VPB sky130_fd_pr__special_pfet_pass l=0.150 nf=1 w=0.140
-
-  X7 VSS Q VDD VNB sky130_fd_pr__special_nfet_latch l=0.150 nf=1 w=0.210
-
-
-.ENDS sram_sp_cell_replica
-
-.SUBCKT sram_sp_cell_replica_wrapper BL BR VSS VDD VPB VNB WL
-
-  X0 BL BR VSS VDD VPB VNB WL sram_sp_cell_replica
-
-.ENDS sram_sp_cell_replica_wrapper
-
-.SUBCKT replica_cell_array vdd vss rbl rbr rwl
-
-  Xcell_0_0 rbl rbr vss vdd vdd vss rwl sram_sp_cell_replica_wrapper
-  Xcell_0_1 rbl rbr vss vdd vdd vss rwl sram_sp_cell_replica_wrapper
-  Xcell_1_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_1_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_2_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_2_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_3_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_3_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_4_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_4_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_5_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_5_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_6_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_6_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_7_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_7_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_8_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_8_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_9_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_9_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_10_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_10_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_11_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_11_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_12_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_12_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_13_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_13_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_14_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_14_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_15_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_15_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_16_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_16_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_17_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_17_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_18_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_18_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_19_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_19_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_20_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_20_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_21_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcell_21_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
-  Xcolend_0_0 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
-  Xcolend_1_0 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
-  Xcolend_0_1 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
-  Xcolend_1_1 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
-
-.ENDS replica_cell_array
 
 .SUBCKT dff_array_4 vdd vss clk rb d[0] d[1] d[2] d[3] q[0] q[1] q[2] q[3] qn[0] qn[1] qn[2] qn[3]
 
@@ -46377,147 +47583,114 @@
 
 .ENDS dff_array_4
 
-.SUBCKT mos_w7050_l150_m1_nf1_id1 d g s b
+.SUBCKT mos_w2480_l150_m1_nf1_id1 d g s b
 
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=7.050
-
-
-.ENDS mos_w7050_l150_m1_nf1_id1
-
-.SUBCKT mos_w4700_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=4.700
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.480
 
 
-.ENDS mos_w4700_l150_m1_nf1_id0
+.ENDS mos_w2480_l150_m1_nf1_id1
 
-.SUBCKT tgate_mux sel_b sel bl br bl_out br_out vdd vss
+.SUBCKT folded_inv_2 vdd vss a y
 
-  XMPBL bl_out sel_b bl vdd mos_w7050_l150_m1_nf1_id1
-  XMPBR br_out sel_b br vdd mos_w7050_l150_m1_nf1_id1
-  XMNBL bl_out sel bl vss mos_w4700_l150_m1_nf1_id0
-  XMNBR br_out sel br vss mos_w4700_l150_m1_nf1_id0
+  XMP0 y a vdd vdd mos_w2480_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w1000_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w2480_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w1000_l150_m1_nf1_id0
 
-.ENDS tgate_mux
+.ENDS folded_inv_2
 
-.SUBCKT mos_w5000_l150_m1_nf1_id0 d g s b
+.SUBCKT mos_w1030_l150_m1_nf1_id0 d g s b
 
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=5.000
-
-
-.ENDS mos_w5000_l150_m1_nf1_id0
-
-.SUBCKT tristate_inv din en en_b din_b vdd vss
-
-  Xmn_en din_b en nint vss mos_w5000_l150_m1_nf1_id0
-  Xmn_pd nint din vss vss mos_w5000_l150_m1_nf1_id0
-  Xmp_en din_b en_b pint vdd mos_w5000_l150_m1_nf1_id1
-  Xmp_pu pint din vdd vdd mos_w5000_l150_m1_nf1_id1
-
-.ENDS tristate_inv
-
-.SUBCKT write_driver en en_b data data_b bl br vdd vss
-
-  Xbldriver data_b en en_b bl vdd vss tristate_inv
-  Xbrdriver data en en_b br vdd vss tristate_inv
-
-.ENDS write_driver
-
-.SUBCKT sramgen_sp_sense_amp clk inn inp outn outp VDD VSS
-
-  XSWOP outp clk VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=1.000
-
-  XSWON outn clk VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=1.000
-
-  XSWMP midp clk VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=1.000
-
-  XSWMN midn clk VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=1.000
-
-  XPFBP outp outn VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=2.000
-
-  XPFBN outn outp VDD VDD sky130_fd_pr__pfet_01v8 l=0.150 nf=2 w=2.000
-
-  XTAIL tail clk VSS VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=4 w=1.680
-
-  XNFBP outp outn midp VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=2 w=1.680
-
-  XNFBN outn outp midn VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=2 w=1.680
-
-  XINP midn inp tail VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=2 w=1.680
-
-  XINN midp inn tail VSS sky130_fd_pr__nfet_01v8 l=0.150 nf=2 w=1.680
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.030
 
 
-.ENDS sramgen_sp_sense_amp
+.ENDS mos_w1030_l150_m1_nf1_id0
 
-.SUBCKT sramgen_sp_sense_amp_wrapper clk inn inp outn outp VDD VSS
+.SUBCKT folded_inv_3 vdd vss a y
 
-  X0 clk inn inp outn outp VDD VSS sramgen_sp_sense_amp
+  XMP0 y a vdd vdd mos_w2550_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w1030_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w2550_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w1030_l150_m1_nf1_id0
 
-.ENDS sramgen_sp_sense_amp_wrapper
+.ENDS folded_inv_3
 
-.SUBCKT mos_w1000_l150_m1_nf1_id1 d g s b
+.SUBCKT mos_w2640_l150_m1_nf1_id1 d g s b
 
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-
-.ENDS mos_w1000_l150_m1_nf1_id1
-
-.SUBCKT mos_w600_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.600
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.640
 
 
-.ENDS mos_w600_l150_m1_nf1_id0
+.ENDS mos_w2640_l150_m1_nf1_id1
 
-.SUBCKT folded_inv_9 vdd vss a y
+.SUBCKT mos_w1060_l150_m1_nf1_id0 d g s b
 
-  XMP0 y a vdd vdd mos_w1000_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w600_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w1000_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w600_l150_m1_nf1_id0
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.060
 
-.ENDS folded_inv_9
 
-.SUBCKT diff_latch vdd vss din1 din2 dout1 dout2
+.ENDS mos_w1060_l150_m1_nf1_id0
 
-  Xinbuf_1 vdd vss din1 rst folded_inv_9
-  Xinbuf_2 vdd vss din2 set folded_inv_9
-  Xoutbuf_1 vdd vss q dout2 folded_inv_9
-  Xoutbuf_2 vdd vss qb dout1 folded_inv_9
-  Xinvq_1 vdd vss q qb folded_inv_9
-  Xinvq_2 vdd vss qb q folded_inv_9
-  XMN10 q rst vss vss mos_w1000_l150_m1_nf1_id0
-  XMN11 q rst vss vss mos_w1000_l150_m1_nf1_id0
-  XMN20 qb set vss vss mos_w1000_l150_m1_nf1_id0
-  XMN21 qb set vss vss mos_w1000_l150_m1_nf1_id0
+.SUBCKT folded_inv_4 vdd vss a y
 
-.ENDS diff_latch
+  XMP0 y a vdd vdd mos_w2640_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w1060_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w2640_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w1060_l150_m1_nf1_id0
 
-.SUBCKT column clk rstb vdd vss bl[0] bl[1] bl[2] bl[3] bl[4] bl[5] bl[6] bl[7] br[0] br[1] br[2] br[3] br[4] br[5] br[6] br[7] pc_b sel[0] sel[1] sel[2] sel[3] sel[4] sel[5] sel[6] sel[7] sel_b[0] sel_b[1] sel_b[2] sel_b[3] sel_b[4] sel_b[5] sel_b[6] sel_b[7] we we_b din dout sense_en
+.ENDS folded_inv_4
 
-  Xprecharge_0 vdd bl[0] br[0] pc_b precharge_1
-  Xmux_0 sel_b[0] sel[0] bl[0] br[0] bl_out br_out vdd vss tgate_mux
-  Xprecharge_1 vdd bl[1] br[1] pc_b precharge_1
-  Xmux_1 sel_b[1] sel[1] bl[1] br[1] bl_out br_out vdd vss tgate_mux
-  Xprecharge_2 vdd bl[2] br[2] pc_b precharge_1
-  Xmux_2 sel_b[2] sel[2] bl[2] br[2] bl_out br_out vdd vss tgate_mux
-  Xprecharge_3 vdd bl[3] br[3] pc_b precharge_1
-  Xmux_3 sel_b[3] sel[3] bl[3] br[3] bl_out br_out vdd vss tgate_mux
-  Xprecharge_4 vdd bl[4] br[4] pc_b precharge_1
-  Xmux_4 sel_b[4] sel[4] bl[4] br[4] bl_out br_out vdd vss tgate_mux
-  Xprecharge_5 vdd bl[5] br[5] pc_b precharge_1
-  Xmux_5 sel_b[5] sel[5] bl[5] br[5] bl_out br_out vdd vss tgate_mux
-  Xprecharge_6 vdd bl[6] br[6] pc_b precharge_1
-  Xmux_6 sel_b[6] sel[6] bl[6] br[6] bl_out br_out vdd vss tgate_mux
-  Xprecharge_7 vdd bl[7] br[7] pc_b precharge_1
-  Xmux_7 sel_b[7] sel[7] bl[7] br[7] bl_out br_out vdd vss tgate_mux
-  Xwrite_driver we we_b q q_b bl_out br_out vdd vss write_driver
-  Xsense_amp sense_en br_out bl_out sa_outn sa_outp vdd vss sramgen_sp_sense_amp_wrapper
-  Xlatch vdd vss sa_outp sa_outn dout diff_latch_outn diff_latch
-  Xdff clk din rstb vss vss vdd vdd q q_b sky130_fd_sc_hs__dfrbp_2_wrapper
+.SUBCKT mos_w2420_l150_m1_nf1_id1 d g s b
 
-.ENDS column
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.420
+
+
+.ENDS mos_w2420_l150_m1_nf1_id1
+
+.SUBCKT mos_w970_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.970
+
+
+.ENDS mos_w970_l150_m1_nf1_id0
+
+.SUBCKT folded_inv_5 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w2420_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w970_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w2420_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w970_l150_m1_nf1_id0
+
+.ENDS folded_inv_5
+
+.SUBCKT decoder_stage_7 vdd vss y y_b predecode_0_0 predecode_1_0
+
+  Xgate_0_0_0 vdd vss predecode_0_0 predecode_1_0 x_0 nand2_1
+  Xgate_1_0_0 vdd vss x_0 x_1 folded_inv_2
+  Xgate_2_0_0 vdd vss x_1 x_2 folded_inv_3
+  Xgate_2_0_1 vdd vss x_1 x_2 folded_inv_3
+  Xgate_3_0_0 vdd vss x_2 x_3 folded_inv_4
+  Xgate_3_0_1 vdd vss x_2 x_3 folded_inv_4
+  Xgate_3_0_2 vdd vss x_2 x_3 folded_inv_4
+  Xgate_3_0_3 vdd vss x_2 x_3 folded_inv_4
+  Xgate_4_0_0 vdd vss x_3 y_b folded_inv_5
+  Xgate_4_0_1 vdd vss x_3 y_b folded_inv_5
+  Xgate_4_0_2 vdd vss x_3 y_b folded_inv_5
+  Xgate_4_0_3 vdd vss x_3 y_b folded_inv_5
+  Xgate_4_0_4 vdd vss x_3 y_b folded_inv_5
+  Xgate_4_0_5 vdd vss x_3 y_b folded_inv_5
+  Xgate_4_0_6 vdd vss x_3 y_b folded_inv_5
+  Xgate_4_0_7 vdd vss x_3 y_b folded_inv_5
+  Xgate_4_0_8 vdd vss x_3 y_b folded_inv_5
+  Xgate_5_0_0 vdd vss y_b y folded_inv_5
+  Xgate_5_0_1 vdd vss y_b y folded_inv_5
+  Xgate_5_0_2 vdd vss y_b y folded_inv_5
+  Xgate_5_0_3 vdd vss y_b y folded_inv_5
+  Xgate_5_0_4 vdd vss y_b y folded_inv_5
+  Xgate_5_0_5 vdd vss y_b y folded_inv_5
+  Xgate_5_0_6 vdd vss y_b y folded_inv_5
+  Xgate_5_0_7 vdd vss y_b y folded_inv_5
+  Xgate_5_0_8 vdd vss y_b y folded_inv_5
+
+.ENDS decoder_stage_7
 
 .SUBCKT col_peripherals clk rstb vdd vss sense_en bl[0] bl[1] bl[2] bl[3] bl[4] bl[5] bl[6] bl[7] bl[8] bl[9] bl[10] bl[11] bl[12] bl[13] bl[14] bl[15] bl[16] bl[17] bl[18] bl[19] bl[20] bl[21] bl[22] bl[23] bl[24] bl[25] bl[26] bl[27] bl[28] bl[29] bl[30] bl[31] bl[32] bl[33] bl[34] bl[35] bl[36] bl[37] bl[38] bl[39] bl[40] bl[41] bl[42] bl[43] bl[44] bl[45] bl[46] bl[47] bl[48] bl[49] bl[50] bl[51] bl[52] bl[53] bl[54] bl[55] bl[56] bl[57] bl[58] bl[59] bl[60] bl[61] bl[62] bl[63] bl[64] bl[65] bl[66] bl[67] bl[68] bl[69] bl[70] bl[71] bl[72] bl[73] bl[74] bl[75] bl[76] bl[77] bl[78] bl[79] bl[80] bl[81] bl[82] bl[83] bl[84] bl[85] bl[86] bl[87] bl[88] bl[89] bl[90] bl[91] bl[92] bl[93] bl[94] bl[95] bl[96] bl[97] bl[98] bl[99] bl[100] bl[101] bl[102] bl[103] bl[104] bl[105] bl[106] bl[107] bl[108] bl[109] bl[110] bl[111] bl[112] bl[113] bl[114] bl[115] bl[116] bl[117] bl[118] bl[119] bl[120] bl[121] bl[122] bl[123] bl[124] bl[125] bl[126] bl[127] bl[128] bl[129] bl[130] bl[131] bl[132] bl[133] bl[134] bl[135] bl[136] bl[137] bl[138] bl[139] bl[140] bl[141] bl[142] bl[143] bl[144] bl[145] bl[146] bl[147] bl[148] bl[149] bl[150] bl[151] bl[152] bl[153] bl[154] bl[155] bl[156] bl[157] bl[158] bl[159] bl[160] bl[161] bl[162] bl[163] bl[164] bl[165] bl[166] bl[167] bl[168] bl[169] bl[170] bl[171] bl[172] bl[173] bl[174] bl[175] bl[176] bl[177] bl[178] bl[179] bl[180] bl[181] bl[182] bl[183] bl[184] bl[185] bl[186] bl[187] bl[188] bl[189] bl[190] bl[191] bl[192] bl[193] bl[194] bl[195] bl[196] bl[197] bl[198] bl[199] bl[200] bl[201] bl[202] bl[203] bl[204] bl[205] bl[206] bl[207] bl[208] bl[209] bl[210] bl[211] bl[212] bl[213] bl[214] bl[215] bl[216] bl[217] bl[218] bl[219] bl[220] bl[221] bl[222] bl[223] bl[224] bl[225] bl[226] bl[227] bl[228] bl[229] bl[230] bl[231] bl[232] bl[233] bl[234] bl[235] bl[236] bl[237] bl[238] bl[239] bl[240] bl[241] bl[242] bl[243] bl[244] bl[245] bl[246] bl[247] bl[248] bl[249] bl[250] bl[251] bl[252] bl[253] bl[254] bl[255] br[0] br[1] br[2] br[3] br[4] br[5] br[6] br[7] br[8] br[9] br[10] br[11] br[12] br[13] br[14] br[15] br[16] br[17] br[18] br[19] br[20] br[21] br[22] br[23] br[24] br[25] br[26] br[27] br[28] br[29] br[30] br[31] br[32] br[33] br[34] br[35] br[36] br[37] br[38] br[39] br[40] br[41] br[42] br[43] br[44] br[45] br[46] br[47] br[48] br[49] br[50] br[51] br[52] br[53] br[54] br[55] br[56] br[57] br[58] br[59] br[60] br[61] br[62] br[63] br[64] br[65] br[66] br[67] br[68] br[69] br[70] br[71] br[72] br[73] br[74] br[75] br[76] br[77] br[78] br[79] br[80] br[81] br[82] br[83] br[84] br[85] br[86] br[87] br[88] br[89] br[90] br[91] br[92] br[93] br[94] br[95] br[96] br[97] br[98] br[99] br[100] br[101] br[102] br[103] br[104] br[105] br[106] br[107] br[108] br[109] br[110] br[111] br[112] br[113] br[114] br[115] br[116] br[117] br[118] br[119] br[120] br[121] br[122] br[123] br[124] br[125] br[126] br[127] br[128] br[129] br[130] br[131] br[132] br[133] br[134] br[135] br[136] br[137] br[138] br[139] br[140] br[141] br[142] br[143] br[144] br[145] br[146] br[147] br[148] br[149] br[150] br[151] br[152] br[153] br[154] br[155] br[156] br[157] br[158] br[159] br[160] br[161] br[162] br[163] br[164] br[165] br[166] br[167] br[168] br[169] br[170] br[171] br[172] br[173] br[174] br[175] br[176] br[177] br[178] br[179] br[180] br[181] br[182] br[183] br[184] br[185] br[186] br[187] br[188] br[189] br[190] br[191] br[192] br[193] br[194] br[195] br[196] br[197] br[198] br[199] br[200] br[201] br[202] br[203] br[204] br[205] br[206] br[207] br[208] br[209] br[210] br[211] br[212] br[213] br[214] br[215] br[216] br[217] br[218] br[219] br[220] br[221] br[222] br[223] br[224] br[225] br[226] br[227] br[228] br[229] br[230] br[231] br[232] br[233] br[234] br[235] br[236] br[237] br[238] br[239] br[240] br[241] br[242] br[243] br[244] br[245] br[246] br[247] br[248] br[249] br[250] br[251] br[252] br[253] br[254] br[255] pc_b sel[0] sel[1] sel[2] sel[3] sel[4] sel[5] sel[6] sel[7] sel_b[0] sel_b[1] sel_b[2] sel_b[3] sel_b[4] sel_b[5] sel_b[6] sel_b[7] we wmask[0] wmask[1] wmask[2] wmask[3] din[0] din[1] din[2] din[3] din[4] din[5] din[6] din[7] din[8] din[9] din[10] din[11] din[12] din[13] din[14] din[15] din[16] din[17] din[18] din[19] din[20] din[21] din[22] din[23] din[24] din[25] din[26] din[27] din[28] din[29] din[30] din[31] dout[0] dout[1] dout[2] dout[3] dout[4] dout[5] dout[6] dout[7] dout[8] dout[9] dout[10] dout[11] dout[12] dout[13] dout[14] dout[15] dout[16] dout[17] dout[18] dout[19] dout[20] dout[21] dout[22] dout[23] dout[24] dout[25] dout[26] dout[27] dout[28] dout[29] dout[30] dout[31]
 
@@ -46582,28 +47755,6 @@
   Xequalizer bl en_b br vdd mos_w500_l150_m1_nf1_id1
 
 .ENDS precharge
-
-.SUBCKT mos_w800_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.800
-
-
-.ENDS mos_w800_l150_m1_nf1_id0
-
-.SUBCKT mos_w1950_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.950
-
-
-.ENDS mos_w1950_l150_m1_nf1_id0
-
-.SUBCKT column_mos vdd vss bl
-
-  Xgate_nmos vss bl vss vss mos_w800_l150_m1_nf1_id0
-  Xdrain_nmos bl vss vss vss mos_w1950_l150_m1_nf1_id0
-  Xdrain_pmos bl vdd vdd vdd mos_w2850_l150_m1_nf1_id1
-
-.ENDS column_mos
 
 .SUBCKT column_mos_1 vdd vss bl
 

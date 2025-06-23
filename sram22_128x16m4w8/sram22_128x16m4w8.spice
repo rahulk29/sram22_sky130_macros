@@ -15,6 +15,253 @@
 
 .ENDS sram_sp_colend_wrapper
 
+.SUBCKT mos_w1300_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.300
+
+
+.ENDS mos_w1300_l150_m1_nf1_id0
+
+.SUBCKT sram_sp_cell_replica BL BR VSS VDD VPB VNB WL
+
+  X0 VDD WL BR VNB sky130_fd_pr__special_nfet_pass l=0.150 nf=1 w=0.140
+
+  X1 Q VDD VSS VNB sky130_fd_pr__special_nfet_latch l=0.150 nf=1 w=0.210
+
+  X2 BL WL Q VNB sky130_fd_pr__special_nfet_pass l=0.150 nf=1 w=0.140
+
+  X3 Q WL Q VPB sky130_fd_pr__special_pfet_pass l=0.025 nf=1 w=0.140
+
+  X4 VDD WL VDD VPB sky130_fd_pr__special_pfet_pass l=0.025 nf=1 w=0.140
+
+  X5 VDD Q VDD VPB sky130_fd_pr__special_pfet_pass l=0.150 nf=1 w=0.140
+
+  X6 Q VDD VDD VPB sky130_fd_pr__special_pfet_pass l=0.150 nf=1 w=0.140
+
+  X7 VSS Q VDD VNB sky130_fd_pr__special_nfet_latch l=0.150 nf=1 w=0.210
+
+
+.ENDS sram_sp_cell_replica
+
+.SUBCKT sram_sp_cell_replica_wrapper BL BR VSS VDD VPB VNB WL
+
+  X0 BL BR VSS VDD VPB VNB WL sram_sp_cell_replica
+
+.ENDS sram_sp_cell_replica_wrapper
+
+.SUBCKT mos_w2750_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.750
+
+
+.ENDS mos_w2750_l150_m1_nf1_id1
+
+.SUBCKT mos_w1100_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.100
+
+
+.ENDS mos_w1100_l150_m1_nf1_id0
+
+.SUBCKT folded_inv_4 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w2750_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w1100_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w2750_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w1100_l150_m1_nf1_id0
+
+.ENDS folded_inv_4
+
+.SUBCKT mos_w700_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.700
+
+
+.ENDS mos_w700_l150_m1_nf1_id1
+
+.SUBCKT mos_w700_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.700
+
+
+.ENDS mos_w700_l150_m1_nf1_id0
+
+.SUBCKT multi_finger_inv_11 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
+
+.ENDS multi_finger_inv_11
+
+.SUBCKT mos_w2800_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.800
+
+
+.ENDS mos_w2800_l150_m1_nf1_id1
+
+.SUBCKT mos_w1350_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.350
+
+
+.ENDS mos_w1350_l150_m1_nf1_id0
+
+.SUBCKT mos_w1350_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.350
+
+
+.ENDS mos_w1350_l150_m1_nf1_id1
+
+.SUBCKT tristate_inv din en en_b din_b vdd vss
+
+  Xmn_en din_b en nint vss mos_w1350_l150_m1_nf1_id0
+  Xmn_pd nint din vss vss mos_w1350_l150_m1_nf1_id0
+  Xmp_en din_b en_b pint vdd mos_w1350_l150_m1_nf1_id1
+  Xmp_pu pint din vdd vdd mos_w1350_l150_m1_nf1_id1
+
+.ENDS tristate_inv
+
+.SUBCKT mos_w2100_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=2.100
+
+
+.ENDS mos_w2100_l150_m1_nf1_id0
+
+.SUBCKT mos_w2650_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.650
+
+
+.ENDS mos_w2650_l150_m1_nf1_id1
+
+.SUBCKT nand2_2 vdd vss a b y
+
+  Xn1 x a vss vss mos_w2100_l150_m1_nf1_id0
+  Xn2 y b x vss mos_w2100_l150_m1_nf1_id0
+  Xp1 y a vdd vdd mos_w2650_l150_m1_nf1_id1
+  Xp2 y b vdd vdd mos_w2650_l150_m1_nf1_id1
+
+.ENDS nand2_2
+
+.SUBCKT mos_w1150_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.150
+
+
+.ENDS mos_w1150_l150_m1_nf1_id0
+
+.SUBCKT sky130_fd_sc_hs__buf_16 A VGND VNB VPB VPWR X
+
+  X0 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X1 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X2 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X3 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X4 VPWR A a_83_260# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X5 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X6 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X7 VPWR A a_83_260# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X8 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X9 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X10 VPWR A a_83_260# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X11 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X12 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X13 a_83_260# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X14 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X15 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X16 VGND A a_83_260# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X17 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X18 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X19 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X20 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X21 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X22 VGND A a_83_260# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X23 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X24 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X25 a_83_260# A VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X26 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X27 a_83_260# A VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X28 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X29 a_83_260# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X30 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X31 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X32 a_83_260# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X33 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X34 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X35 a_83_260# A VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X36 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X37 VGND A a_83_260# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X38 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X39 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X40 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X41 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X42 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X43 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+
+.ENDS sky130_fd_sc_hs__buf_16
+
+.SUBCKT mos_w2000_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=2.000
+
+
+.ENDS mos_w2000_l150_m1_nf1_id0
+
 .SUBCKT mos_w2500_l150_m1_nf1_id1 d g s b
 
   X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.500
@@ -22,12 +269,130 @@
 
 .ENDS mos_w2500_l150_m1_nf1_id1
 
-.SUBCKT mos_w3000_l150_m1_nf1_id0 d g s b
+.SUBCKT nand2_1 vdd vss a b y
 
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=3.000
+  Xn1 x a vss vss mos_w2000_l150_m1_nf1_id0
+  Xn2 y b x vss mos_w2000_l150_m1_nf1_id0
+  Xp1 y a vdd vdd mos_w2500_l150_m1_nf1_id1
+  Xp2 y b vdd vdd mos_w2500_l150_m1_nf1_id1
+
+.ENDS nand2_1
+
+.SUBCKT multi_finger_inv_10 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
+
+.ENDS multi_finger_inv_10
+
+.SUBCKT multi_finger_inv_12 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP9 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP10 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP11 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN4 y a vss vss mos_w700_l150_m1_nf1_id0
+
+.ENDS multi_finger_inv_12
+
+.SUBCKT decoder_stage_6 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1
+
+  Xgate_0_0_0 vdd vss predecode_0_0 predecode_1_0 x_0[0] nand2_1
+  Xgate_0_1_0 vdd vss predecode_0_1 predecode_1_0 x_0[1] nand2_1
+  Xgate_0_2_0 vdd vss predecode_0_0 predecode_1_1 x_0[2] nand2_1
+  Xgate_0_3_0 vdd vss predecode_0_1 predecode_1_1 x_0[3] nand2_1
+  Xgate_1_0_0 vdd vss x_0[0] x_1[0] multi_finger_inv_10
+  Xgate_1_1_0 vdd vss x_0[1] x_1[1] multi_finger_inv_10
+  Xgate_1_2_0 vdd vss x_0[2] x_1[2] multi_finger_inv_10
+  Xgate_1_3_0 vdd vss x_0[3] x_1[3] multi_finger_inv_10
+  Xgate_2_0_0 vdd vss x_1[0] y_b[0] multi_finger_inv_11
+  Xgate_2_0_1 vdd vss x_1[0] y_b[0] multi_finger_inv_11
+  Xgate_2_1_0 vdd vss x_1[1] y_b[1] multi_finger_inv_11
+  Xgate_2_1_1 vdd vss x_1[1] y_b[1] multi_finger_inv_11
+  Xgate_2_2_0 vdd vss x_1[2] y_b[2] multi_finger_inv_11
+  Xgate_2_2_1 vdd vss x_1[2] y_b[2] multi_finger_inv_11
+  Xgate_2_3_0 vdd vss x_1[3] y_b[3] multi_finger_inv_11
+  Xgate_2_3_1 vdd vss x_1[3] y_b[3] multi_finger_inv_11
+  Xgate_3_0_0 vdd vss y_b[0] y[0] multi_finger_inv_12
+  Xgate_3_0_1 vdd vss y_b[0] y[0] multi_finger_inv_12
+  Xgate_3_0_2 vdd vss y_b[0] y[0] multi_finger_inv_12
+  Xgate_3_1_0 vdd vss y_b[1] y[1] multi_finger_inv_12
+  Xgate_3_1_1 vdd vss y_b[1] y[1] multi_finger_inv_12
+  Xgate_3_1_2 vdd vss y_b[1] y[1] multi_finger_inv_12
+  Xgate_3_2_0 vdd vss y_b[2] y[2] multi_finger_inv_12
+  Xgate_3_2_1 vdd vss y_b[2] y[2] multi_finger_inv_12
+  Xgate_3_2_2 vdd vss y_b[2] y[2] multi_finger_inv_12
+  Xgate_3_3_0 vdd vss y_b[3] y[3] multi_finger_inv_12
+  Xgate_3_3_1 vdd vss y_b[3] y[3] multi_finger_inv_12
+  Xgate_3_3_2 vdd vss y_b[3] y[3] multi_finger_inv_12
+
+.ENDS decoder_stage_6
+
+.SUBCKT decoder_1 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1
+
+  X0 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 decoder_stage_6
+
+.ENDS decoder_1
+
+.SUBCKT mos_w800_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.800
 
 
-.ENDS mos_w3000_l150_m1_nf1_id0
+.ENDS mos_w800_l150_m1_nf1_id0
+
+.SUBCKT nand2 vdd vss a b y
+
+  Xn1 x a vss vss mos_w2000_l150_m1_nf1_id0
+  Xn2 y b x vss mos_w2000_l150_m1_nf1_id0
+  Xp1 y a vdd vdd mos_w2500_l150_m1_nf1_id1
+  Xp2 y b vdd vdd mos_w2500_l150_m1_nf1_id1
+
+.ENDS nand2
+
+.SUBCKT mos_w5000_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=5.000
+
+
+.ENDS mos_w5000_l150_m1_nf1_id1
+
+.SUBCKT folded_inv_1 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w5000_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w2000_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w5000_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w2000_l150_m1_nf1_id0
+
+.ENDS folded_inv_1
+
+.SUBCKT and2 vdd a b y yb vss
+
+  X0 vdd vss a b yb nand2
+  X0_1 vdd vss yb y folded_inv_1
+
+.ENDS and2
 
 .SUBCKT sky130_fd_sc_hs__inv_2 A VGND VNB VPB VPWR Y
 
@@ -75,90 +440,98 @@
 
 .ENDS sky130_fd_sc_hs__inv_4_wrapper
 
-.SUBCKT inv_chain_2 din dout vdd vss
+.SUBCKT inv_chain_16 din dout vdd vss
 
-  Xinv0 din vss vss vdd vdd x sky130_fd_sc_hs__inv_2_wrapper
-  Xinv1 x vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
+  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv2 x[1] vss vss vdd vdd x[2] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv3 x[2] vss vss vdd vdd x[3] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv4 x[3] vss vss vdd vdd x[4] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv5 x[4] vss vss vdd vdd x[5] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv6 x[5] vss vss vdd vdd x[6] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv7 x[6] vss vss vdd vdd x[7] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv8 x[7] vss vss vdd vdd x[8] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv9 x[8] vss vss vdd vdd x[9] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv10 x[9] vss vss vdd vdd x[10] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv11 x[10] vss vss vdd vdd x[11] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv12 x[11] vss vss vdd vdd x[12] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv13 x[12] vss vss vdd vdd x[13] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv14 x[13] vss vss vdd vdd x[14] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv15 x[14] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
 
-.ENDS inv_chain_2
+.ENDS inv_chain_16
 
-.SUBCKT nand3 vdd vss a b c y
+.SUBCKT mos_w1800_l150_m1_nf1_id1 d g s b
 
-  Xn1 x1 a vss vss mos_w3000_l150_m1_nf1_id0
-  Xn2 x2 b x1 vss mos_w3000_l150_m1_nf1_id0
-  Xn3 y c x2 vss mos_w3000_l150_m1_nf1_id0
-  Xp1 y a vdd vdd mos_w2500_l150_m1_nf1_id1
-  Xp2 y b vdd vdd mos_w2500_l150_m1_nf1_id1
-  Xp3 y c vdd vdd mos_w2500_l150_m1_nf1_id1
-
-.ENDS nand3
-
-.SUBCKT mos_w2750_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.750
-
-
-.ENDS mos_w2750_l150_m1_nf1_id1
-
-.SUBCKT mos_w1100_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.100
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.800
 
 
-.ENDS mos_w1100_l150_m1_nf1_id0
+.ENDS mos_w1800_l150_m1_nf1_id1
 
-.SUBCKT folded_inv_4 vdd vss a y
+.SUBCKT column_mos vdd vss bl
 
-  XMP0 y a vdd vdd mos_w2750_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w1100_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w2750_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w1100_l150_m1_nf1_id0
+  Xgate_nmos vss bl vss vss mos_w800_l150_m1_nf1_id0
+  Xdrain_nmos bl vss vss vss mos_w1300_l150_m1_nf1_id0
+  Xdrain_pmos bl vdd vdd vdd mos_w1800_l150_m1_nf1_id1
 
-.ENDS folded_inv_4
+.ENDS column_mos
 
-.SUBCKT decoder_stage_8 vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 predecode_2_0 predecode_2_1
+.SUBCKT sky130_fd_sc_hs__nor2_4 A B VGND VNB VPB VPWR Y
 
-  Xgate_0_0_0 vdd vss predecode_0_0 predecode_1_0 predecode_2_0 y_b[0] nand3
-  Xgate_0_1_0 vdd vss predecode_0_1 predecode_1_0 predecode_2_0 y_b[1] nand3
-  Xgate_0_2_0 vdd vss predecode_0_0 predecode_1_1 predecode_2_0 y_b[2] nand3
-  Xgate_0_3_0 vdd vss predecode_0_1 predecode_1_1 predecode_2_0 y_b[3] nand3
-  Xgate_0_4_0 vdd vss predecode_0_0 predecode_1_0 predecode_2_1 y_b[4] nand3
-  Xgate_0_5_0 vdd vss predecode_0_1 predecode_1_0 predecode_2_1 y_b[5] nand3
-  Xgate_0_6_0 vdd vss predecode_0_0 predecode_1_1 predecode_2_1 y_b[6] nand3
-  Xgate_0_7_0 vdd vss predecode_0_1 predecode_1_1 predecode_2_1 y_b[7] nand3
-  Xgate_1_0_0 vdd vss y_b[0] y[0] folded_inv_4
-  Xgate_1_1_0 vdd vss y_b[1] y[1] folded_inv_4
-  Xgate_1_2_0 vdd vss y_b[2] y[2] folded_inv_4
-  Xgate_1_3_0 vdd vss y_b[3] y[3] folded_inv_4
-  Xgate_1_4_0 vdd vss y_b[4] y[4] folded_inv_4
-  Xgate_1_5_0 vdd vss y_b[5] y[5] folded_inv_4
-  Xgate_1_6_0 vdd vss y_b[6] y[6] folded_inv_4
-  Xgate_1_7_0 vdd vss y_b[7] y[7] folded_inv_4
+  X0 a_27_368# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
 
-.ENDS decoder_stage_8
+  X1 a_27_368# B Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
 
-.SUBCKT mos_w5000_l150_m1_nf1_id1 d g s b
+  X2 VGND B Y VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
 
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=5.000
+  X3 a_27_368# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
 
+  X4 Y B a_27_368# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
 
-.ENDS mos_w5000_l150_m1_nf1_id1
+  X5 a_27_368# B Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
 
-.SUBCKT mos_w2000_l150_m1_nf1_id0 d g s b
+  X6 VGND A Y VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
 
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=2.000
+  X7 VPWR A a_27_368# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X8 VPWR A a_27_368# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X9 Y A VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X10 Y B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X11 Y B a_27_368# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
 
 
-.ENDS mos_w2000_l150_m1_nf1_id0
+.ENDS sky130_fd_sc_hs__nor2_4
 
-.SUBCKT folded_inv_1 vdd vss a y
+.SUBCKT sky130_fd_sc_hs__nor2_4_wrapper A B VGND VNB VPB VPWR Y
 
-  XMP0 y a vdd vdd mos_w5000_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w2000_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w5000_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w2000_l150_m1_nf1_id0
+  X0 A B VGND VNB VPB VPWR Y sky130_fd_sc_hs__nor2_4
 
-.ENDS folded_inv_1
+.ENDS sky130_fd_sc_hs__nor2_4_wrapper
+
+.SUBCKT inv_chain_3 din dout vdd vss
+
+  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv2 x[1] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
+
+.ENDS inv_chain_3
+
+.SUBCKT mos_w1050_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.050
+
+
+.ENDS mos_w1050_l150_m1_nf1_id0
+
+.SUBCKT mos_w3000_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=3.000
+
+
+.ENDS mos_w3000_l150_m1_nf1_id0
 
 .SUBCKT sramgen_svt_inv_4 A VGND VNB VPB VPWR Y
 
@@ -181,57 +554,175 @@
 
 .ENDS sramgen_svt_inv_4
 
-.SUBCKT sramgen_svt_inv_4_wrapper A VGND VNB VPB VPWR Y
+.SUBCKT sky130_fd_sc_hs__and2_2 A B VGND VNB VPB VPWR X
 
-  X0 A VGND VNB VPB VPWR Y sramgen_svt_inv_4
+  X0 a_31_74# B VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
 
-.ENDS sramgen_svt_inv_4_wrapper
+  X1 X a_31_74# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
 
-.SUBCKT nand2 vdd vss a b y
+  X2 X a_31_74# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
 
-  Xn1 x a vss vss mos_w2000_l150_m1_nf1_id0
-  Xn2 y b x vss mos_w2000_l150_m1_nf1_id0
-  Xp1 y a vdd vdd mos_w2500_l150_m1_nf1_id1
-  Xp2 y b vdd vdd mos_w2500_l150_m1_nf1_id1
+  X3 a_118_74# B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
 
-.ENDS nand2
+  X4 a_31_74# A a_118_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
 
-.SUBCKT and2 vdd a b y yb vss
+  X5 VPWR A a_31_74# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
 
-  X0 vdd vss a b yb nand2
-  X0_1 vdd vss yb y folded_inv_1
+  X6 VPWR a_31_74# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
 
-.ENDS and2
+  X7 VGND a_31_74# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
 
-.SUBCKT decoder_stage vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y[8] y[9] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] y_b[8] y_b[9] wl_en in[0] in[1] in[2] in[3] in[4] in[5] in[6] in[7] in[8] in[9]
 
-  Xgate_0_0_0 vdd wl_en in[0] y[0] y_b[0] vss and2
-  Xgate_0_1_0 vdd wl_en in[1] y[1] y_b[1] vss and2
-  Xgate_0_2_0 vdd wl_en in[2] y[2] y_b[2] vss and2
-  Xgate_0_3_0 vdd wl_en in[3] y[3] y_b[3] vss and2
-  Xgate_0_4_0 vdd wl_en in[4] y[4] y_b[4] vss and2
-  Xgate_0_5_0 vdd wl_en in[5] y[5] y_b[5] vss and2
-  Xgate_0_6_0 vdd wl_en in[6] y[6] y_b[6] vss and2
-  Xgate_0_7_0 vdd wl_en in[7] y[7] y_b[7] vss and2
-  Xgate_0_8_0 vdd wl_en in[8] y[8] y_b[8] vss and2
-  Xgate_0_9_0 vdd wl_en in[9] y[9] y_b[9] vss and2
+.ENDS sky130_fd_sc_hs__and2_2
 
-.ENDS decoder_stage
+.SUBCKT sky130_fd_sc_hs__and2_2_wrapper A B VGND VNB VPB VPWR X
 
-.SUBCKT decoder_2 vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 predecode_2_0 predecode_2_1
+  X0 A B VGND VNB VPB VPWR X sky130_fd_sc_hs__and2_2
 
-  X0 vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 predecode_2_0 predecode_2_1 decoder_stage_8
+.ENDS sky130_fd_sc_hs__and2_2_wrapper
 
-.ENDS decoder_2
+.SUBCKT inv_chain_2 din dout vdd vss
 
-.SUBCKT nand2_1 vdd vss a b y
+  Xinv0 din vss vss vdd vdd x sky130_fd_sc_hs__inv_2_wrapper
+  Xinv1 x vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
 
-  Xn1 x a vss vss mos_w2000_l150_m1_nf1_id0
-  Xn2 y b x vss mos_w2000_l150_m1_nf1_id0
-  Xp1 y a vdd vdd mos_w2500_l150_m1_nf1_id1
-  Xp2 y b vdd vdd mos_w2500_l150_m1_nf1_id1
+.ENDS inv_chain_2
 
-.ENDS nand2_1
+.SUBCKT inv_chain_9 din dout vdd vss
+
+  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv2 x[1] vss vss vdd vdd x[2] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv3 x[2] vss vss vdd vdd x[3] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv4 x[3] vss vss vdd vdd x[4] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv5 x[4] vss vss vdd vdd x[5] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv6 x[5] vss vss vdd vdd x[6] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv7 x[6] vss vss vdd vdd x[7] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv8 x[7] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
+
+.ENDS inv_chain_9
+
+.SUBCKT mos_w1250_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.250
+
+
+.ENDS mos_w1250_l150_m1_nf1_id1
+
+.SUBCKT mos_w500_l150_m1_nf1_id0 d g s b
+
+  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.500
+
+
+.ENDS mos_w500_l150_m1_nf1_id0
+
+.SUBCKT folded_inv vdd vss a y
+
+  XMP0 y a vdd vdd mos_w1250_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w500_l150_m1_nf1_id0
+  XMP1 y a vdd vdd mos_w1250_l150_m1_nf1_id1
+  XMN1 y a vss vss mos_w500_l150_m1_nf1_id0
+
+.ENDS folded_inv
+
+.SUBCKT multi_finger_inv vdd vss a y
+
+  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
+
+.ENDS multi_finger_inv
+
+.SUBCKT multi_finger_inv_1 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
+
+.ENDS multi_finger_inv_1
+
+.SUBCKT multi_finger_inv_2 vdd vss a y
+
+  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
+  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
+  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
+
+.ENDS multi_finger_inv_2
+
+.SUBCKT decoder_stage_1 vdd vss y y_b predecode_0_0
+
+  Xgate_0_0_0 vdd vss predecode_0_0 x_0 folded_inv
+  Xgate_1_0_0 vdd vss x_0 x_1 multi_finger_inv
+  Xgate_2_0_0 vdd vss x_1 y_b multi_finger_inv_1
+  Xgate_2_0_1 vdd vss x_1 y_b multi_finger_inv_1
+  Xgate_2_0_2 vdd vss x_1 y_b multi_finger_inv_1
+  Xgate_3_0_0 vdd vss y_b y multi_finger_inv_2
+  Xgate_3_0_1 vdd vss y_b y multi_finger_inv_2
+  Xgate_3_0_2 vdd vss y_b y multi_finger_inv_2
+  Xgate_3_0_3 vdd vss y_b y multi_finger_inv_2
+  Xgate_3_0_4 vdd vss y_b y multi_finger_inv_2
+  Xgate_3_0_5 vdd vss y_b y multi_finger_inv_2
+  Xgate_3_0_6 vdd vss y_b y multi_finger_inv_2
+  Xgate_3_0_7 vdd vss y_b y multi_finger_inv_2
+  Xgate_3_0_8 vdd vss y_b y multi_finger_inv_2
+
+.ENDS decoder_stage_1
+
+.SUBCKT inv_chain_13 din dout vdd vss
+
+  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv2 x[1] vss vss vdd vdd x[2] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv3 x[2] vss vss vdd vdd x[3] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv4 x[3] vss vss vdd vdd x[4] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv5 x[4] vss vss vdd vdd x[5] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv6 x[5] vss vss vdd vdd x[6] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv7 x[6] vss vss vdd vdd x[7] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv8 x[7] vss vss vdd vdd x[8] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv9 x[8] vss vss vdd vdd x[9] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv10 x[9] vss vss vdd vdd x[10] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv11 x[10] vss vss vdd vdd x[11] sky130_fd_sc_hs__inv_2_wrapper
+  Xinv12 x[11] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
+
+.ENDS inv_chain_13
+
+.SUBCKT sramgen_svt_inv_2 A VGND VNB VPB VPWR Y
+
+  X0 Y A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X1 VPWR A Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X2 VGND A Y VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.740
+
+  X3 Y A VGND VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.740
+
+
+.ENDS sramgen_svt_inv_2
 
 .SUBCKT mos_w3900_l150_m1_nf1_id1 d g s b
 
@@ -275,28 +766,179 @@
 
 .ENDS decoder_3
 
-.SUBCKT mos_w2100_l150_m1_nf1_id0 d g s b
+.SUBCKT sky130_fd_sc_hs__mux2_4 A0 A1 S VGND VNB VPB VPWR X
 
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=2.100
+  X0 a_27_368# S VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X1 a_722_391# A0 a_193_241# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X2 a_722_391# S VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X3 VGND a_27_368# a_937_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X4 a_193_241# A1 a_936_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X5 a_709_119# S VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X6 a_709_119# A1 a_193_241# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X7 X a_193_241# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X8 X a_193_241# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X9 VPWR a_27_368# a_936_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X10 X a_193_241# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X11 a_193_241# A0 a_722_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X12 a_937_119# A0 a_193_241# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X13 a_936_391# a_27_368# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X14 VGND a_193_241# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X15 VPWR a_193_241# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X16 VPWR S a_722_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X17 a_936_391# A1 a_193_241# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
+
+  X18 a_193_241# A0 a_937_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X19 a_193_241# A1 a_709_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X20 X a_193_241# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X21 VGND a_193_241# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X22 a_27_368# S VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X23 a_937_119# a_27_368# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
+
+  X24 VPWR a_193_241# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X25 VGND S a_709_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
 
 
-.ENDS mos_w2100_l150_m1_nf1_id0
+.ENDS sky130_fd_sc_hs__mux2_4
 
-.SUBCKT mos_w2650_l150_m1_nf1_id1 d g s b
+.SUBCKT sky130_fd_sc_hs__mux2_4_wrapper A0 A1 S VGND VNB VPB VPWR X
 
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.650
+  X0 A0 A1 S VGND VNB VPB VPWR X sky130_fd_sc_hs__mux2_4
+
+.ENDS sky130_fd_sc_hs__mux2_4_wrapper
+
+.SUBCKT mos_w1900_l150_m1_nf1_id1 d g s b
+
+  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.900
 
 
-.ENDS mos_w2650_l150_m1_nf1_id1
+.ENDS mos_w1900_l150_m1_nf1_id1
 
-.SUBCKT nand2_2 vdd vss a b y
+.SUBCKT tgate_mux sel_b sel bl br bl_out br_out vdd vss
 
-  Xn1 x a vss vss mos_w2100_l150_m1_nf1_id0
-  Xn2 y b x vss mos_w2100_l150_m1_nf1_id0
-  Xp1 y a vdd vdd mos_w2650_l150_m1_nf1_id1
-  Xp2 y b vdd vdd mos_w2650_l150_m1_nf1_id1
+  XMPBL bl_out sel_b bl vdd mos_w1900_l150_m1_nf1_id1
+  XMPBR br_out sel_b br vdd mos_w1900_l150_m1_nf1_id1
+  XMNBL bl_out sel bl vss mos_w1300_l150_m1_nf1_id0
+  XMNBR br_out sel br vss mos_w1300_l150_m1_nf1_id0
 
-.ENDS nand2_2
+.ENDS tgate_mux
+
+.SUBCKT sky130_fd_sc_hs__nand2_4 A B VGND VNB VPB VPWR Y
+
+  X0 VPWR A Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X1 Y A a_27_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X2 a_27_74# B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X3 VGND B a_27_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X4 VGND B a_27_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X5 a_27_74# A Y VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X6 Y A a_27_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X7 VPWR B Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X8 Y B VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X9 a_27_74# A Y VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+  X10 Y A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
+
+  X11 a_27_74# B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
+
+
+.ENDS sky130_fd_sc_hs__nand2_4
+
+.SUBCKT sky130_fd_sc_hs__nand2_4_wrapper A B VGND VNB VPB VPWR Y
+
+  X0 A B VGND VNB VPB VPWR Y sky130_fd_sc_hs__nand2_4
+
+.ENDS sky130_fd_sc_hs__nand2_4_wrapper
+
+.SUBCKT sram_sp_rowtapend_replica VSS VNB
+
+  X0 VSS VSS VSS VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.420
+
+
+.ENDS sram_sp_rowtapend_replica
+
+.SUBCKT decoder_stage vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y[8] y[9] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] y_b[8] y_b[9] wl_en in[0] in[1] in[2] in[3] in[4] in[5] in[6] in[7] in[8] in[9]
+
+  Xgate_0_0_0 vdd wl_en in[0] y[0] y_b[0] vss and2
+  Xgate_0_1_0 vdd wl_en in[1] y[1] y_b[1] vss and2
+  Xgate_0_2_0 vdd wl_en in[2] y[2] y_b[2] vss and2
+  Xgate_0_3_0 vdd wl_en in[3] y[3] y_b[3] vss and2
+  Xgate_0_4_0 vdd wl_en in[4] y[4] y_b[4] vss and2
+  Xgate_0_5_0 vdd wl_en in[5] y[5] y_b[5] vss and2
+  Xgate_0_6_0 vdd wl_en in[6] y[6] y_b[6] vss and2
+  Xgate_0_7_0 vdd wl_en in[7] y[7] y_b[7] vss and2
+  Xgate_0_8_0 vdd wl_en in[8] y[8] y_b[8] vss and2
+  Xgate_0_9_0 vdd wl_en in[9] y[9] y_b[9] vss and2
+
+.ENDS decoder_stage
+
+.SUBCKT nand3 vdd vss a b c y
+
+  Xn1 x1 a vss vss mos_w3000_l150_m1_nf1_id0
+  Xn2 x2 b x1 vss mos_w3000_l150_m1_nf1_id0
+  Xn3 y c x2 vss mos_w3000_l150_m1_nf1_id0
+  Xp1 y a vdd vdd mos_w2500_l150_m1_nf1_id1
+  Xp2 y b vdd vdd mos_w2500_l150_m1_nf1_id1
+  Xp3 y c vdd vdd mos_w2500_l150_m1_nf1_id1
+
+.ENDS nand3
+
+.SUBCKT decoder_stage_8 vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 predecode_2_0 predecode_2_1
+
+  Xgate_0_0_0 vdd vss predecode_0_0 predecode_1_0 predecode_2_0 y_b[0] nand3
+  Xgate_0_1_0 vdd vss predecode_0_1 predecode_1_0 predecode_2_0 y_b[1] nand3
+  Xgate_0_2_0 vdd vss predecode_0_0 predecode_1_1 predecode_2_0 y_b[2] nand3
+  Xgate_0_3_0 vdd vss predecode_0_1 predecode_1_1 predecode_2_0 y_b[3] nand3
+  Xgate_0_4_0 vdd vss predecode_0_0 predecode_1_0 predecode_2_1 y_b[4] nand3
+  Xgate_0_5_0 vdd vss predecode_0_1 predecode_1_0 predecode_2_1 y_b[5] nand3
+  Xgate_0_6_0 vdd vss predecode_0_0 predecode_1_1 predecode_2_1 y_b[6] nand3
+  Xgate_0_7_0 vdd vss predecode_0_1 predecode_1_1 predecode_2_1 y_b[7] nand3
+  Xgate_1_0_0 vdd vss y_b[0] y[0] folded_inv_4
+  Xgate_1_1_0 vdd vss y_b[1] y[1] folded_inv_4
+  Xgate_1_2_0 vdd vss y_b[2] y[2] folded_inv_4
+  Xgate_1_3_0 vdd vss y_b[3] y[3] folded_inv_4
+  Xgate_1_4_0 vdd vss y_b[4] y[4] folded_inv_4
+  Xgate_1_5_0 vdd vss y_b[5] y[5] folded_inv_4
+  Xgate_1_6_0 vdd vss y_b[6] y[6] folded_inv_4
+  Xgate_1_7_0 vdd vss y_b[7] y[7] folded_inv_4
+
+.ENDS decoder_stage_8
+
+.SUBCKT decoder_2 vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 predecode_2_0 predecode_2_1
+
+  X0 vdd vss y[0] y[1] y[2] y[3] y[4] y[5] y[6] y[7] y_b[0] y_b[1] y_b[2] y_b[3] y_b[4] y_b[5] y_b[6] y_b[7] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 predecode_2_0 predecode_2_1 decoder_stage_8
+
+.ENDS decoder_2
 
 .SUBCKT mos_w2900_l150_m1_nf1_id1 d g s b
 
@@ -304,13 +946,6 @@
 
 
 .ENDS mos_w2900_l150_m1_nf1_id1
-
-.SUBCKT mos_w1150_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.150
-
-
-.ENDS mos_w1150_l150_m1_nf1_id0
 
 .SUBCKT folded_inv_6 vdd vss a y
 
@@ -327,20 +962,6 @@
   X0_1 vdd vss yb y folded_inv_6
 
 .ENDS and2_1
-
-.SUBCKT mos_w700_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.700
-
-
-.ENDS mos_w700_l150_m1_nf1_id1
-
-.SUBCKT mos_w700_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.700
-
-
-.ENDS mos_w700_l150_m1_nf1_id0
 
 .SUBCKT multi_finger_inv_8 vdd vss a y
 
@@ -549,99 +1170,6 @@
 
 .ENDS decoder
 
-.SUBCKT multi_finger_inv_10 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
-
-.ENDS multi_finger_inv_10
-
-.SUBCKT multi_finger_inv_11 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
-
-.ENDS multi_finger_inv_11
-
-.SUBCKT multi_finger_inv_12 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP9 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP10 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP11 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN4 y a vss vss mos_w700_l150_m1_nf1_id0
-
-.ENDS multi_finger_inv_12
-
-.SUBCKT decoder_stage_6 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1
-
-  Xgate_0_0_0 vdd vss predecode_0_0 predecode_1_0 x_0[0] nand2_1
-  Xgate_0_1_0 vdd vss predecode_0_1 predecode_1_0 x_0[1] nand2_1
-  Xgate_0_2_0 vdd vss predecode_0_0 predecode_1_1 x_0[2] nand2_1
-  Xgate_0_3_0 vdd vss predecode_0_1 predecode_1_1 x_0[3] nand2_1
-  Xgate_1_0_0 vdd vss x_0[0] x_1[0] multi_finger_inv_10
-  Xgate_1_1_0 vdd vss x_0[1] x_1[1] multi_finger_inv_10
-  Xgate_1_2_0 vdd vss x_0[2] x_1[2] multi_finger_inv_10
-  Xgate_1_3_0 vdd vss x_0[3] x_1[3] multi_finger_inv_10
-  Xgate_2_0_0 vdd vss x_1[0] y_b[0] multi_finger_inv_11
-  Xgate_2_0_1 vdd vss x_1[0] y_b[0] multi_finger_inv_11
-  Xgate_2_1_0 vdd vss x_1[1] y_b[1] multi_finger_inv_11
-  Xgate_2_1_1 vdd vss x_1[1] y_b[1] multi_finger_inv_11
-  Xgate_2_2_0 vdd vss x_1[2] y_b[2] multi_finger_inv_11
-  Xgate_2_2_1 vdd vss x_1[2] y_b[2] multi_finger_inv_11
-  Xgate_2_3_0 vdd vss x_1[3] y_b[3] multi_finger_inv_11
-  Xgate_2_3_1 vdd vss x_1[3] y_b[3] multi_finger_inv_11
-  Xgate_3_0_0 vdd vss y_b[0] y[0] multi_finger_inv_12
-  Xgate_3_0_1 vdd vss y_b[0] y[0] multi_finger_inv_12
-  Xgate_3_0_2 vdd vss y_b[0] y[0] multi_finger_inv_12
-  Xgate_3_1_0 vdd vss y_b[1] y[1] multi_finger_inv_12
-  Xgate_3_1_1 vdd vss y_b[1] y[1] multi_finger_inv_12
-  Xgate_3_1_2 vdd vss y_b[1] y[1] multi_finger_inv_12
-  Xgate_3_2_0 vdd vss y_b[2] y[2] multi_finger_inv_12
-  Xgate_3_2_1 vdd vss y_b[2] y[2] multi_finger_inv_12
-  Xgate_3_2_2 vdd vss y_b[2] y[2] multi_finger_inv_12
-  Xgate_3_3_0 vdd vss y_b[3] y[3] multi_finger_inv_12
-  Xgate_3_3_1 vdd vss y_b[3] y[3] multi_finger_inv_12
-  Xgate_3_3_2 vdd vss y_b[3] y[3] multi_finger_inv_12
-
-.ENDS decoder_stage_6
-
-.SUBCKT decoder_1 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1
-
-  X0 vdd vss y[0] y[1] y[2] y[3] y_b[0] y_b[1] y_b[2] y_b[3] predecode_0_0 predecode_0_1 predecode_1_0 predecode_1_1 decoder_stage_6
-
-.ENDS decoder_1
-
 .SUBCKT sky130_fd_sc_hs__inv_16 A VGND VNB VPB VPWR Y
 
   X0 VPWR A Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
@@ -734,47 +1262,6 @@
 
 .ENDS inv_chain_12
 
-.SUBCKT sky130_fd_sc_hs__and2_2 A B VGND VNB VPB VPWR X
-
-  X0 a_31_74# B VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X1 X a_31_74# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X2 X a_31_74# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X3 a_118_74# B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X4 a_31_74# A a_118_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X5 VPWR A a_31_74# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X6 VPWR a_31_74# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X7 VGND a_31_74# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-
-.ENDS sky130_fd_sc_hs__and2_2
-
-.SUBCKT sky130_fd_sc_hs__and2_2_wrapper A B VGND VNB VPB VPWR X
-
-  X0 A B VGND VNB VPB VPWR X sky130_fd_sc_hs__and2_2
-
-.ENDS sky130_fd_sc_hs__and2_2_wrapper
-
-.SUBCKT inv_chain_9 din dout vdd vss
-
-  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv2 x[1] vss vss vdd vdd x[2] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv3 x[2] vss vss vdd vdd x[3] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv4 x[3] vss vss vdd vdd x[4] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv5 x[4] vss vss vdd vdd x[5] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv6 x[5] vss vss vdd vdd x[6] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv7 x[6] vss vss vdd vdd x[7] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv8 x[7] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
-
-.ENDS inv_chain_9
-
 .SUBCKT sky130_fd_sc_hs__and2_4 A B VGND VNB VPB VPWR X
 
   X0 VPWR a_83_269# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
@@ -825,212 +1312,23 @@
 
 .ENDS edge_detector
 
-.SUBCKT sky130_fd_sc_hs__buf_16 A VGND VNB VPB VPWR X
-
-  X0 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X1 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X2 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X3 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X4 VPWR A a_83_260# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X5 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X6 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X7 VPWR A a_83_260# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X8 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X9 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X10 VPWR A a_83_260# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X11 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X12 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X13 a_83_260# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X14 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X15 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X16 VGND A a_83_260# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X17 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X18 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X19 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X20 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X21 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X22 VGND A a_83_260# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X23 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X24 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X25 a_83_260# A VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X26 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X27 a_83_260# A VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X28 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X29 a_83_260# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X30 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X31 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X32 a_83_260# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X33 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X34 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X35 a_83_260# A VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X36 VGND a_83_260# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X37 VGND A a_83_260# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X38 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X39 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X40 VPWR a_83_260# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X41 X a_83_260# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X42 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X43 X a_83_260# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-
-.ENDS sky130_fd_sc_hs__buf_16
-
 .SUBCKT sky130_fd_sc_hs__buf_16_wrapper A VGND VNB VPB VPWR X
 
   X0 A VGND VNB VPB VPWR X sky130_fd_sc_hs__buf_16
 
 .ENDS sky130_fd_sc_hs__buf_16_wrapper
 
-.SUBCKT inv_chain_3 din dout vdd vss
-
-  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv2 x[1] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
-
-.ENDS inv_chain_3
-
-.SUBCKT inv_chain_13 din dout vdd vss
-
-  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv2 x[1] vss vss vdd vdd x[2] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv3 x[2] vss vss vdd vdd x[3] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv4 x[3] vss vss vdd vdd x[4] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv5 x[4] vss vss vdd vdd x[5] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv6 x[5] vss vss vdd vdd x[6] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv7 x[6] vss vss vdd vdd x[7] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv8 x[7] vss vss vdd vdd x[8] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv9 x[8] vss vss vdd vdd x[9] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv10 x[9] vss vss vdd vdd x[10] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv11 x[10] vss vss vdd vdd x[11] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv12 x[11] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
-
-.ENDS inv_chain_13
-
-.SUBCKT sky130_fd_sc_hs__mux2_4 A0 A1 S VGND VNB VPB VPWR X
-
-  X0 a_27_368# S VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X1 a_722_391# A0 a_193_241# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X2 a_722_391# S VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X3 VGND a_27_368# a_937_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X4 a_193_241# A1 a_936_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X5 a_709_119# S VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X6 a_709_119# A1 a_193_241# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X7 X a_193_241# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X8 X a_193_241# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X9 VPWR a_27_368# a_936_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X10 X a_193_241# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X11 a_193_241# A0 a_722_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X12 a_937_119# A0 a_193_241# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X13 a_936_391# a_27_368# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X14 VGND a_193_241# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X15 VPWR a_193_241# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X16 VPWR S a_722_391# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X17 a_936_391# A1 a_193_241# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.000
-
-  X18 a_193_241# A0 a_937_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X19 a_193_241# A1 a_709_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X20 X a_193_241# VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X21 VGND a_193_241# X VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X22 a_27_368# S VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X23 a_937_119# a_27_368# VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-  X24 VPWR a_193_241# X VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X25 VGND S a_709_119# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.640
-
-
-.ENDS sky130_fd_sc_hs__mux2_4
-
-.SUBCKT sky130_fd_sc_hs__mux2_4_wrapper A0 A1 S VGND VNB VPB VPWR X
-
-  X0 A0 A1 S VGND VNB VPB VPWR X sky130_fd_sc_hs__mux2_4
-
-.ENDS sky130_fd_sc_hs__mux2_4_wrapper
-
-.SUBCKT sramgen_svt_inv_2 A VGND VNB VPB VPWR Y
-
-  X0 Y A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X1 VPWR A Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X2 VGND A Y VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.740
-
-  X3 Y A VGND VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.740
-
-
-.ENDS sramgen_svt_inv_2
-
 .SUBCKT sramgen_svt_inv_2_wrapper A VGND VNB VPB VPWR Y
 
   X0 A VGND VNB VPB VPWR Y sramgen_svt_inv_2
 
 .ENDS sramgen_svt_inv_2_wrapper
+
+.SUBCKT sramgen_svt_inv_4_wrapper A VGND VNB VPB VPWR Y
+
+  X0 A VGND VNB VPB VPWR Y sramgen_svt_inv_4
+
+.ENDS sramgen_svt_inv_4_wrapper
 
 .SUBCKT svt_inv_chain_22 din dout vdd vss
 
@@ -1058,97 +1356,6 @@
   Xinv21 x[20] vss vss vdd vdd dout sramgen_svt_inv_4_wrapper
 
 .ENDS svt_inv_chain_22
-
-.SUBCKT inv_chain_16 din dout vdd vss
-
-  Xinv0 din vss vss vdd vdd x[0] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv1 x[0] vss vss vdd vdd x[1] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv2 x[1] vss vss vdd vdd x[2] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv3 x[2] vss vss vdd vdd x[3] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv4 x[3] vss vss vdd vdd x[4] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv5 x[4] vss vss vdd vdd x[5] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv6 x[5] vss vss vdd vdd x[6] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv7 x[6] vss vss vdd vdd x[7] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv8 x[7] vss vss vdd vdd x[8] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv9 x[8] vss vss vdd vdd x[9] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv10 x[9] vss vss vdd vdd x[10] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv11 x[10] vss vss vdd vdd x[11] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv12 x[11] vss vss vdd vdd x[12] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv13 x[12] vss vss vdd vdd x[13] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv14 x[13] vss vss vdd vdd x[14] sky130_fd_sc_hs__inv_2_wrapper
-  Xinv15 x[14] vss vss vdd vdd dout sky130_fd_sc_hs__inv_4_wrapper
-
-.ENDS inv_chain_16
-
-.SUBCKT sky130_fd_sc_hs__nor2_4 A B VGND VNB VPB VPWR Y
-
-  X0 a_27_368# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X1 a_27_368# B Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X2 VGND B Y VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X3 a_27_368# A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X4 Y B a_27_368# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X5 a_27_368# B Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X6 VGND A Y VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X7 VPWR A a_27_368# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X8 VPWR A a_27_368# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X9 Y A VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X10 Y B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X11 Y B a_27_368# VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-
-.ENDS sky130_fd_sc_hs__nor2_4
-
-.SUBCKT sky130_fd_sc_hs__nor2_4_wrapper A B VGND VNB VPB VPWR Y
-
-  X0 A B VGND VNB VPB VPWR Y sky130_fd_sc_hs__nor2_4
-
-.ENDS sky130_fd_sc_hs__nor2_4_wrapper
-
-.SUBCKT sky130_fd_sc_hs__nand2_4 A B VGND VNB VPB VPWR Y
-
-  X0 VPWR A Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X1 Y A a_27_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X2 a_27_74# B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X3 VGND B a_27_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X4 VGND B a_27_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X5 a_27_74# A Y VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X6 Y A a_27_74# VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X7 VPWR B Y VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X8 Y B VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X9 a_27_74# A Y VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-  X10 Y A VPWR VPB sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.120
-
-  X11 a_27_74# B VGND VNB sky130_fd_pr__nfet_01v8_lvt l=0.150 nf=1 w=0.740
-
-
-.ENDS sky130_fd_sc_hs__nand2_4
-
-.SUBCKT sky130_fd_sc_hs__nand2_4_wrapper A B VGND VNB VPB VPWR Y
-
-  X0 A B VGND VNB VPB VPWR Y sky130_fd_sc_hs__nand2_4
-
-.ENDS sky130_fd_sc_hs__nand2_4_wrapper
 
 .SUBCKT sky130_fd_sc_hs__nand2_8 A B VGND VNB VPB VPWR Y
 
@@ -1251,97 +1458,6 @@
   Xwrdrven_ctl wrdrven_set_b wrdrven_grst_b wrdrven wrdrven_b vdd vss sr_latch
 
 .ENDS control_logic_replica_v2
-
-.SUBCKT mos_w1250_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.250
-
-
-.ENDS mos_w1250_l150_m1_nf1_id1
-
-.SUBCKT mos_w500_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.500
-
-
-.ENDS mos_w500_l150_m1_nf1_id0
-
-.SUBCKT folded_inv vdd vss a y
-
-  XMP0 y a vdd vdd mos_w1250_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w500_l150_m1_nf1_id0
-  XMP1 y a vdd vdd mos_w1250_l150_m1_nf1_id1
-  XMN1 y a vss vss mos_w500_l150_m1_nf1_id0
-
-.ENDS folded_inv
-
-.SUBCKT multi_finger_inv vdd vss a y
-
-  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP8 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN3 y a vss vss mos_w700_l150_m1_nf1_id0
-
-.ENDS multi_finger_inv
-
-.SUBCKT multi_finger_inv_1 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP7 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
-
-.ENDS multi_finger_inv_1
-
-.SUBCKT multi_finger_inv_2 vdd vss a y
-
-  XMP0 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP1 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP2 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP3 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP4 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP5 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMP6 y a vdd vdd mos_w700_l150_m1_nf1_id1
-  XMN0 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN1 y a vss vss mos_w700_l150_m1_nf1_id0
-  XMN2 y a vss vss mos_w700_l150_m1_nf1_id0
-
-.ENDS multi_finger_inv_2
-
-.SUBCKT decoder_stage_1 vdd vss y y_b predecode_0_0
-
-  Xgate_0_0_0 vdd vss predecode_0_0 x_0 folded_inv
-  Xgate_1_0_0 vdd vss x_0 x_1 multi_finger_inv
-  Xgate_2_0_0 vdd vss x_1 y_b multi_finger_inv_1
-  Xgate_2_0_1 vdd vss x_1 y_b multi_finger_inv_1
-  Xgate_2_0_2 vdd vss x_1 y_b multi_finger_inv_1
-  Xgate_3_0_0 vdd vss y_b y multi_finger_inv_2
-  Xgate_3_0_1 vdd vss y_b y multi_finger_inv_2
-  Xgate_3_0_2 vdd vss y_b y multi_finger_inv_2
-  Xgate_3_0_3 vdd vss y_b y multi_finger_inv_2
-  Xgate_3_0_4 vdd vss y_b y multi_finger_inv_2
-  Xgate_3_0_5 vdd vss y_b y multi_finger_inv_2
-  Xgate_3_0_6 vdd vss y_b y multi_finger_inv_2
-  Xgate_3_0_7 vdd vss y_b y multi_finger_inv_2
-  Xgate_3_0_8 vdd vss y_b y multi_finger_inv_2
-
-.ENDS decoder_stage_1
 
 .SUBCKT multi_finger_inv_3 vdd vss a y
 
@@ -1598,6 +1714,19 @@
   X0 BR VDD VSS BL VNB VPB sram_sp_hstrap
 
 .ENDS sram_sp_hstrap_wrapper
+
+.SUBCKT sram_sp_horiz_wlstrap_p2 VSS VNB
+
+  X0 VSS VSS VSS VNB sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.420
+
+
+.ENDS sram_sp_horiz_wlstrap_p2
+
+.SUBCKT sram_sp_horiz_wlstrap_p2_wrapper VSS VNB
+
+  X0 VSS VNB sram_sp_horiz_wlstrap_p2
+
+.ENDS sram_sp_horiz_wlstrap_p2_wrapper
 
 .SUBCKT sp_cell_array vdd vss dummy_bl dummy_br bl[0] bl[1] bl[2] bl[3] bl[4] bl[5] bl[6] bl[7] bl[8] bl[9] bl[10] bl[11] bl[12] bl[13] bl[14] bl[15] bl[16] bl[17] bl[18] bl[19] bl[20] bl[21] bl[22] bl[23] bl[24] bl[25] bl[26] bl[27] bl[28] bl[29] bl[30] bl[31] bl[32] bl[33] bl[34] bl[35] bl[36] bl[37] bl[38] bl[39] bl[40] bl[41] bl[42] bl[43] bl[44] bl[45] bl[46] bl[47] bl[48] bl[49] bl[50] bl[51] bl[52] bl[53] bl[54] bl[55] bl[56] bl[57] bl[58] bl[59] bl[60] bl[61] bl[62] bl[63] br[0] br[1] br[2] br[3] br[4] br[5] br[6] br[7] br[8] br[9] br[10] br[11] br[12] br[13] br[14] br[15] br[16] br[17] br[18] br[19] br[20] br[21] br[22] br[23] br[24] br[25] br[26] br[27] br[28] br[29] br[30] br[31] br[32] br[33] br[34] br[35] br[36] br[37] br[38] br[39] br[40] br[41] br[42] br[43] br[44] br[45] br[46] br[47] br[48] br[49] br[50] br[51] br[52] br[53] br[54] br[55] br[56] br[57] br[58] br[59] br[60] br[61] br[62] br[63] wl[0] wl[1] wl[2] wl[3] wl[4] wl[5] wl[6] wl[7] wl[8] wl[9] wl[10] wl[11] wl[12] wl[13] wl[14] wl[15] wl[16] wl[17] wl[18] wl[19] wl[20] wl[21] wl[22] wl[23] wl[24] wl[25] wl[26] wl[27] wl[28] wl[29] wl[30] wl[31]
 
@@ -4571,35 +4700,167 @@
   Xhstrap_6_65 vdd vdd vss vdd vss vdd sram_sp_hstrap_wrapper
   Xhstrap_7_65 vdd vdd vss vdd vss vdd sram_sp_hstrap_wrapper
   Xhstrap_8_65 vdd vdd vss vdd vss vdd sram_sp_hstrap_wrapper
+  Xhoriz_wlstrap_0_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_0 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_1 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_2 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_3 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_4 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_5 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_6 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_7 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_8 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_9 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_10 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_11 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_12 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_13 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_14 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_15 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_0_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_1_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_2_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_3_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_4_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_5_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_6_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_7_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
+  Xhoriz_wlstrap_8_16 vss vss sram_sp_horiz_wlstrap_p2_wrapper
 
 .ENDS sp_cell_array
 
-.SUBCKT sram_sp_cell_replica BL BR VSS VDD VPB VNB WL
+.SUBCKT sram_sp_rowtapend_replica_wrapper VSS VNB
 
-  X0 VDD WL BR VNB sky130_fd_pr__special_nfet_pass l=0.150 nf=1 w=0.140
+  X0 VSS VNB sram_sp_rowtapend_replica
 
-  X1 Q VDD VSS VNB sky130_fd_pr__special_nfet_latch l=0.150 nf=1 w=0.210
-
-  X2 BL WL Q VNB sky130_fd_pr__special_nfet_pass l=0.150 nf=1 w=0.140
-
-  X3 Q WL Q VPB sky130_fd_pr__special_pfet_pass l=0.025 nf=1 w=0.140
-
-  X4 VDD WL VDD VPB sky130_fd_pr__special_pfet_pass l=0.025 nf=1 w=0.140
-
-  X5 VDD Q VDD VPB sky130_fd_pr__special_pfet_pass l=0.150 nf=1 w=0.140
-
-  X6 Q VDD VDD VPB sky130_fd_pr__special_pfet_pass l=0.150 nf=1 w=0.140
-
-  X7 VSS Q VDD VNB sky130_fd_pr__special_nfet_latch l=0.150 nf=1 w=0.210
-
-
-.ENDS sram_sp_cell_replica
-
-.SUBCKT sram_sp_cell_replica_wrapper BL BR VSS VDD VPB VNB WL
-
-  X0 BL BR VSS VDD VPB VNB WL sram_sp_cell_replica
-
-.ENDS sram_sp_cell_replica_wrapper
+.ENDS sram_sp_rowtapend_replica_wrapper
 
 .SUBCKT replica_cell_array vdd vss rbl rbr rwl
 
@@ -4615,10 +4876,30 @@
   Xcell_4_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
   Xcell_5_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
   Xcell_5_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_6_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_6_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_7_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_7_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_8_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_8_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_9_0 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
+  Xcell_9_1 rbl rbr vss vdd vdd vss vss sram_sp_cell_replica_wrapper
   Xcolend_0_0 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
   Xcolend_1_0 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
   Xcolend_0_1 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
   Xcolend_1_1 rbr vdd vss rbl vss vdd sram_sp_colend_wrapper
+  Xrowtapend_0_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_0_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_0_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_0_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xrowtapend_1_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_1_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_1_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_1_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xrowtapend_2_0 vss vss sram_sp_rowtapend_replica_wrapper
+  Xrowtapend_2_1 vss vss sram_sp_rowtapend_replica_wrapper
+  Xhstrap_2_0 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
+  Xhstrap_2_1 rbr vdd vss rbl vss vdd sram_sp_hstrap_wrapper
 
 .ENDS replica_cell_array
 
@@ -4636,13 +4917,6 @@
 
 .ENDS mos_w2600_l150_m1_nf1_id1
 
-.SUBCKT mos_w1050_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.050
-
-
-.ENDS mos_w1050_l150_m1_nf1_id0
-
 .SUBCKT folded_inv_2 vdd vss a y
 
   XMP0 y a vdd vdd mos_w2600_l150_m1_nf1_id1
@@ -4651,13 +4925,6 @@
   XMN1 y a vss vss mos_w1050_l150_m1_nf1_id0
 
 .ENDS folded_inv_2
-
-.SUBCKT mos_w2800_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=2.800
-
-
-.ENDS mos_w2800_l150_m1_nf1_id1
 
 .SUBCKT mos_w1130_l150_m1_nf1_id0 d g s b
 
@@ -4686,13 +4953,6 @@
 
 .ENDS decoder_stage_7
 
-.SUBCKT mos_w1350_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.350
-
-
-.ENDS mos_w1350_l150_m1_nf1_id1
-
 .SUBCKT mos_w800_l150_m1_nf1_id1 d g s b
 
   X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=0.800
@@ -4707,45 +4967,6 @@
   Xequalizer bl en_b br vdd mos_w800_l150_m1_nf1_id1
 
 .ENDS precharge_1
-
-.SUBCKT mos_w1900_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.900
-
-
-.ENDS mos_w1900_l150_m1_nf1_id1
-
-.SUBCKT mos_w1300_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.300
-
-
-.ENDS mos_w1300_l150_m1_nf1_id0
-
-.SUBCKT tgate_mux sel_b sel bl br bl_out br_out vdd vss
-
-  XMPBL bl_out sel_b bl vdd mos_w1900_l150_m1_nf1_id1
-  XMPBR br_out sel_b br vdd mos_w1900_l150_m1_nf1_id1
-  XMNBL bl_out sel bl vss mos_w1300_l150_m1_nf1_id0
-  XMNBR br_out sel br vss mos_w1300_l150_m1_nf1_id0
-
-.ENDS tgate_mux
-
-.SUBCKT mos_w1350_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=1.350
-
-
-.ENDS mos_w1350_l150_m1_nf1_id0
-
-.SUBCKT tristate_inv din en en_b din_b vdd vss
-
-  Xmn_en din_b en nint vss mos_w1350_l150_m1_nf1_id0
-  Xmn_pd nint din vss vss mos_w1350_l150_m1_nf1_id0
-  Xmp_en din_b en_b pint vdd mos_w1350_l150_m1_nf1_id1
-  Xmp_pu pint din vdd vdd mos_w1350_l150_m1_nf1_id1
-
-.ENDS tristate_inv
 
 .SUBCKT write_driver en en_b data data_b bl br vdd vss
 
@@ -4887,28 +5108,6 @@
   Xequalizer bl en_b br vdd mos_w500_l150_m1_nf1_id1
 
 .ENDS precharge
-
-.SUBCKT mos_w800_l150_m1_nf1_id0 d g s b
-
-  X0 d g s b sky130_fd_pr__nfet_01v8 l=0.150 nf=1 w=0.800
-
-
-.ENDS mos_w800_l150_m1_nf1_id0
-
-.SUBCKT mos_w1800_l150_m1_nf1_id1 d g s b
-
-  X0 d g s b sky130_fd_pr__pfet_01v8 l=0.150 nf=1 w=1.800
-
-
-.ENDS mos_w1800_l150_m1_nf1_id1
-
-.SUBCKT column_mos vdd vss bl
-
-  Xgate_nmos vss bl vss vss mos_w800_l150_m1_nf1_id0
-  Xdrain_nmos bl vss vss vss mos_w1300_l150_m1_nf1_id0
-  Xdrain_pmos bl vdd vdd vdd mos_w1800_l150_m1_nf1_id1
-
-.ENDS column_mos
 
 .SUBCKT replica_column_mos vdd vss bl
 

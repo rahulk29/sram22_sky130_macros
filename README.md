@@ -11,7 +11,31 @@ To unzip all GDS files, run
 
 ## Verification
 
-The macros provided here have not been verified in silicon; use them at your own risk.
+Use all macros provided here at your own risk; we cannot make guarantees about their performance or correctness.
 
-We are working to tape out and characterize these macros, and will announce when we believe they are ready for general use.
+The following macros have been taped out via Cadence's shuttle program and behaved correctly in silicon measurements
+when tested at VDD=1.8V and at a clock frequency of 25 MHz:
+- sram22_64x24m4w8
+- sram22_64x32m4w8
+- sram22_128x16m4w8
+- sram22_128x24m4w8
+- sram22_128x32m4w8
+- sram22_256x8m8w1
+- sram22_256x16m8w8
+- sram22_256x32m4w8
+- sram22_256x64m4w8
+- sram22_256x128m4w8
+- sram22_512x8m8w1
+- sram22_512x32m4w8
+- sram22_512x64m4w8
+- sram22_512x128m4w8
+- sram22_1024x8m8w1
+- sram22_1024x32m8w8
+- sram22_1024x64m4w8
+- sram22_2048x8m8w1
+- sram22_2048x32m8w8
+- sram22_4096x8m8w1
+- sram22_4096x32m8w8
+
+We are working to characterize these macros in more detail, and will announce when we have more data to share.
 
